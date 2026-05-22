@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package pb;
+
+import "merchant_detail/merchant_detail_common.proto";
+
+option go_package = "github.com/MamangRust/monolith-graphql-ecommerce-pb";
+
+message MerchantSocialLinkInput {
+  string platform = 1;
+  string url = 2;
+}
+
+message CreateMerchantSocialInput {
+  int32 merchant_detail_id = 1;
+  repeated MerchantSocialLinkInput social_links = 2;
+}
+
+message UpdateMerchantSocialInput {
+  int32 merchant_detail_id = 1;
+  repeated MerchantSocialLinkInput social_links = 2;
+}
+
+message ApiResponseMerchantSocialMediaLink {
+  string status = 1;
+  string message = 2;
+  repeated MerchantSocialMediaLinkResponse data = 3;
+}
+
+service MerchantSocialLinkService {
+  rpc CreateMerchantSocialLink(CreateMerchantSocialInput)
+      returns (ApiResponseMerchantSocialMediaLink);
+  rpc UpdateMerchantSocialLink(UpdateMerchantSocialInput)
+      returns (ApiResponseMerchantSocialMediaLink);
+}
