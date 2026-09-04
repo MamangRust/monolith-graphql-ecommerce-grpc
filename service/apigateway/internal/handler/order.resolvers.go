@@ -7,10 +7,11 @@ package graph
 import (
 	"context"
 
-	sharedErrors "github.com/MamangRust/monolith-ecommerce-shared/errors"
 	graphqlerror "github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/errors"
 	"github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/model"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb/order"
+	pbshipping "github.com/MamangRust/monolith-graphql-ecommerce-pb/shipping_address"
+	sharedErrors "github.com/MamangRust/monolith-graphql-ecommerce-shared/errors"
 	"google.golang.org/protobuf/types/known/emptypb"
 )
 
@@ -39,7 +40,7 @@ func (r *mutationResolver) CreateOrder(ctx context.Context, input model.CreateOr
 		}
 
 		if input.Shipping != nil {
-			req.Shipping = &pb.CreateShippingAddressRequest{
+			req.Shipping = &pbshipping.CreateShippingAddressRequest{
 				Alamat:         input.Shipping.Alamat,
 				Provinsi:       input.Shipping.Provinsi,
 				Kota:           input.Shipping.Kota,
@@ -92,7 +93,7 @@ func (r *mutationResolver) UpdateOrder(ctx context.Context, input model.UpdateOr
 		}
 
 		if input.Shipping != nil {
-			req.Shipping = &pb.UpdateShippingAddressRequest{
+			req.Shipping = &pbshipping.UpdateShippingAddressRequest{
 				ShippingId:     int32(idShipping),
 				Alamat:         *input.Shipping.Alamat,
 				Provinsi:       *input.Shipping.Provinsi,

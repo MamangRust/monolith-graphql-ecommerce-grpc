@@ -1,15 +1,17 @@
 package handler
 
-import pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
-
+import (
+	pbmerchant_detail "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant_detail"
+	pbmerchant_social_link "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant_social_link"
+)
 type MerchantDetailQueryHandler interface {
-	pb.MerchantDetailQueryServiceServer
+	pbmerchant_detail.MerchantDetailQueryServiceServer
 }
 
 type MerchantDetailCommandHandler interface {
-	pb.MerchantDetailCommandServiceServer
+	pbmerchant_detail.MerchantDetailCommandServiceServer
 }
 
 type MerchantSocialLinkCommandHandler interface {
-	pb.MerchantSocialLinkServiceServer
+	pbmerchant_social_link.MerchantSocialCommandServiceServer
 }

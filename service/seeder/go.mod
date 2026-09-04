@@ -3,7 +3,7 @@ module github.com/MamangRust/monolith-graphql-ecommerce-seeder
 go 1.25.0
 
 require (
-	github.com/MamangRust/monolith-ecommerce-pkg v1.0.18
+	github.com/MamangRust/monolith-graphql-ecommerce-pkg v1.0.18
 	github.com/spf13/viper v1.21.0
 	go.uber.org/zap v1.27.1
 )
@@ -44,7 +44,7 @@ require (
 )
 
 replace (
-	github.com/MamangRust/monolith-ecommerce-pkg => ../../pkg
-	github.com/MamangRust/monolith-ecommerce-shared => ../../shared
 	github.com/MamangRust/monolith-graphql-ecommerce-pb => ../../pb
+	github.com/MamangRust/monolith-graphql-ecommerce-pkg => ../../pkg
+	github.com/MamangRust/monolith-graphql-ecommerce-shared => ../../shared
 )

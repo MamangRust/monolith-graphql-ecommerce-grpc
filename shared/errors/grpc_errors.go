@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"net/http"
 
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
-
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+
+	pbcommon "github.com/MamangRust/monolith-graphql-ecommerce-pb/common"
 )
 
 func ToGrpcError(err error) error {
@@ -25,7 +25,7 @@ func ToGrpcError(err error) error {
 
 	st := status.New(grpcCode, apiErr.Message)
 
-	detail := &pb.ErrorResponse{
+	detail := &pbcommon.ErrorResponse{
 		Status:  apiErr.Type.String(),
 		Message: apiErr.Message,
 		Type:    string(apiErr.Type),
@@ -52,7 +52,7 @@ func ParseGrpcError(err error) *AppError {
 	}
 
 	for _, detail := range st.Details() {
-		if res, ok := detail.(*pb.ErrorResponse); ok {
+		if res, ok := detail.(*pbcommon.ErrorResponse); ok {
 			return &AppError{
 				Type:    ErrorType(res.Type),
 				Code:    int(res.Code),
@@ -134,14 +134,17 @@ func grpcToErrorType(code codes.Code) ErrorType {
 	}
 }
 
-func NewGrpcError(message string, httpCode int) error {
-	grpcCode := httpToGrpcCode(httpCode)
+func NewGrpcError(message string, grpcCode int) error {
+	code := codes.Code(grpcCode)
 
-	st := status.New(grpcCode, message)
+	st := status.New(code, message)
 
-	detail := &pb.ErrorResponse{
+	httpCode := grpcToHttpCode(code)
+
+	detail := &pbcommon.ErrorResponse{
 		Status:  http.StatusText(httpCode),
 		Message: message,
+		Type:    string(grpcToErrorType(code)),
 		Code:    int32(httpCode),
 	}
 
@@ -152,3 +155,4 @@ func NewGrpcError(message string, httpCode int) error {
 
 	return stWithDetails.Err()
 }
+

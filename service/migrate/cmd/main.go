@@ -7,7 +7,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/MamangRust/monolith-ecommerce-pkg/dotenv"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/dotenv"
 	_ "github.com/jackc/pgx/v5/stdlib"
 	"github.com/pressly/goose/v3"
 	"github.com/spf13/viper"

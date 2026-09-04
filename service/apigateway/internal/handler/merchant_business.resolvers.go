@@ -7,10 +7,11 @@ package graph
 import (
 	"context"
 
-	sharedErrors "github.com/MamangRust/monolith-ecommerce-shared/errors"
 	graphqlerror "github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/errors"
 	"github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/model"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	pbmerchant "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant"
+	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant_business"
+	sharedErrors "github.com/MamangRust/monolith-graphql-ecommerce-shared/errors"
 	"google.golang.org/protobuf/types/known/emptypb"
 )
 
@@ -221,7 +222,7 @@ func (r *queryResolver) FindAllMerchantBusinesses(ctx context.Context, input mod
 			return data, nil
 		}
 
-		req := &pb.FindAllMerchantRequest{
+		req := &pbmerchant.FindAllMerchantRequest{
 			Page:     page,
 			PageSize: pageSize,
 			Search:   search,
@@ -295,7 +296,7 @@ func (r *queryResolver) FindActiveMerchantBusinesses(ctx context.Context, input 
 			return data, nil
 		}
 
-		req := &pb.FindAllMerchantRequest{
+		req := &pbmerchant.FindAllMerchantRequest{
 			Page:     page,
 			PageSize: pageSize,
 			Search:   search,
@@ -342,7 +343,7 @@ func (r *queryResolver) FindTrashedMerchantBusinesses(ctx context.Context, input
 			return data, nil
 		}
 
-		req := &pb.FindAllMerchantRequest{
+		req := &pbmerchant.FindAllMerchantRequest{
 			Page:     page,
 			PageSize: pageSize,
 			Search:   search,

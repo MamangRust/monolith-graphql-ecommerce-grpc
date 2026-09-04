@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	db "github.com/MamangRust/monolith-ecommerce-pkg/database/schema"
-	sharedcachehelpers "github.com/MamangRust/monolith-ecommerce-shared/cache"
+	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
+	sharedcachehelpers "github.com/MamangRust/monolith-graphql-ecommerce-shared/cache"
 )
 
 var (

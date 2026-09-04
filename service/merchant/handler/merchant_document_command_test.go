@@ -1,0 +1,170 @@
+package handler
+
+import (
+	"context"
+	"fmt"
+	"testing"
+
+	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/logger"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/requests"
+	"go.uber.org/zap"
+
+	pbshipping_address "github.com/MamangRust/monolith-graphql-ecommerce-pb/shipping_address"
+	pbmerchant_policy "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant_policy"
+	pbmerchant "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant"
+	pbslider "github.com/MamangRust/monolith-graphql-ecommerce-pb/slider"
+	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	pbmerchant_business "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant_business"
+	pbmerchant_detail "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant_detail"
+	pbrole "github.com/MamangRust/monolith-graphql-ecommerce-pb/role"
+	pbcommon "github.com/MamangRust/monolith-graphql-ecommerce-pb/common"
+	pbreview "github.com/MamangRust/monolith-graphql-ecommerce-pb/review"
+	pbbanner "github.com/MamangRust/monolith-graphql-ecommerce-pb/banner"
+	pbproduct "github.com/MamangRust/monolith-graphql-ecommerce-pb/product"
+	pbtransaction "github.com/MamangRust/monolith-graphql-ecommerce-pb/transaction"
+	pbcart "github.com/MamangRust/monolith-graphql-ecommerce-pb/cart"
+	pbreview_detail "github.com/MamangRust/monolith-graphql-ecommerce-pb/review_detail"
+	pbmerchant_award "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant_award"
+	pborder_item "github.com/MamangRust/monolith-graphql-ecommerce-pb/order_item"
+	pbuser "github.com/MamangRust/monolith-graphql-ecommerce-pb/user"
+	pbmerchant_document "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant_document"
+	pbcategory "github.com/MamangRust/monolith-graphql-ecommerce-pb/category"
+	pborder "github.com/MamangRust/monolith-graphql-ecommerce-pb/order")
+
+type merchantDocumentCommandServiceStub struct {
+	update       func(context.Context, *requests.UpdateMerchantDocumentRequest) (*db.UpdateMerchantDocumentRow, error)
+	updateStatus func(context.Context, *requests.UpdateMerchantDocumentStatusRequest) (*db.UpdateMerchantDocumentStatusRow, error)
+}
+
+func (s merchantDocumentCommandServiceStub) Create(context.Context, *requests.CreateMerchantDocumentRequest) (*db.CreateMerchantDocumentRow, error) {
+	return nil, fmt.Errorf("unexpected Create call")
+}
+
+func (s merchantDocumentCommandServiceStub) Update(ctx context.Context, req *requests.UpdateMerchantDocumentRequest) (*db.UpdateMerchantDocumentRow, error) {
+	if s.update == nil {
+		return nil, fmt.Errorf("unexpected Update call")
+	}
+	return s.update(ctx, req)
+}
+
+func (s merchantDocumentCommandServiceStub) UpdateStatus(ctx context.Context, req *requests.UpdateMerchantDocumentStatusRequest) (*db.UpdateMerchantDocumentStatusRow, error) {
+	if s.updateStatus == nil {
+		return nil, fmt.Errorf("unexpected UpdateStatus call")
+	}
+	return s.updateStatus(ctx, req)
+}
+
+func (s merchantDocumentCommandServiceStub) Trash(context.Context, int) (*db.MerchantDocument, error) {
+	return nil, fmt.Errorf("unexpected Trash call")
+}
+
+func (s merchantDocumentCommandServiceStub) Restore(context.Context, int) (*db.MerchantDocument, error) {
+	return nil, fmt.Errorf("unexpected Restore call")
+}
+
+func (s merchantDocumentCommandServiceStub) DeletePermanent(context.Context, int) (bool, error) {
+	return false, fmt.Errorf("unexpected DeletePermanent call")
+}
+
+func (s merchantDocumentCommandServiceStub) RestoreAll(context.Context) (bool, error) {
+	return false, fmt.Errorf("unexpected RestoreAll call")
+}
+
+func (s merchantDocumentCommandServiceStub) DeleteAll(context.Context) (bool, error) {
+	return false, fmt.Errorf("unexpected DeleteAll call")
+}
+
+func newMerchantDocumentCommandHandlerForTest(stub merchantDocumentCommandServiceStub) pb.MerchantDocumentCommandServiceServer {
+	return NewMerchantDocumentCommandHandler(stub, &logger.Logger{Log: zap.NewNop()})
+}
+
+func TestMerchantDocumentCommandHandlerUpdateUsesDocumentID(t *testing.T) {
+	const (
+		documentID = 42
+		merchantID = 7
+	)
+
+	var gotRequest *requests.UpdateMerchantDocumentRequest
+	handler := newMerchantDocumentCommandHandlerForTest(merchantDocumentCommandServiceStub{
+		update: func(_ context.Context, req *requests.UpdateMerchantDocumentRequest) (*db.UpdateMerchantDocumentRow, error) {
+			gotRequest = req
+			note := req.Note
+			return &db.UpdateMerchantDocumentRow{
+				DocumentID:   int32(*req.DocumentID),
+				MerchantID:   int32(req.MerchantID),
+				DocumentType: req.DocumentType,
+				DocumentUrl:  req.DocumentUrl,
+				Status:       req.Status,
+				Note:         &note,
+			}, nil
+		},
+	})
+
+	got, err := handler.Update(context.Background(), &pb.UpdateMerchantDocumentRequest{
+		DocumentId:   documentID,
+		MerchantId:   merchantID,
+		DocumentType: "business_license",
+		DocumentUrl:  "https://example.com/license.pdf",
+		Status:       "pending",
+		Note:         "replace before review",
+	})
+	if err != nil {
+		t.Fatalf("Update() error = %v", err)
+	}
+	if gotRequest == nil {
+		t.Fatal("Update() did not call the command service")
+	}
+	if gotRequest.DocumentID == nil || *gotRequest.DocumentID != documentID {
+		t.Fatalf("service received DocumentID %v, want %d", gotRequest.DocumentID, documentID)
+	}
+	if gotRequest.MerchantID != merchantID {
+		t.Fatalf("service received MerchantID %d, want %d", gotRequest.MerchantID, merchantID)
+	}
+	if got.GetStatus() != "success" {
+		t.Fatalf("response status = %q, want success", got.GetStatus())
+	}
+}
+
+func TestMerchantDocumentCommandHandlerUpdateStatusUsesDocumentID(t *testing.T) {
+	const (
+		documentID = 84
+		merchantID = 13
+	)
+
+	var gotRequest *requests.UpdateMerchantDocumentStatusRequest
+	handler := newMerchantDocumentCommandHandlerForTest(merchantDocumentCommandServiceStub{
+		updateStatus: func(_ context.Context, req *requests.UpdateMerchantDocumentStatusRequest) (*db.UpdateMerchantDocumentStatusRow, error) {
+			gotRequest = req
+			note := req.Note
+			return &db.UpdateMerchantDocumentStatusRow{
+				DocumentID: int32(*req.DocumentID),
+				MerchantID: int32(req.MerchantID),
+				Status:     req.Status,
+				Note:       &note,
+			}, nil
+		},
+	})
+
+	got, err := handler.UpdateStatus(context.Background(), &pb.UpdateMerchantDocumentStatusRequest{
+		DocumentId: documentID,
+		MerchantId: merchantID,
+		Status:     "approved",
+		Note:       "verified",
+	})
+	if err != nil {
+		t.Fatalf("UpdateStatus() error = %v", err)
+	}
+	if gotRequest == nil {
+		t.Fatal("UpdateStatus() did not call the command service")
+	}
+	if gotRequest.DocumentID == nil || *gotRequest.DocumentID != documentID {
+		t.Fatalf("service received DocumentID %v, want %d", gotRequest.DocumentID, documentID)
+	}
+	if gotRequest.MerchantID != merchantID {
+		t.Fatalf("service received MerchantID %d, want %d", gotRequest.MerchantID, merchantID)
+	}
+	if got.GetStatus() != "success" {
+		t.Fatalf("response status = %q, want success", got.GetStatus())
+	}
+}

@@ -3,14 +3,14 @@ package service
 import (
 	"context"
 
-	db "github.com/MamangRust/monolith-ecommerce-pkg/database/schema"
-	"github.com/MamangRust/monolith-ecommerce-pkg/logger"
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/requests"
-	"github.com/MamangRust/monolith-ecommerce-shared/errorhandler"
-	merchantbusiness_errors "github.com/MamangRust/monolith-ecommerce-shared/errors/merchant_business"
-	"github.com/MamangRust/monolith-ecommerce-shared/observability"
 	mencache "github.com/MamangRust/monolith-graphql-ecommerce-merchant_business/cache"
 	"github.com/MamangRust/monolith-graphql-ecommerce-merchant_business/repository"
+	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/logger"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/requests"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/errorhandler"
+	merchantbusiness_errors "github.com/MamangRust/monolith-graphql-ecommerce-shared/errors/merchant_business"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/observability"
 	"go.opentelemetry.io/otel/attribute"
 	"go.uber.org/zap"
 )
@@ -251,7 +251,7 @@ func (s *merchantBusinessQueryService) FindByID(ctx context.Context, merchantID 
 		status = "error"
 		return errorhandler.HandleError[*db.GetMerchantBusinessInformationRow](
 			s.logger,
-			merchantbusiness_errors.ErrFailedFindMerchantBusinessById,
+			merchantbusiness_errors.ErrMerchantBusinessNotFound.WithInternal(err),
 			method,
 			span,
 

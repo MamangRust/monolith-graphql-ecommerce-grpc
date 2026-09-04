@@ -1,9 +1,10 @@
 package merchantbusinessapimapper
 
 import (
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/response"
-	paginationapimapper "github.com/MamangRust/monolith-ecommerce-shared/mapper/pagination"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/response"
+	paginationapimapper "github.com/MamangRust/monolith-graphql-ecommerce-shared/mapper/pagination"
+
+	pbmerchant_business "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant_business"
 )
 
 type merchantBusinessQueryResponseMapper struct{}
@@ -12,10 +13,8 @@ func NewMerchantBusinessQueryResponseMapper() MerchantBusinessQueryResponseMappe
 	return &merchantBusinessQueryResponseMapper{}
 }
 
-func (m *merchantBusinessQueryResponseMapper) ToResponseMerchantBusiness(merchant *pb.MerchantBusinessResponse) *response.MerchantBusinessResponse {
-	if merchant == nil {
-		return nil
-	}
+func (m *merchantBusinessQueryResponseMapper) ToResponseMerchantBusiness(merchant *pbmerchant_business.MerchantBusinessResponse) *response.MerchantBusinessResponse {
+	if merchant == nil { return nil }
 	return &response.MerchantBusinessResponse{
 		ID:                int(merchant.Id),
 		MerchantID:        int(merchant.MerchantId),
@@ -30,7 +29,7 @@ func (m *merchantBusinessQueryResponseMapper) ToResponseMerchantBusiness(merchan
 	}
 }
 
-func (m *merchantBusinessQueryResponseMapper) ToResponsesMerchantBusiness(merchants []*pb.MerchantBusinessResponse) []*response.MerchantBusinessResponse {
+func (m *merchantBusinessQueryResponseMapper) ToResponsesMerchantBusiness(merchants []*pbmerchant_business.MerchantBusinessResponse) []*response.MerchantBusinessResponse {
 	var mappedMerchants []*response.MerchantBusinessResponse
 	for _, merchant := range merchants {
 		mappedMerchants = append(mappedMerchants, m.ToResponseMerchantBusiness(merchant))
@@ -38,7 +37,7 @@ func (m *merchantBusinessQueryResponseMapper) ToResponsesMerchantBusiness(mercha
 	return mappedMerchants
 }
 
-func (m *merchantBusinessQueryResponseMapper) ToApiResponseMerchantBusiness(pbResponse *pb.ApiResponseMerchantBusiness) *response.ApiResponseMerchantBusiness {
+func (m *merchantBusinessQueryResponseMapper) ToApiResponseMerchantBusiness(pbResponse *pbmerchant_business.ApiResponseMerchantBusiness) *response.ApiResponseMerchantBusiness {
 	return &response.ApiResponseMerchantBusiness{
 		Status:  pbResponse.Status,
 		Message: pbResponse.Message,
@@ -46,7 +45,7 @@ func (m *merchantBusinessQueryResponseMapper) ToApiResponseMerchantBusiness(pbRe
 	}
 }
 
-func (m *merchantBusinessQueryResponseMapper) ToApiResponsesMerchantBusiness(pbResponse *pb.ApiResponsesMerchantBusiness) *response.ApiResponsesMerchantBusiness {
+func (m *merchantBusinessQueryResponseMapper) ToApiResponsesMerchantBusiness(pbResponse *pbmerchant_business.ApiResponsesMerchantBusiness) *response.ApiResponsesMerchantBusiness {
 	return &response.ApiResponsesMerchantBusiness{
 		Status:  pbResponse.Status,
 		Message: pbResponse.Message,
@@ -54,7 +53,7 @@ func (m *merchantBusinessQueryResponseMapper) ToApiResponsesMerchantBusiness(pbR
 	}
 }
 
-func (m *merchantBusinessQueryResponseMapper) ToApiResponsePaginationMerchantBusiness(pbResponse *pb.ApiResponsePaginationMerchantBusiness) *response.ApiResponsePaginationMerchantBusiness {
+func (m *merchantBusinessQueryResponseMapper) ToApiResponsePaginationMerchantBusiness(pbResponse *pbmerchant_business.ApiResponsePaginationMerchantBusiness) *response.ApiResponsePaginationMerchantBusiness {
 	return &response.ApiResponsePaginationMerchantBusiness{
 		Status:     pbResponse.Status,
 		Message:    pbResponse.Message,
@@ -63,13 +62,11 @@ func (m *merchantBusinessQueryResponseMapper) ToApiResponsePaginationMerchantBus
 	}
 }
 
-func (m *merchantBusinessQueryResponseMapper) ToApiResponsePaginationMerchantBusinessDeleteAt(pbResponse *pb.ApiResponsePaginationMerchantBusinessDeleteAt) *response.ApiResponsePaginationMerchantBusinessDeleteAt {
+func (m *merchantBusinessQueryResponseMapper) ToApiResponsePaginationMerchantBusinessDeleteAt(pbResponse *pbmerchant_business.ApiResponsePaginationMerchantBusinessDeleteAt) *response.ApiResponsePaginationMerchantBusinessDeleteAt {
 	var data []*response.MerchantBusinessResponseDeleteAt
 	for _, b := range pbResponse.Data {
 		var deletedAt string
-		if b.DeletedAt != nil {
-			deletedAt = b.DeletedAt.Value
-		}
+		if b.DeletedAt != nil { deletedAt = b.DeletedAt.Value }
 		data = append(data, &response.MerchantBusinessResponseDeleteAt{
 			ID:                int(b.Id),
 			MerchantID:        int(b.MerchantId),

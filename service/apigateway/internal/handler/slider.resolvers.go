@@ -7,10 +7,10 @@ package graph
 import (
 	"context"
 
-	sharedErrors "github.com/MamangRust/monolith-ecommerce-shared/errors"
 	graphqlerror "github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/errors"
 	"github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/model"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb/slider"
+	sharedErrors "github.com/MamangRust/monolith-graphql-ecommerce-shared/errors"
 	"google.golang.org/protobuf/types/known/emptypb"
 )
 
@@ -18,9 +18,13 @@ import (
 func (r *mutationResolver) CreateSlider(ctx context.Context, input model.CreateSliderRequest) (*model.APIResponseSlider, error) {
 	return ResolverHandle(r.ResolverHandle, "CreateSlider", ctx, func(ctx context.Context) (*model.APIResponseSlider, error) {
 		// Handle Image Upload
-		imagePath, err := r.saveSliderImage(&input.Image)
-		if err != nil {
-			return nil, r.handleGraphQLError(err, "CreateSlider-ImageUpload")
+		var imagePath string
+		if input.Image.Filename != "" && input.Image.ContentType != "" {
+			path, err := r.saveSliderImage(&input.Image)
+			if err != nil {
+				return nil, r.handleGraphQLError(err, "CreateSlider-ImageUpload")
+			}
+			imagePath = path
 		}
 
 		req := &pb.CreateSliderRequest{
@@ -178,7 +182,10 @@ func (r *mutationResolver) DeleteAllSlidersPermanent(ctx context.Context) (*mode
 func (r *queryResolver) FindAllSliders(ctx context.Context, input *model.FindAllSliderRequest) (*model.APIResponsePaginationSlider, error) {
 	page := int32(*input.Page)
 	pageSize := int32(*input.PageSize)
-	search := input.Search
+	search := ""
+	if input.Search != nil {
+		search = *input.Search
+	}
 
 	if page <= 0 {
 		page = 1
@@ -190,7 +197,7 @@ func (r *queryResolver) FindAllSliders(ctx context.Context, input *model.FindAll
 	req := &pb.FindAllSliderRequest{
 		Page:     page,
 		PageSize: pageSize,
-		Search:   *search,
+		Search:   search,
 	}
 
 	sliders, err := r.SliderGraphql.SliderQueryClient.FindAll(ctx, req)
@@ -206,7 +213,10 @@ func (r *queryResolver) FindAllSliders(ctx context.Context, input *model.FindAll
 func (r *queryResolver) FindActiveSliders(ctx context.Context, input *model.FindAllSliderRequest) (*model.APIResponsePaginationSliderDeleteAt, error) {
 	page := int32(*input.Page)
 	pageSize := int32(*input.PageSize)
-	search := input.Search
+	search := ""
+	if input.Search != nil {
+		search = *input.Search
+	}
 
 	if page <= 0 {
 		page = 1
@@ -218,7 +228,7 @@ func (r *queryResolver) FindActiveSliders(ctx context.Context, input *model.Find
 	req := &pb.FindAllSliderRequest{
 		Page:     page,
 		PageSize: pageSize,
-		Search:   *search,
+		Search:   search,
 	}
 
 	sliders, err := r.SliderGraphql.SliderQueryClient.FindByActive(ctx, req)
@@ -234,7 +244,10 @@ func (r *queryResolver) FindActiveSliders(ctx context.Context, input *model.Find
 func (r *queryResolver) FindTrashedSliders(ctx context.Context, input *model.FindAllSliderRequest) (*model.APIResponsePaginationSliderDeleteAt, error) {
 	page := int32(*input.Page)
 	pageSize := int32(*input.PageSize)
-	search := input.Search
+	search := ""
+	if input.Search != nil {
+		search = *input.Search
+	}
 
 	if page <= 0 {
 		page = 1
@@ -246,7 +259,7 @@ func (r *queryResolver) FindTrashedSliders(ctx context.Context, input *model.Fin
 	req := &pb.FindAllSliderRequest{
 		Page:     page,
 		PageSize: pageSize,
-		Search:   *search,
+		Search:   search,
 	}
 
 	sliders, err := r.SliderGraphql.SliderQueryClient.FindByTrashed(ctx, req)

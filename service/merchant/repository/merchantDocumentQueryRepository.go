@@ -4,12 +4,11 @@ import (
 	"context"
 
 	"database/sql"
- 
-	db "github.com/MamangRust/monolith-ecommerce-pkg/database/schema"
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/requests"
-	"github.com/MamangRust/monolith-ecommerce-shared/errors/merchant"
-)
 
+	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/requests"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/errors/merchant"
+)
 
 type merchantDocumentQueryRepository struct {
 	db *db.Queries
@@ -35,7 +34,6 @@ func (r *merchantDocumentQueryRepository) FindAll(ctx context.Context, req *requ
 		return nil, nil, merchant_errors.ErrMerchantInternal.WithInternal(err)
 	}
 
-
 	var totalCount int
 	if len(docs) > 0 {
 		totalCount = int(docs[0].TotalCount)
@@ -58,7 +56,6 @@ func (r *merchantDocumentQueryRepository) FindActive(ctx context.Context, req *r
 		return nil, nil, merchant_errors.ErrMerchantInternal.WithInternal(err)
 	}
 
-
 	var totalCount int
 	if len(docs) > 0 {
 		totalCount = int(docs[0].TotalCount)
@@ -80,7 +77,6 @@ func (r *merchantDocumentQueryRepository) FindTrashed(ctx context.Context, req *
 	if err != nil {
 		return nil, nil, merchant_errors.ErrMerchantInternal.WithInternal(err)
 	}
-
 
 	var totalCount int
 	if len(docs) > 0 {

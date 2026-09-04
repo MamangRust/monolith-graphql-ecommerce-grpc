@@ -1,9 +1,11 @@
 package handler
 
 import (
-	"github.com/MamangRust/monolith-ecommerce-pkg/logger"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
 	"github.com/MamangRust/monolith-graphql-ecommerce-merchant/service"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/logger"
+
+	pbmerchant "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant"
+	pbmerchant_document "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant_document"
 )
 
 type Deps struct {
@@ -12,10 +14,10 @@ type Deps struct {
 }
 
 type Handler struct {
-	MerchantQuery           pb.MerchantQueryServiceServer
-	MerchantCommandHandler  pb.MerchantCommandServiceServer
-	MerchantDocumentQuery   pb.MerchantDocumentQueryServiceServer
-	MerchantDocumentCommand pb.MerchantDocumentCommandServiceServer
+	MerchantQuery           pbmerchant.MerchantQueryServiceServer
+	MerchantCommandHandler  pbmerchant.MerchantCommandServiceServer
+	MerchantDocumentQuery   pbmerchant_document.MerchantDocumentQueryServiceServer
+	MerchantDocumentCommand pbmerchant_document.MerchantDocumentCommandServiceServer
 }
 
 func NewHandler(deps *Deps) *Handler {

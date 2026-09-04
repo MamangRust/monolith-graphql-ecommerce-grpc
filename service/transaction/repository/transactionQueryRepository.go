@@ -5,9 +5,9 @@ import (
 	"database/sql"
 	"errors"
 
-	db "github.com/MamangRust/monolith-ecommerce-pkg/database/schema"
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/requests"
-	"github.com/MamangRust/monolith-ecommerce-shared/errors/transaction_errors"
+	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/requests"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/errors/transaction_errors"
 )
 
 type transactionQueryRepository struct {
@@ -117,4 +117,3 @@ func (r *transactionQueryRepository) FindByOrderID(ctx context.Context, order_id
 
 	return res, nil
 }
-

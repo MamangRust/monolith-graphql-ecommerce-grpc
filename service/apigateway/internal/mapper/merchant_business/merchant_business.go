@@ -3,7 +3,8 @@ package merchant_businessgraphqlmapper
 import (
 	graphqlmapper "github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/mapper/pagination"
 	"github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/model"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	pbmerchant "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant"
+	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant_business"
 )
 
 type merchantBusinessResponseMapper struct {
@@ -13,14 +14,14 @@ func NewMerchantBusinessResponseMapper() *merchantBusinessResponseMapper {
 	return &merchantBusinessResponseMapper{}
 }
 
-func (m *merchantBusinessResponseMapper) ToGraphqlResponseMerchantBusinessDelete(res *pb.ApiResponseMerchantDelete) *model.APIResponseMerchantBusinessDelete {
+func (m *merchantBusinessResponseMapper) ToGraphqlResponseMerchantBusinessDelete(res *pbmerchant.ApiResponseMerchantDelete) *model.APIResponseMerchantBusinessDelete {
 	return &model.APIResponseMerchantBusinessDelete{
 		Status:  res.Status,
 		Message: res.Message,
 	}
 }
 
-func (m *merchantBusinessResponseMapper) ToGraphqlResponseMerchantBusinessAll(res *pb.ApiResponseMerchantAll) *model.APIResponseMerchantBusinessAll {
+func (m *merchantBusinessResponseMapper) ToGraphqlResponseMerchantBusinessAll(res *pbmerchant.ApiResponseMerchantAll) *model.APIResponseMerchantBusinessAll {
 	return &model.APIResponseMerchantBusinessAll{
 		Status:  res.Status,
 		Message: res.Message,

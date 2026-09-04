@@ -1,10 +1,10 @@
 package service
 
 import (
-	"github.com/MamangRust/monolith-ecommerce-pkg/logger"
-	"github.com/MamangRust/monolith-ecommerce-shared/observability"
 	mencache "github.com/MamangRust/monolith-graphql-ecommerce-cart/cache"
 	"github.com/MamangRust/monolith-graphql-ecommerce-cart/repository"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/logger"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/observability"
 )
 
 type Service struct {
@@ -32,6 +32,7 @@ func NewService(deps *Deps) *Service {
 			CartCommandRepository:  deps.Repositories.CartCommand,
 			ProductQueryRepository: deps.Repositories.ProductQuery,
 			UserQueryRepository:    deps.Repositories.UserQuery,
+			Cache:                  deps.Cache,
 			Logger:                 deps.Logger,
 		}),
 	}

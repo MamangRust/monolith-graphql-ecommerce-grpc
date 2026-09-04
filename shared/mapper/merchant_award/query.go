@@ -1,9 +1,10 @@
 package merchantawardapimapper
 
 import (
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/response"
-	paginationapimapper "github.com/MamangRust/monolith-ecommerce-shared/mapper/pagination"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/response"
+	paginationapimapper "github.com/MamangRust/monolith-graphql-ecommerce-shared/mapper/pagination"
+
+	pbmerchant_award "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant_award"
 )
 
 type merchantAwardQueryResponseMapper struct{}
@@ -12,10 +13,8 @@ func NewMerchantAwardQueryResponseMapper() MerchantAwardQueryResponseMapper {
 	return &merchantAwardQueryResponseMapper{}
 }
 
-func (m *merchantAwardQueryResponseMapper) ToResponseMerchantAward(MerchantAward *pb.MerchantAwardResponse) *response.MerchantAwardResponse {
-	if MerchantAward == nil {
-		return nil
-	}
+func (m *merchantAwardQueryResponseMapper) ToResponseMerchantAward(MerchantAward *pbmerchant_award.MerchantAwardResponse) *response.MerchantAwardResponse {
+	if MerchantAward == nil { return nil }
 	return &response.MerchantAwardResponse{
 		ID:             int(MerchantAward.Id),
 		MerchantID:     int(MerchantAward.MerchantId),
@@ -30,7 +29,7 @@ func (m *merchantAwardQueryResponseMapper) ToResponseMerchantAward(MerchantAward
 	}
 }
 
-func (m *merchantAwardQueryResponseMapper) ToResponsesMerchantAward(MerchantAwards []*pb.MerchantAwardResponse) []*response.MerchantAwardResponse {
+func (m *merchantAwardQueryResponseMapper) ToResponsesMerchantAward(MerchantAwards []*pbmerchant_award.MerchantAwardResponse) []*response.MerchantAwardResponse {
 	var mappedMerchantAwards []*response.MerchantAwardResponse
 	for _, MerchantAward := range MerchantAwards {
 		mappedMerchantAwards = append(mappedMerchantAwards, m.ToResponseMerchantAward(MerchantAward))
@@ -38,7 +37,7 @@ func (m *merchantAwardQueryResponseMapper) ToResponsesMerchantAward(MerchantAwar
 	return mappedMerchantAwards
 }
 
-func (m *merchantAwardQueryResponseMapper) ToApiResponseMerchantAward(pbResponse *pb.ApiResponseMerchantAward) *response.ApiResponseMerchantAward {
+func (m *merchantAwardQueryResponseMapper) ToApiResponseMerchantAward(pbResponse *pbmerchant_award.ApiResponseMerchantAward) *response.ApiResponseMerchantAward {
 	return &response.ApiResponseMerchantAward{
 		Status:  pbResponse.Status,
 		Message: pbResponse.Message,
@@ -46,7 +45,7 @@ func (m *merchantAwardQueryResponseMapper) ToApiResponseMerchantAward(pbResponse
 	}
 }
 
-func (m *merchantAwardQueryResponseMapper) ToApiResponsesMerchantAward(pbResponse *pb.ApiResponsesMerchantAward) *response.ApiResponsesMerchantAward {
+func (m *merchantAwardQueryResponseMapper) ToApiResponsesMerchantAward(pbResponse *pbmerchant_award.ApiResponsesMerchantAward) *response.ApiResponsesMerchantAward {
 	return &response.ApiResponsesMerchantAward{
 		Status:  pbResponse.Status,
 		Message: pbResponse.Message,
@@ -54,7 +53,7 @@ func (m *merchantAwardQueryResponseMapper) ToApiResponsesMerchantAward(pbRespons
 	}
 }
 
-func (m *merchantAwardQueryResponseMapper) ToApiResponsePaginationMerchantAward(pbResponse *pb.ApiResponsePaginationMerchantAward) *response.ApiResponsePaginationMerchantAward {
+func (m *merchantAwardQueryResponseMapper) ToApiResponsePaginationMerchantAward(pbResponse *pbmerchant_award.ApiResponsePaginationMerchantAward) *response.ApiResponsePaginationMerchantAward {
 	return &response.ApiResponsePaginationMerchantAward{
 		Status:     pbResponse.Status,
 		Message:    pbResponse.Message,
@@ -63,13 +62,11 @@ func (m *merchantAwardQueryResponseMapper) ToApiResponsePaginationMerchantAward(
 	}
 }
 
-func (m *merchantAwardQueryResponseMapper) ToApiResponsePaginationMerchantAwardDeleteAt(pbResponse *pb.ApiResponsePaginationMerchantAwardDeleteAt) *response.ApiResponsePaginationMerchantAwardDeleteAt {
+func (m *merchantAwardQueryResponseMapper) ToApiResponsePaginationMerchantAwardDeleteAt(pbResponse *pbmerchant_award.ApiResponsePaginationMerchantAwardDeleteAt) *response.ApiResponsePaginationMerchantAwardDeleteAt {
 	var data []*response.MerchantAwardResponseDeleteAt
 	for _, b := range pbResponse.Data {
 		var deletedAt string
-		if b.DeletedAt != nil {
-			deletedAt = b.DeletedAt.Value
-		}
+		if b.DeletedAt != nil { deletedAt = b.DeletedAt.Value }
 		data = append(data, &response.MerchantAwardResponseDeleteAt{
 			ID:             int(b.Id),
 			MerchantID:     int(b.MerchantId),

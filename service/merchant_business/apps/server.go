@@ -3,16 +3,18 @@ package apps
 import (
 	"fmt"
 
-	"github.com/MamangRust/monolith-ecommerce-pkg/server"
-	"github.com/MamangRust/monolith-ecommerce-shared/observability"
 	"github.com/MamangRust/monolith-graphql-ecommerce-merchant_business/cache"
 	"github.com/MamangRust/monolith-graphql-ecommerce-merchant_business/handler"
 	"github.com/MamangRust/monolith-graphql-ecommerce-merchant_business/repository"
 	"github.com/MamangRust/monolith-graphql-ecommerce-merchant_business/service"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/server"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/observability"
 	"github.com/spf13/viper"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
+
+	pbmerchant "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant"
+	pbmerchant_business "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant_business"
 )
 
 func NewServer(cfg *server.Config) (*server.GRPCServer, error) {
@@ -22,7 +24,7 @@ func NewServer(cfg *server.Config) (*server.GRPCServer, error) {
 	}
 
 	merchantAddr := viper.GetString("GRPC_MERCHANT_ADDR")
-
+	
 	merchantConn, err := grpc.NewClient(
 		merchantAddr,
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
@@ -31,7 +33,7 @@ func NewServer(cfg *server.Config) (*server.GRPCServer, error) {
 		return nil, fmt.Errorf("failed to connect to merchant service: %w", err)
 	}
 
-	merchantQueryClient := pb.NewMerchantQueryServiceClient(merchantConn)
+	merchantQueryClient := pbmerchant.NewMerchantQueryServiceClient(merchantConn)
 
 	repos := repository.NewRepositories(srv.DB, merchantQueryClient)
 	obs, _ := observability.NewObservability("merchant_business-server", srv.Logger)
@@ -48,8 +50,8 @@ func NewServer(cfg *server.Config) (*server.GRPCServer, error) {
 	h := handler.NewHandler(&handler.Deps{Service: svc, Logger: srv.Logger})
 
 	srv.RegisterServices = func(gs *grpc.Server) {
-		pb.RegisterMerchantBusinessQueryServiceServer(gs, h.MerchantBusinessQuery)
-		pb.RegisterMerchantBusinessCommandServiceServer(gs, h.MerchantBusinessCommand)
+		pbmerchant_business.RegisterMerchantBusinessQueryServiceServer(gs, h.MerchantBusinessQuery)
+		pbmerchant_business.RegisterMerchantBusinessCommandServiceServer(gs, h.MerchantBusinessCommand)
 	}
 
 	return srv, nil

@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/MamangRust/monolith-ecommerce-auth/apps"
-	"github.com/MamangRust/monolith-ecommerce-pkg/server"
+	"github.com/MamangRust/monolith-graphql-ecommerce-auth/apps"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/server"
 )
 
 func main() {

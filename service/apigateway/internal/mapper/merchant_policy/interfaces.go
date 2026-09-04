@@ -2,12 +2,13 @@ package merchant_policygraphqlmapper
 
 import (
 	"github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/model"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	pbmerchant "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant"
+	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant_policy"
 )
 
 type MerchantPolicyGraphqlMapper interface {
-	ToGraphqlResponseMerchantPolicyDelete(res *pb.ApiResponseMerchantDelete) *model.APIResponseMerchantPolicyDelete
-	ToGraphqlResponseMerchantPolicyAll(res *pb.ApiResponseMerchantAll) *model.APIResponseMerchantPolicyAll
+	ToGraphqlResponseMerchantPolicyDelete(res *pbmerchant.ApiResponseMerchantDelete) *model.APIResponseMerchantPolicyDelete
+	ToGraphqlResponseMerchantPolicyAll(res *pbmerchant.ApiResponseMerchantAll) *model.APIResponseMerchantPolicyAll
 	ToGraphqlResponseMerchantPolicy(res *pb.ApiResponseMerchantPolicies) *model.APIResponseMerchantPolicy
 	ToGraphqlResponseMerchantPolicyDeleteAt(res *pb.ApiResponseMerchantPoliciesDeleteAt) *model.APIResponseMerchantPolicyDeleteAt
 	ToGraphqlResponsesMerchantPolicy(res *pb.ApiResponsesMerchantPolicies) *model.APIResponsesMerchantPolicy

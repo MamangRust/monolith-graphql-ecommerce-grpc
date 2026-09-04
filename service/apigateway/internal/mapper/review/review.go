@@ -3,7 +3,7 @@ package reviewgraphqlmapper
 import (
 	graphqlmapper "github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/mapper/pagination"
 	"github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/model"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb/review"
 )
 
 type reviewResponseMapper struct{}

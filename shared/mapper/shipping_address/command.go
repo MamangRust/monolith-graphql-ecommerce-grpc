@@ -1,9 +1,10 @@
 package shippingaddressapimapper
 
 import (
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/response"
-	paginationapimapper "github.com/MamangRust/monolith-ecommerce-shared/mapper/pagination"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/response"
+	paginationapimapper "github.com/MamangRust/monolith-graphql-ecommerce-shared/mapper/pagination"
+
+	pbshipping_address "github.com/MamangRust/monolith-graphql-ecommerce-pb/shipping_address"
 )
 
 type shippingAddressCommandResponseMapper struct{}
@@ -12,7 +13,7 @@ func NewShippingAddressCommandResponseMapper() ShippingAddressCommandResponseMap
 	return &shippingAddressCommandResponseMapper{}
 }
 
-func (s *shippingAddressCommandResponseMapper) ToResponseShippingAddress(pbResponse *pb.ShippingResponse) *response.ShippingAddressResponse {
+func (s *shippingAddressCommandResponseMapper) ToResponseShippingAddress(pbResponse *pbshipping_address.ShippingResponse) *response.ShippingAddressResponse {
 	return &response.ShippingAddressResponse{
 		ID:             int(pbResponse.Id),
 		OrderID:        int(pbResponse.OrderId),
@@ -27,7 +28,7 @@ func (s *shippingAddressCommandResponseMapper) ToResponseShippingAddress(pbRespo
 	}
 }
 
-func (s *shippingAddressCommandResponseMapper) ToResponsesShippingAddress(pbResponses []*pb.ShippingResponse) []*response.ShippingAddressResponse {
+func (s *shippingAddressCommandResponseMapper) ToResponsesShippingAddress(pbResponses []*pbshipping_address.ShippingResponse) []*response.ShippingAddressResponse {
 	var addresses []*response.ShippingAddressResponse
 	for _, address := range pbResponses {
 		addresses = append(addresses, s.ToResponseShippingAddress(address))
@@ -35,7 +36,7 @@ func (s *shippingAddressCommandResponseMapper) ToResponsesShippingAddress(pbResp
 	return addresses
 }
 
-func (s *shippingAddressCommandResponseMapper) ToResponseShippingAddressDeleteAt(pbResponse *pb.ShippingResponseDeleteAt) *response.ShippingAddressResponseDeleteAt {
+func (s *shippingAddressCommandResponseMapper) ToResponseShippingAddressDeleteAt(pbResponse *pbshipping_address.ShippingResponseDeleteAt) *response.ShippingAddressResponseDeleteAt {
 	var deletedAt string
 	if pbResponse.DeletedAt != nil {
 		deletedAt = pbResponse.DeletedAt.Value
@@ -56,7 +57,7 @@ func (s *shippingAddressCommandResponseMapper) ToResponseShippingAddressDeleteAt
 	}
 }
 
-func (s *shippingAddressCommandResponseMapper) ToResponsesShippingAddressDeleteAt(pbResponses []*pb.ShippingResponseDeleteAt) []*response.ShippingAddressResponseDeleteAt {
+func (s *shippingAddressCommandResponseMapper) ToResponsesShippingAddressDeleteAt(pbResponses []*pbshipping_address.ShippingResponseDeleteAt) []*response.ShippingAddressResponseDeleteAt {
 	var addresses []*response.ShippingAddressResponseDeleteAt
 	for _, address := range pbResponses {
 		addresses = append(addresses, s.ToResponseShippingAddressDeleteAt(address))
@@ -64,7 +65,7 @@ func (s *shippingAddressCommandResponseMapper) ToResponsesShippingAddressDeleteA
 	return addresses
 }
 
-func (s *shippingAddressCommandResponseMapper) ToApiResponseShippingAddressDeleteAt(pbResponse *pb.ApiResponseShippingDeleteAt) *response.ApiResponseShippingAddressDeleteAt {
+func (s *shippingAddressCommandResponseMapper) ToApiResponseShippingAddressDeleteAt(pbResponse *pbshipping_address.ApiResponseShippingDeleteAt) *response.ApiResponseShippingAddressDeleteAt {
 	return &response.ApiResponseShippingAddressDeleteAt{
 		Status:  pbResponse.Status,
 		Message: pbResponse.Message,
@@ -72,21 +73,21 @@ func (s *shippingAddressCommandResponseMapper) ToApiResponseShippingAddressDelet
 	}
 }
 
-func (s *shippingAddressCommandResponseMapper) ToApiResponseShippingAddressDelete(pbResponse *pb.ApiResponseShippingDelete) *response.ApiResponseShippingAddressDelete {
+func (s *shippingAddressCommandResponseMapper) ToApiResponseShippingAddressDelete(pbResponse *pbshipping_address.ApiResponseShippingDelete) *response.ApiResponseShippingAddressDelete {
 	return &response.ApiResponseShippingAddressDelete{
 		Status:  pbResponse.Status,
 		Message: pbResponse.Message,
 	}
 }
 
-func (s *shippingAddressCommandResponseMapper) ToApiResponseShippingAddressAll(pbResponse *pb.ApiResponseShippingAll) *response.ApiResponseShippingAddressAll {
+func (s *shippingAddressCommandResponseMapper) ToApiResponseShippingAddressAll(pbResponse *pbshipping_address.ApiResponseShippingAll) *response.ApiResponseShippingAddressAll {
 	return &response.ApiResponseShippingAddressAll{
 		Status:  pbResponse.Status,
 		Message: pbResponse.Message,
 	}
 }
 
-func (s *shippingAddressCommandResponseMapper) ToApiResponsePaginationShippingAddressDeleteAt(pbResponse *pb.ApiResponsePaginationShippingDeleteAt) *response.ApiResponsePaginationShippingAddressDeleteAt {
+func (s *shippingAddressCommandResponseMapper) ToApiResponsePaginationShippingAddressDeleteAt(pbResponse *pbshipping_address.ApiResponsePaginationShippingDeleteAt) *response.ApiResponsePaginationShippingAddressDeleteAt {
 	return &response.ApiResponsePaginationShippingAddressDeleteAt{
 		Status:     pbResponse.Status,
 		Message:    pbResponse.Message,

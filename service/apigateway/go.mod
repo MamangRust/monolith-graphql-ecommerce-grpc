@@ -5,9 +5,9 @@ go 1.25.1
 require (
 	github.com/99designs/gqlgen v0.17.81
 	github.com/IBM/sarama v1.46.3
-	github.com/MamangRust/monolith-ecommerce-pkg v1.0.28
-	github.com/MamangRust/monolith-ecommerce-shared v1.0.23
 	github.com/MamangRust/monolith-graphql-ecommerce-pb v1.0.10
+	github.com/MamangRust/monolith-graphql-ecommerce-pkg v1.0.18
+	github.com/MamangRust/monolith-graphql-ecommerce-shared v1.0.20
 	github.com/go-playground/validator/v10 v10.30.1
 	github.com/google/uuid v1.6.0
 	github.com/prometheus/client_golang v1.23.2
@@ -104,7 +104,7 @@ require (
 )
 
 replace (
-	github.com/MamangRust/monolith-ecommerce-pkg => ../../pkg
-	github.com/MamangRust/monolith-ecommerce-shared => ../../shared
 	github.com/MamangRust/monolith-graphql-ecommerce-pb => ../../pb
+	github.com/MamangRust/monolith-graphql-ecommerce-pkg => ../../pkg
+	github.com/MamangRust/monolith-graphql-ecommerce-shared => ../../shared
 )

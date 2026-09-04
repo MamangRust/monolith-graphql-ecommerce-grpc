@@ -3,23 +3,24 @@ package repository
 import (
 	"context"
 
-	db "github.com/MamangRust/monolith-ecommerce-pkg/database/schema"
-	category_errors "github.com/MamangRust/monolith-ecommerce-shared/errors/category_errors"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
+	category_errors "github.com/MamangRust/monolith-graphql-ecommerce-shared/errors/category_errors"
+
+	pbcategory "github.com/MamangRust/monolith-graphql-ecommerce-pb/category"
 )
 
 type categoryQueryRepository struct {
-	client pb.CategoryQueryServiceClient
+	client pbcategory.CategoryQueryServiceClient
 }
 
-func NewCategoryQueryRepository(client pb.CategoryQueryServiceClient) *categoryQueryRepository {
+func NewCategoryQueryRepository(client pbcategory.CategoryQueryServiceClient) *categoryQueryRepository {
 	return &categoryQueryRepository{
 		client: client,
 	}
 }
 
 func (r *categoryQueryRepository) FindByID(ctx context.Context, category_id int) (*db.GetCategoryByIDRow, error) {
-	res, err := r.client.FindById(ctx, &pb.FindByIdCategoryRequest{Id: int32(category_id)})
+	res, err := r.client.FindById(ctx, &pbcategory.FindByIdCategoryRequest{Id: int32(category_id)})
 	if err != nil {
 		return nil, category_errors.ErrFindCategoryById.WithInternal(err)
 	}

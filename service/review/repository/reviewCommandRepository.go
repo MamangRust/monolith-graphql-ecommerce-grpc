@@ -3,9 +3,9 @@ package repository
 import (
 	"context"
 
-	db "github.com/MamangRust/monolith-ecommerce-pkg/database/schema"
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/requests"
-	review_errors "github.com/MamangRust/monolith-ecommerce-shared/errors/review"
+	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/requests"
+	review_errors "github.com/MamangRust/monolith-graphql-ecommerce-shared/errors/review"
 )
 
 type reviewCommandRepository struct {

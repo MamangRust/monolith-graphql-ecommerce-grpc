@@ -1,9 +1,9 @@
 package mencache
 
 import (
-	"github.com/MamangRust/monolith-ecommerce-pkg/logger"
-	sharedcachehelpers "github.com/MamangRust/monolith-ecommerce-shared/cache"
-	"github.com/MamangRust/monolith-ecommerce-shared/observability"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/logger"
+	sharedcachehelpers "github.com/MamangRust/monolith-graphql-ecommerce-shared/cache"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/observability"
 	"go.uber.org/zap"
 
 	"github.com/redis/go-redis/v9"

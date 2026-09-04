@@ -3,17 +3,20 @@ package apps
 import (
 	"fmt"
 
-	"github.com/MamangRust/monolith-ecommerce-pkg/kafka"
-	"github.com/MamangRust/monolith-ecommerce-pkg/server"
-	"github.com/MamangRust/monolith-ecommerce-shared/observability"
 	"github.com/MamangRust/monolith-graphql-ecommerce-merchant/cache"
 	"github.com/MamangRust/monolith-graphql-ecommerce-merchant/handler"
 	"github.com/MamangRust/monolith-graphql-ecommerce-merchant/repository"
 	"github.com/MamangRust/monolith-graphql-ecommerce-merchant/service"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/kafka"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/server"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/observability"
 	"github.com/spf13/viper"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
+
+	pbmerchant "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant"
+	pbmerchant_document "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant_document"
+	pbuser "github.com/MamangRust/monolith-graphql-ecommerce-pb/user"
 )
 
 func NewServer(cfg *server.Config) (*server.GRPCServer, error) {
@@ -32,7 +35,7 @@ func NewServer(cfg *server.Config) (*server.GRPCServer, error) {
 		return nil, fmt.Errorf("failed to connect to user service: %w", err)
 	}
 
-	userQueryClient := pb.NewUserQueryServiceClient(userConn)
+	userQueryClient := pbuser.NewUserQueryServiceClient(userConn)
 
 	repos := repository.NewRepositories(srv.DB, userQueryClient)
 	myKafka := kafka.NewKafka(srv.Logger, []string{viper.GetString("KAFKA_BROKERS")})
@@ -53,10 +56,10 @@ func NewServer(cfg *server.Config) (*server.GRPCServer, error) {
 	})
 
 	srv.RegisterServices = func(gs *grpc.Server) {
-		pb.RegisterMerchantQueryServiceServer(gs, h.MerchantQuery)
-		pb.RegisterMerchantCommandServiceServer(gs, h.MerchantCommandHandler)
-		pb.RegisterMerchantDocumentQueryServiceServer(gs, h.MerchantDocumentQuery)
-		pb.RegisterMerchantDocumentCommandServiceServer(gs, h.MerchantDocumentCommand)
+		pbmerchant.RegisterMerchantQueryServiceServer(gs, h.MerchantQuery)
+		pbmerchant.RegisterMerchantCommandServiceServer(gs, h.MerchantCommandHandler)
+		pbmerchant_document.RegisterMerchantDocumentQueryServiceServer(gs, h.MerchantDocumentQuery)
+		pbmerchant_document.RegisterMerchantDocumentCommandServiceServer(gs, h.MerchantDocumentCommand)
 	}
 
 	return srv, nil

@@ -3,16 +3,19 @@ package apps
 import (
 	"fmt"
 
-	"github.com/MamangRust/monolith-ecommerce-pkg/server"
-	"github.com/MamangRust/monolith-ecommerce-shared/observability"
 	"github.com/MamangRust/monolith-graphql-ecommerce-merchant_detail/cache"
 	"github.com/MamangRust/monolith-graphql-ecommerce-merchant_detail/handler"
 	"github.com/MamangRust/monolith-graphql-ecommerce-merchant_detail/repository"
 	"github.com/MamangRust/monolith-graphql-ecommerce-merchant_detail/service"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/server"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/observability"
 	"github.com/spf13/viper"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
+
+	pbmerchant "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant"
+	pbmerchant_detail "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant_detail"
+	pbmerchant_social_link "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant_social_link"
 )
 
 func NewServer(cfg *server.Config) (*server.GRPCServer, error) {
@@ -31,9 +34,9 @@ func NewServer(cfg *server.Config) (*server.GRPCServer, error) {
 		return nil, fmt.Errorf("failed to connect to merchant service: %w", err)
 	}
 
-	merchantQueryClient := pb.NewMerchantQueryServiceClient(merchantConn)
+	merchantQueryClient := pbmerchant.NewMerchantQueryServiceClient(merchantConn)
 
-	repos := repository.NewRepositories(srv.DB, merchantQueryClient, srv.Pool)
+	repos := repository.NewRepositories(srv.DB, merchantQueryClient)
 	obs, _ := observability.NewObservability("merchant-detail-server", srv.Logger)
 
 	cache := cache.NewMencache(srv.CacheStore)
@@ -48,9 +51,9 @@ func NewServer(cfg *server.Config) (*server.GRPCServer, error) {
 	h := handler.NewHandler(&handler.Deps{Service: svc, Logger: srv.Logger})
 
 	srv.RegisterServices = func(gs *grpc.Server) {
-		pb.RegisterMerchantDetailQueryServiceServer(gs, h.MerchantDetailQuery)
-		pb.RegisterMerchantDetailCommandServiceServer(gs, h.MerchantDetailCommand)
-		pb.RegisterMerchantSocialLinkServiceServer(gs, h.MerchantSocialLinkCommand)
+		pbmerchant_detail.RegisterMerchantDetailQueryServiceServer(gs, h.MerchantDetailQuery)
+		pbmerchant_detail.RegisterMerchantDetailCommandServiceServer(gs, h.MerchantDetailCommand)
+		pbmerchant_social_link.RegisterMerchantSocialCommandServiceServer(gs, h.MerchantSocialLinkCommand)
 	}
 
 	return srv, nil

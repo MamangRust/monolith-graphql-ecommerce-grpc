@@ -6,17 +6,17 @@ import (
 	"fmt"
 	"strconv"
 
-	db "github.com/MamangRust/monolith-ecommerce-pkg/database/schema"
-	"github.com/MamangRust/monolith-ecommerce-pkg/email"
-	"github.com/MamangRust/monolith-ecommerce-pkg/kafka"
-	"github.com/MamangRust/monolith-ecommerce-pkg/logger"
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/requests"
-	"github.com/MamangRust/monolith-ecommerce-shared/errorhandler"
-	"github.com/MamangRust/monolith-ecommerce-shared/errors/transaction_errors"
+	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/email"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/kafka"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/logger"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/requests"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/errorhandler"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/errors/transaction_errors"
 	"github.com/MamangRust/monolith-graphql-ecommerce-transaction/cache"
 	"github.com/MamangRust/monolith-graphql-ecommerce-transaction/repository"
 
-	"github.com/MamangRust/monolith-ecommerce-shared/observability"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/observability"
 	"go.opentelemetry.io/otel/attribute"
 	"go.uber.org/zap"
 )
@@ -77,6 +77,16 @@ func (s *transactionCommandService) Create(ctx context.Context, req *requests.Cr
 		end(status)
 	}()
 
+	order, err := s.orderQuery.FindByID(ctx, req.OrderID)
+	if err != nil {
+		status = "error"
+		return errorhandler.HandleError[*db.CreateTransactionRow](s.logger, err, method, span)
+	}
+
+	if req.UserID == 0 {
+		req.UserID = int(order.UserID)
+	}
+
 	user, err := s.userQuery.FindByID(ctx, req.UserID)
 	if err != nil {
 		status = "error"
@@ -84,12 +94,6 @@ func (s *transactionCommandService) Create(ctx context.Context, req *requests.Cr
 	}
 
 	_, err = s.merchantQuery.FindByID(ctx, req.MerchantID)
-	if err != nil {
-		status = "error"
-		return errorhandler.HandleError[*db.CreateTransactionRow](s.logger, err, method, span)
-	}
-
-	_, err = s.orderQuery.FindByID(ctx, req.OrderID)
 	if err != nil {
 		status = "error"
 		return errorhandler.HandleError[*db.CreateTransactionRow](s.logger, err, method, span)

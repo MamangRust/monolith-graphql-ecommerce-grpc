@@ -4,8 +4,8 @@ import (
 	"context"
 	"time"
 
-	db "github.com/MamangRust/monolith-ecommerce-pkg/database/schema"
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/response"
+	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/response"
 )
 
 //go:generate mockgen -source=interfaces.go -destination=mocks/cache.go

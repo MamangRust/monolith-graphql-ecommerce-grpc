@@ -1,10 +1,10 @@
 package service
 
 import (
-	"github.com/MamangRust/monolith-ecommerce-pkg/logger"
-	"github.com/MamangRust/monolith-ecommerce-shared/observability"
 	mencache "github.com/MamangRust/monolith-graphql-ecommerce-order/cache"
 	"github.com/MamangRust/monolith-graphql-ecommerce-order/repository"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/logger"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/observability"
 )
 
 type Service struct {
@@ -30,20 +30,20 @@ func NewService(deps *Deps) *Service {
 			Logger:          deps.Logger,
 		}),
 		OrderCommand: NewOrderCommandService(&OrderCommandServiceDeps{
-			Observability:                deps.Observability,
-			Cache:                        deps.Cache.OrderCommandCache,
-			UserQueryRepository:          deps.Repositories.UserQuery,
-			ProductQueryRepository:       deps.Repositories.ProductQuery,
-			ProductCommandRepository:     deps.Repositories.ProductCommand,
-			OrderQueryRepository:         deps.Repositories.OrderQuery,
-			OrderCommandRepository:       deps.Repositories.OrderCommand,
-			OrderItemQueryRepository:     deps.Repositories.OrderItemQuery,
-			OrderItemCommandRepository:   deps.Repositories.OrderItemCommand,
-			MerchantQueryRepository:      deps.Repositories.MerchantQuery,
-			ShippingAddressRepository:    deps.Repositories.ShippingAddress,
+			Observability:              deps.Observability,
+			Cache:                      deps.Cache.OrderCommandCache,
+			UserQueryRepository:        deps.Repositories.UserQuery,
+			ProductQueryRepository:     deps.Repositories.ProductQuery,
+			ProductCommandRepository:   deps.Repositories.ProductCommand,
+			OrderQueryRepository:       deps.Repositories.OrderQuery,
+			OrderCommandRepository:     deps.Repositories.OrderCommand,
+			OrderItemQueryRepository:   deps.Repositories.OrderItemQuery,
+			OrderItemCommandRepository: deps.Repositories.OrderItemCommand,
+			MerchantQueryRepository:    deps.Repositories.MerchantQuery,
+			ShippingAddressRepository:  deps.Repositories.ShippingAddress,
 			TransactionCommandRepository: deps.Repositories.TransactionCommand,
-			ShippingQueryRepository:      deps.Repositories.ShippingQuery,
-			Logger:                       deps.Logger,
+			ShippingQueryRepository:    deps.Repositories.ShippingQuery,
+			Logger:                     deps.Logger,
 		}),
 		OrderStats: NewOrderStatsService(&OrderStatsServiceDeps{
 			Observability:        deps.Observability,

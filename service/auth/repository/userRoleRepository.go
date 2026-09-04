@@ -3,19 +3,20 @@ package repository
 import (
 	"context"
 
-	db "github.com/MamangRust/monolith-ecommerce-pkg/database/schema"
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/requests"
-	userrole_errors "github.com/MamangRust/monolith-ecommerce-shared/errors/user_role_errors"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/requests"
+	userrole_errors "github.com/MamangRust/monolith-graphql-ecommerce-shared/errors/user_role_errors"
+
+	pbrole "github.com/MamangRust/monolith-graphql-ecommerce-pb/role"
 )
 
 // userRoleRepository is a struct that implements the UserRoleRepository interface using gRPC client
 type userRoleRepository struct {
-	client pb.RoleCommandServiceClient
+	client pbrole.RoleCommandServiceClient
 }
 
 // NewUserRoleRepository creates a new UserRoleRepository instance
-func NewUserRoleRepository(client pb.RoleCommandServiceClient) UserRoleRepository {
+func NewUserRoleRepository(client pbrole.RoleCommandServiceClient) UserRoleRepository {
 	return &userRoleRepository{
 		client: client,
 	}
@@ -23,7 +24,7 @@ func NewUserRoleRepository(client pb.RoleCommandServiceClient) UserRoleRepositor
 
 // AssignRoleToUser assigns a role to a user via gRPC.
 func (r *userRoleRepository) AssignRoleToUser(ctx context.Context, req *requests.CreateUserRoleRequest) (*db.UserRole, error) {
-	protoReq := &pb.AssignRoleToUserRequest{
+	protoReq := &pbrole.AssignRoleToUserRequest{
 		UserId: int32(req.UserId),
 		RoleId: int32(req.RoleId),
 	}
@@ -42,7 +43,7 @@ func (r *userRoleRepository) AssignRoleToUser(ctx context.Context, req *requests
 
 // RemoveRoleFromUser removes a role assigned to a user via gRPC.
 func (r *userRoleRepository) RemoveRoleFromUser(ctx context.Context, req *requests.RemoveUserRoleRequest) error {
-	protoReq := &pb.RemoveRoleFromUserRequest{
+	protoReq := &pbrole.RemoveRoleFromUserRequest{
 		UserId: int32(req.UserId),
 		RoleId: int32(req.RoleId),
 	}

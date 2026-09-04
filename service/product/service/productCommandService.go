@@ -4,15 +4,15 @@ import (
 	"context"
 	"os"
 
-	db "github.com/MamangRust/monolith-ecommerce-pkg/database/schema"
-	"github.com/MamangRust/monolith-ecommerce-pkg/logger"
-	"github.com/MamangRust/monolith-ecommerce-pkg/utils"
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/requests"
-	"github.com/MamangRust/monolith-ecommerce-shared/errorhandler"
-	"github.com/MamangRust/monolith-ecommerce-shared/errors/product_errors"
-	"github.com/MamangRust/monolith-ecommerce-shared/observability"
 	"github.com/MamangRust/monolith-graphql-ecommerce-product/cache"
 	"github.com/MamangRust/monolith-graphql-ecommerce-product/repository"
+	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/logger"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/utils"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/requests"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/errorhandler"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/errors/product_errors"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/observability"
 	"go.opentelemetry.io/otel/attribute"
 	"go.uber.org/zap"
 )
@@ -73,6 +73,7 @@ func (s *productCommandService) Create(ctx context.Context, req *requests.Create
 		)
 	}
 
+
 	_, err = s.merchantRepository.FindByID(ctx, req.MerchantID)
 	if err != nil {
 		status = "error"
@@ -84,6 +85,7 @@ func (s *productCommandService) Create(ctx context.Context, req *requests.Create
 			zap.Int("merchantID", req.MerchantID),
 		)
 	}
+
 
 	slug := utils.GenerateSlug(req.Name)
 	req.SlugProduct = &slug
@@ -98,6 +100,7 @@ func (s *productCommandService) Create(ctx context.Context, req *requests.Create
 			span,
 		)
 	}
+
 
 	s.cache.DeleteCachedProduct(ctx, int(product.ProductID))
 
@@ -133,6 +136,7 @@ func (s *productCommandService) Update(ctx context.Context, req *requests.Update
 		)
 	}
 
+
 	_, err = s.merchantRepository.FindByID(ctx, req.MerchantID)
 	if err != nil {
 		status = "error"
@@ -144,6 +148,7 @@ func (s *productCommandService) Update(ctx context.Context, req *requests.Update
 			zap.Int("merchantID", req.MerchantID),
 		)
 	}
+
 
 	slug := utils.GenerateSlug(req.Name)
 	req.SlugProduct = &slug
@@ -158,6 +163,7 @@ func (s *productCommandService) Update(ctx context.Context, req *requests.Update
 			span,
 		)
 	}
+
 
 	s.cache.DeleteCachedProduct(ctx, int(product.ProductID))
 
@@ -192,6 +198,7 @@ func (s *productCommandService) UpdateProductCountStock(ctx context.Context, pro
 		)
 	}
 
+
 	s.cache.DeleteCachedProduct(ctx, productID)
 
 	logSuccess("Successfully updated product stock",
@@ -223,6 +230,7 @@ func (s *productCommandService) Trash(ctx context.Context, productID int) (inter
 		)
 	}
 
+
 	s.cache.DeleteCachedProduct(ctx, productID)
 
 	logSuccess("Successfully trashed product",
@@ -252,6 +260,7 @@ func (s *productCommandService) Restore(ctx context.Context, productID int) (int
 			zap.Int("product_id", productID),
 		)
 	}
+
 
 	s.cache.DeleteCachedProduct(ctx, productID)
 
@@ -283,6 +292,7 @@ func (s *productCommandService) DeletePermanent(ctx context.Context, productID i
 		)
 	}
 
+
 	if product.ImageProduct != nil && *product.ImageProduct != "" {
 		if err := os.Remove(*product.ImageProduct); err != nil {
 			if !os.IsNotExist(err) {
@@ -310,6 +320,7 @@ func (s *productCommandService) DeletePermanent(ctx context.Context, productID i
 		)
 	}
 
+
 	s.cache.DeleteCachedProduct(ctx, productID)
 
 	logSuccess("Successfully permanently deleted product", zap.Int("productID", productID))
@@ -336,6 +347,7 @@ func (s *productCommandService) RestoreAll(ctx context.Context) (bool, error) {
 			span,
 		)
 	}
+
 
 	logSuccess("Successfully restored all trashed products")
 

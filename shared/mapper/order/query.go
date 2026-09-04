@@ -1,9 +1,10 @@
 package orderapimapper
 
 import (
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/response"
-	paginationapimapper "github.com/MamangRust/monolith-ecommerce-shared/mapper/pagination"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/response"
+	paginationapimapper "github.com/MamangRust/monolith-graphql-ecommerce-shared/mapper/pagination"
+
+	pborder "github.com/MamangRust/monolith-graphql-ecommerce-pb/order"
 )
 
 type orderQueryResponseMapper struct{}
@@ -12,10 +13,8 @@ func NewOrderQueryResponseMapper() OrderQueryResponseMapper {
 	return &orderQueryResponseMapper{}
 }
 
-func (o *orderQueryResponseMapper) ToResponseOrder(order *pb.OrderResponse) *response.OrderResponse {
-	if order == nil {
-		return nil
-	}
+func (o *orderQueryResponseMapper) ToResponseOrder(order *pborder.OrderResponse) *response.OrderResponse {
+	if order == nil { return nil }
 	return &response.OrderResponse{
 		ID:         int(order.Id),
 		MerchantID: int(order.MerchantId),
@@ -26,7 +25,7 @@ func (o *orderQueryResponseMapper) ToResponseOrder(order *pb.OrderResponse) *res
 	}
 }
 
-func (o *orderQueryResponseMapper) ToResponsesOrder(orders []*pb.OrderResponse) []*response.OrderResponse {
+func (o *orderQueryResponseMapper) ToResponsesOrder(orders []*pborder.OrderResponse) []*response.OrderResponse {
 	var mappedOrders []*response.OrderResponse
 	for _, order := range orders {
 		mappedOrders = append(mappedOrders, o.ToResponseOrder(order))
@@ -34,7 +33,7 @@ func (o *orderQueryResponseMapper) ToResponsesOrder(orders []*pb.OrderResponse) 
 	return mappedOrders
 }
 
-func (o *orderQueryResponseMapper) ToApiResponseOrder(pbResponse *pb.ApiResponseOrder) *response.ApiResponseOrder {
+func (o *orderQueryResponseMapper) ToApiResponseOrder(pbResponse *pborder.ApiResponseOrder) *response.ApiResponseOrder {
 	return &response.ApiResponseOrder{
 		Status:  pbResponse.Status,
 		Message: pbResponse.Message,
@@ -42,7 +41,7 @@ func (o *orderQueryResponseMapper) ToApiResponseOrder(pbResponse *pb.ApiResponse
 	}
 }
 
-func (o *orderQueryResponseMapper) ToApiResponsesOrder(pbResponse *pb.ApiResponsesOrder) *response.ApiResponsesOrder {
+func (o *orderQueryResponseMapper) ToApiResponsesOrder(pbResponse *pborder.ApiResponsesOrder) *response.ApiResponsesOrder {
 	return &response.ApiResponsesOrder{
 		Status:  pbResponse.Status,
 		Message: pbResponse.Message,
@@ -50,7 +49,7 @@ func (o *orderQueryResponseMapper) ToApiResponsesOrder(pbResponse *pb.ApiRespons
 	}
 }
 
-func (o *orderQueryResponseMapper) ToApiResponsePaginationOrder(pbResponse *pb.ApiResponsePaginationOrder) *response.ApiResponsePaginationOrder {
+func (o *orderQueryResponseMapper) ToApiResponsePaginationOrder(pbResponse *pborder.ApiResponsePaginationOrder) *response.ApiResponsePaginationOrder {
 	return &response.ApiResponsePaginationOrder{
 		Status:     pbResponse.Status,
 		Message:    pbResponse.Message,
@@ -59,7 +58,7 @@ func (o *orderQueryResponseMapper) ToApiResponsePaginationOrder(pbResponse *pb.A
 	}
 }
 
-func (o *orderQueryResponseMapper) ToApiResponsePaginationOrderDeleteAt(pbResponse *pb.ApiResponsePaginationOrderDeleteAt) *response.ApiResponsePaginationOrderDeleteAt {
+func (o *orderQueryResponseMapper) ToApiResponsePaginationOrderDeleteAt(pbResponse *pborder.ApiResponsePaginationOrderDeleteAt) *response.ApiResponsePaginationOrderDeleteAt {
 	var mappedOrders []*response.OrderResponseDeleteAt
 	for _, order := range pbResponse.Data {
 		var deletedAt string

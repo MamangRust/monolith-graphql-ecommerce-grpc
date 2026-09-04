@@ -4,7 +4,9 @@ import (
 	"context"
 
 	"github.com/IBM/sarama"
-	"github.com/MamangRust/monolith-ecommerce-pkg/logger"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/logger"
+	"go.opentelemetry.io/otel"
+	"go.opentelemetry.io/otel/propagation"
 	"go.uber.org/zap"
 )
 
@@ -42,6 +44,40 @@ func (k *Kafka) SendMessage(topic string, key string, value []byte) error {
 		Topic: topic,
 		Key:   sarama.StringEncoder(key),
 		Value: sarama.ByteEncoder(value),
+	}
+
+	partition, offset, err := k.producer.SendMessage(msg)
+	if err != nil {
+		return err
+	}
+
+	k.logger.Info("Message is stored in topic", zap.String("topic", topic), zap.Int32("partition", partition), zap.Int64("offset", offset))
+
+	return nil
+}
+
+// SendMessageWithHeaders publishes a message with explicit record headers in
+// addition to the payload, propagating the active trace context as
+// traceparent/tracestate headers. Used by the email service to attach retry/DLQ
+// metadata (Phase 4) while keeping the payload an unchanged envelope.
+func (k *Kafka) SendMessageWithHeaders(ctx context.Context, topic string, key string, value []byte, headers []sarama.RecordHeader) error {
+	if k == nil || k.producer == nil {
+		return nil
+	}
+	msg := &sarama.ProducerMessage{
+		Topic:   topic,
+		Key:     sarama.StringEncoder(key),
+		Value:   sarama.ByteEncoder(value),
+		Headers: headers,
+	}
+	if ctx != nil {
+		carrier := propagation.MapCarrier{}
+		otel.GetTextMapPropagator().Inject(ctx, carrier)
+		if len(carrier) > 0 {
+			for kk, vv := range carrier {
+				msg.Headers = append(msg.Headers, sarama.RecordHeader{Key: []byte(kk), Value: []byte(vv)})
+			}
+		}
 	}
 
 	partition, offset, err := k.producer.SendMessage(msg)

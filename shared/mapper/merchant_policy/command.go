@@ -1,8 +1,9 @@
 package merchantpolicyapimapper
 
 import (
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/response"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/response"
+
+	pbmerchant_policy "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant_policy"
 )
 
 type merchantPolicyCommandResponseMapper struct{}
@@ -11,10 +12,8 @@ func NewMerchantPolicyCommandResponseMapper() MerchantPolicyCommandResponseMappe
 	return &merchantPolicyCommandResponseMapper{}
 }
 
-func (m *merchantPolicyCommandResponseMapper) ToResponseMerchantPolicy(merchant *pb.MerchantPoliciesResponse) *response.MerchantPoliciesResponse {
-	if merchant == nil {
-		return nil
-	}
+func (m *merchantPolicyCommandResponseMapper) ToResponseMerchantPolicy(merchant *pbmerchant_policy.MerchantPoliciesResponse) *response.MerchantPoliciesResponse {
+	if merchant == nil { return nil }
 	return &response.MerchantPoliciesResponse{
 		ID:           int(merchant.Id),
 		MerchantID:   int(merchant.MerchantId),
@@ -27,7 +26,7 @@ func (m *merchantPolicyCommandResponseMapper) ToResponseMerchantPolicy(merchant 
 	}
 }
 
-func (m *merchantPolicyCommandResponseMapper) ToResponsesMerchantPolicy(merchants []*pb.MerchantPoliciesResponse) []*response.MerchantPoliciesResponse {
+func (m *merchantPolicyCommandResponseMapper) ToResponsesMerchantPolicy(merchants []*pbmerchant_policy.MerchantPoliciesResponse) []*response.MerchantPoliciesResponse {
 	var mappedMerchants []*response.MerchantPoliciesResponse
 	for _, merchant := range merchants {
 		mappedMerchants = append(mappedMerchants, m.ToResponseMerchantPolicy(merchant))
@@ -35,7 +34,7 @@ func (m *merchantPolicyCommandResponseMapper) ToResponsesMerchantPolicy(merchant
 	return mappedMerchants
 }
 
-func (m *merchantPolicyCommandResponseMapper) ToApiResponseMerchantPolicies(pbResponse *pb.ApiResponseMerchantPolicies) *response.ApiResponseMerchantPolicies {
+func (m *merchantPolicyCommandResponseMapper) ToApiResponseMerchantPolicies(pbResponse *pbmerchant_policy.ApiResponseMerchantPolicies) *response.ApiResponseMerchantPolicies {
 	return &response.ApiResponseMerchantPolicies{
 		Status:  pbResponse.Status,
 		Message: pbResponse.Message,
@@ -43,10 +42,8 @@ func (m *merchantPolicyCommandResponseMapper) ToApiResponseMerchantPolicies(pbRe
 	}
 }
 
-func (m *merchantPolicyCommandResponseMapper) ToResponseMerchantPolicyDeleteAt(merchant *pb.MerchantPoliciesResponseDeleteAt) *response.MerchantPoliciesResponseDeleteAt {
-	if merchant == nil {
-		return nil
-	}
+func (m *merchantPolicyCommandResponseMapper) ToResponseMerchantPolicyDeleteAt(merchant *pbmerchant_policy.MerchantPoliciesResponseDeleteAt) *response.MerchantPoliciesResponseDeleteAt {
+	if merchant == nil { return nil }
 	var deletedAt string
 	if merchant.DeletedAt != nil {
 		deletedAt = merchant.DeletedAt.Value
@@ -65,7 +62,7 @@ func (m *merchantPolicyCommandResponseMapper) ToResponseMerchantPolicyDeleteAt(m
 	}
 }
 
-func (m *merchantPolicyCommandResponseMapper) ToResponsesMerchantPolicyDeleteAt(merchants []*pb.MerchantPoliciesResponseDeleteAt) []*response.MerchantPoliciesResponseDeleteAt {
+func (m *merchantPolicyCommandResponseMapper) ToResponsesMerchantPolicyDeleteAt(merchants []*pbmerchant_policy.MerchantPoliciesResponseDeleteAt) []*response.MerchantPoliciesResponseDeleteAt {
 	var mappedMerchants []*response.MerchantPoliciesResponseDeleteAt
 	for _, merchant := range merchants {
 		mappedMerchants = append(mappedMerchants, m.ToResponseMerchantPolicyDeleteAt(merchant))
@@ -73,7 +70,7 @@ func (m *merchantPolicyCommandResponseMapper) ToResponsesMerchantPolicyDeleteAt(
 	return mappedMerchants
 }
 
-func (m *merchantPolicyCommandResponseMapper) ToApiResponseMerchantPoliciesDeleteAt(pbResponse *pb.ApiResponseMerchantPoliciesDeleteAt) *response.ApiResponseMerchantPoliciesDeleteAt {
+func (m *merchantPolicyCommandResponseMapper) ToApiResponseMerchantPoliciesDeleteAt(pbResponse *pbmerchant_policy.ApiResponseMerchantPoliciesDeleteAt) *response.ApiResponseMerchantPoliciesDeleteAt {
 	return &response.ApiResponseMerchantPoliciesDeleteAt{
 		Status:  pbResponse.Status,
 		Message: pbResponse.Message,

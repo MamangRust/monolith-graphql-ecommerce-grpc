@@ -1,26 +1,27 @@
 package merchantawardapimapper
 
 import (
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/response"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/response"
+
+	pbmerchant_award "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant_award"
 )
 
 type MerchantAwardBaseResponseMapper interface {
-	ToResponseMerchantAward(MerchantAward *pb.MerchantAwardResponse) *response.MerchantAwardResponse
-	ToResponsesMerchantAward(MerchantAwards []*pb.MerchantAwardResponse) []*response.MerchantAwardResponse
-	ToApiResponseMerchantAward(pbResponse *pb.ApiResponseMerchantAward) *response.ApiResponseMerchantAward
+	ToResponseMerchantAward(MerchantAward *pbmerchant_award.MerchantAwardResponse) *response.MerchantAwardResponse
+	ToResponsesMerchantAward(MerchantAwards []*pbmerchant_award.MerchantAwardResponse) []*response.MerchantAwardResponse
+	ToApiResponseMerchantAward(pbResponse *pbmerchant_award.ApiResponseMerchantAward) *response.ApiResponseMerchantAward
 }
 
 type MerchantAwardQueryResponseMapper interface {
 	MerchantAwardBaseResponseMapper
-	ToApiResponsesMerchantAward(pbResponse *pb.ApiResponsesMerchantAward) *response.ApiResponsesMerchantAward
-	ToApiResponsePaginationMerchantAward(pbResponse *pb.ApiResponsePaginationMerchantAward) *response.ApiResponsePaginationMerchantAward
-	ToApiResponsePaginationMerchantAwardDeleteAt(pbResponse *pb.ApiResponsePaginationMerchantAwardDeleteAt) *response.ApiResponsePaginationMerchantAwardDeleteAt
+	ToApiResponsesMerchantAward(pbResponse *pbmerchant_award.ApiResponsesMerchantAward) *response.ApiResponsesMerchantAward
+	ToApiResponsePaginationMerchantAward(pbResponse *pbmerchant_award.ApiResponsePaginationMerchantAward) *response.ApiResponsePaginationMerchantAward
+	ToApiResponsePaginationMerchantAwardDeleteAt(pbResponse *pbmerchant_award.ApiResponsePaginationMerchantAwardDeleteAt) *response.ApiResponsePaginationMerchantAwardDeleteAt
 }
 
 type MerchantAwardCommandResponseMapper interface {
 	MerchantAwardBaseResponseMapper
-	ToResponseMerchantAwardDeleteAt(MerchantAward *pb.MerchantAwardResponseDeleteAt) *response.MerchantAwardResponseDeleteAt
-	ToResponsesMerchantAwardDeleteAt(MerchantAwards []*pb.MerchantAwardResponseDeleteAt) []*response.MerchantAwardResponseDeleteAt
-	ToApiResponseMerchantAwardDeleteAt(pbResponse *pb.ApiResponseMerchantAwardDeleteAt) *response.ApiResponseMerchantAwardDeleteAt
+	ToResponseMerchantAwardDeleteAt(MerchantAward *pbmerchant_award.MerchantAwardResponseDeleteAt) *response.MerchantAwardResponseDeleteAt
+	ToResponsesMerchantAwardDeleteAt(MerchantAwards []*pbmerchant_award.MerchantAwardResponseDeleteAt) []*response.MerchantAwardResponseDeleteAt
+	ToApiResponseMerchantAwardDeleteAt(pbResponse *pbmerchant_award.ApiResponseMerchantAwardDeleteAt) *response.ApiResponseMerchantAwardDeleteAt
 }

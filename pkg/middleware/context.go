@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/MamangRust/monolith-ecommerce-pkg/logger"
-	"github.com/MamangRust/monolith-ecommerce-pkg/randomstring"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/logger"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/randomstring"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
 )

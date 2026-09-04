@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/MamangRust/monolith-ecommerce-shared/cache"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/cache"
 	"github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/model"
 )
 
@@ -27,11 +27,16 @@ func (c *cartQueryCache) GetCachedCarts(
 	request *model.FindAllCartInput,
 ) (*model.APIResponsePaginationCart, bool) {
 
+	var search string
+	if request.Search != nil {
+		search = *request.Search
+	}
+
 	key := fmt.Sprintf(
 		cartAllCacheKey,
 		request.Page,
 		request.PageSize,
-		request.Search,
+		search,
 	)
 
 	result, found := cache.GetFromCache[model.APIResponsePaginationCart](
@@ -56,11 +61,16 @@ func (c *cartQueryCache) SetCachedCarts(
 		return
 	}
 
+	var search string
+	if request.Search != nil {
+		search = *request.Search
+	}
+
 	key := fmt.Sprintf(
 		cartAllCacheKey,
 		request.Page,
 		request.PageSize,
-		request.Search,
+		search,
 	)
 
 	cache.SetToCache(ctx, c.store, key, resp, ttlDefault)

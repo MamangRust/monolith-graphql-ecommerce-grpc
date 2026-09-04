@@ -1,17 +1,17 @@
 package order_errors
 
 import (
-	"net/http"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/errors"
 
-	"github.com/MamangRust/monolith-ecommerce-shared/errors"
+	"google.golang.org/grpc/codes"
 )
 
 var (
-	ErrGrpcInvalidYear             = errors.NewGrpcError("Invalid year", http.StatusBadRequest)
-	ErrGrpcInvalidMonth            = errors.NewGrpcError("Invalid month", http.StatusBadRequest)
-	ErrGrpcFailedInvalidMerchantId = errors.NewGrpcError("Invalid merchant ID", http.StatusBadRequest)
-	ErrGrpcFailedInvalidId         = errors.NewGrpcError("Invalid ID", http.StatusBadRequest)
+	ErrGrpcInvalidYear             = errors.NewGrpcError("Invalid year", int(codes.InvalidArgument))
+	ErrGrpcInvalidMonth            = errors.NewGrpcError("Invalid month", int(codes.InvalidArgument))
+	ErrGrpcFailedInvalidMerchantId = errors.NewGrpcError("Invalid merchant ID", int(codes.InvalidArgument))
+	ErrGrpcFailedInvalidId         = errors.NewGrpcError("Invalid ID", int(codes.InvalidArgument))
 
-	ErrGrpcValidateCreateOrder = errors.NewGrpcError("validation failed: invalid create order request", http.StatusBadRequest)
-	ErrGrpcValidateUpdateOrder = errors.NewGrpcError("validation failed: invalid update order request", http.StatusBadRequest)
+	ErrGrpcValidateCreateOrder = errors.NewGrpcError("validation failed: invalid create order request", int(codes.InvalidArgument))
+	ErrGrpcValidateUpdateOrder = errors.NewGrpcError("validation failed: invalid update order request", int(codes.InvalidArgument))
 )

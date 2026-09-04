@@ -1,34 +1,35 @@
 package userapimapper
 
 import (
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/response"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/response"
+
+	pbuser "github.com/MamangRust/monolith-graphql-ecommerce-pb/user"
 )
 
 type UserBaseResponseMapper interface {
 	// Converts a single user response into an API response.
-	ToApiResponseUser(pbResponse *pb.ApiResponseUser) *response.ApiResponseUser
+	ToApiResponseUser(pbResponse *pbuser.ApiResponseUser) *response.ApiResponseUser
 }
 
 type UserQueryResponseMapper interface {
 	UserBaseResponseMapper
 
 	// Converts paginated user records into an API response.
-	ToApiResponsePaginationUser(pbResponse *pb.ApiResponsePaginationUser) *response.ApiResponsePaginationUser
+	ToApiResponsePaginationUser(pbResponse *pbuser.ApiResponsePaginationUser) *response.ApiResponsePaginationUser
 
 	// Converts paginated soft-deleted users into an API response.
-	ToApiResponsePaginationUserDeleteAt(pbResponse *pb.ApiResponsePaginationUserDeleteAt) *response.ApiResponsePaginationUserDeleteAt
+	ToApiResponsePaginationUserDeleteAt(pbResponse *pbuser.ApiResponsePaginationUserDeleteAt) *response.ApiResponsePaginationUserDeleteAt
 }
 
 type UserCommandResponseMapper interface {
 	UserBaseResponseMapper
 
 	// Converts a soft-deleted user response into an API response.
-	ToApiResponseUserDeleteAt(pbResponse *pb.ApiResponseUserDeleteAt) *response.ApiResponseUserDeleteAt
+	ToApiResponseUserDeleteAt(pbResponse *pbuser.ApiResponseUserDeleteAt) *response.ApiResponseUserDeleteAt
 
 	// Converts a permanently deleted user response into an API response.
-	ToApiResponseUserDelete(pbResponse *pb.ApiResponseUserDelete) *response.ApiResponseUserDelete
+	ToApiResponseUserDelete(pbResponse *pbuser.ApiResponseUserDelete) *response.ApiResponseUserDelete
 
 	// Converts all user records into an API response.
-	ToApiResponseUserAll(pbResponse *pb.ApiResponseUserAll) *response.ApiResponseUserAll
+	ToApiResponseUserAll(pbResponse *pbuser.ApiResponseUserAll) *response.ApiResponseUserAll
 }

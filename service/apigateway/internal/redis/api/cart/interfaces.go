@@ -18,3 +18,7 @@ type CartQueryCache interface {
 		response *model.APIResponsePaginationCart,
 	)
 }
+
+type CartCommandCache interface {
+	InvalidateCartsCache(ctx context.Context)
+}

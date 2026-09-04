@@ -2,7 +2,7 @@ package merchant_document_errors
 
 import (
 	"github.com/labstack/echo/v4"
-	"github.com/MamangRust/monolith-ecommerce-shared/errors"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/errors"
 )
 
 func ErrApiFailedFindAllMerchantDocuments(c echo.Context) error {

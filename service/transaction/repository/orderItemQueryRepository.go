@@ -3,23 +3,24 @@ package repository
 import (
 	"context"
 
-	db "github.com/MamangRust/monolith-ecommerce-pkg/database/schema"
-	orderitem_errors "github.com/MamangRust/monolith-ecommerce-shared/errors/order_item_errors"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
+	orderitem_errors "github.com/MamangRust/monolith-graphql-ecommerce-shared/errors/order_item_errors"
+
+	pborder_item "github.com/MamangRust/monolith-graphql-ecommerce-pb/order_item"
 )
 
 type orderItemRepository struct {
-	client pb.OrderItemQueryServiceClient
+	client pborder_item.OrderItemQueryServiceClient
 }
 
-func NewOrderItemRepository(client pb.OrderItemQueryServiceClient) *orderItemRepository {
+func NewOrderItemRepository(client pborder_item.OrderItemQueryServiceClient) *orderItemRepository {
 	return &orderItemRepository{
 		client: client,
 	}
 }
 
 func (r *orderItemRepository) FindOrderItemByOrder(ctx context.Context, order_id int) ([]*db.GetOrderItemsByOrderRow, error) {
-	res, err := r.client.FindOrderItemByOrder(ctx, &pb.FindByIdOrderItemRequest{Id: int32(order_id)})
+	res, err := r.client.FindOrderItemByOrder(ctx, &pborder_item.FindByIdOrderItemRequest{Id: int32(order_id)})
 	if err != nil {
 		return nil, orderitem_errors.ErrFindOrderItemByOrder.WithInternal(err)
 	}

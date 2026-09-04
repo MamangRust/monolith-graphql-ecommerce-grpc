@@ -3,11 +3,10 @@ package repository
 import (
 	"context"
 
-	db "github.com/MamangRust/monolith-ecommerce-pkg/database/schema"
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/requests"
-	merchant_errors "github.com/MamangRust/monolith-ecommerce-shared/errors/merchant"
+	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/requests"
+	merchant_errors "github.com/MamangRust/monolith-graphql-ecommerce-shared/errors/merchant"
 )
-
 
 type merchantCommandRepository struct {
 	db *db.Queries
@@ -38,7 +37,6 @@ func (r *merchantCommandRepository) Create(
 		return nil, merchant_errors.ErrCreateMerchant.WithInternal(err)
 	}
 
-
 	return merchant, nil
 }
 
@@ -59,7 +57,6 @@ func (r *merchantCommandRepository) Update(ctx context.Context, request *request
 		return nil, merchant_errors.ErrUpdateMerchant.WithInternal(err)
 	}
 
-
 	return res, nil
 }
 
@@ -69,7 +66,6 @@ func (r *merchantCommandRepository) Trash(ctx context.Context, merchant_id int) 
 	if err != nil {
 		return nil, merchant_errors.ErrTrashedMerchant.WithInternal(err)
 	}
-
 
 	return res, nil
 }
@@ -81,7 +77,6 @@ func (r *merchantCommandRepository) Restore(ctx context.Context, merchant_id int
 		return nil, merchant_errors.ErrRestoreMerchant.WithInternal(err)
 	}
 
-
 	return res, nil
 }
 
@@ -91,7 +86,6 @@ func (r *merchantCommandRepository) DeletePermanent(ctx context.Context, Merchan
 	if err != nil {
 		return false, merchant_errors.ErrDeleteMerchantPermanent.WithInternal(err)
 	}
-
 
 	return true, nil
 }
@@ -126,7 +120,6 @@ func (r *merchantCommandRepository) UpdateStatus(ctx context.Context, request *r
 	if err != nil {
 		return nil, merchant_errors.ErrMerchantInternal.WithInternal(err)
 	}
-
 
 	return res, nil
 }

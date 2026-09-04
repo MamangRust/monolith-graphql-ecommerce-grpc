@@ -10021,6 +10021,7 @@ input DeleteCartInput {
 }
 
 input DeleteCartsInput {
+  user_id: Int!
   cart_ids: [Int!]!
 }
 
@@ -54841,13 +54842,20 @@ func (ec *executionContext) unmarshalInputDeleteCartsInput(ctx context.Context, 
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"cart_ids"}
+	fieldsInOrder := [...]string{"user_id", "cart_ids"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
 			continue
 		}
 		switch k {
+		case "user_id":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("user_id"))
+			data, err := ec.unmarshalNInt2int32(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.UserID = data
 		case "cart_ids":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("cart_ids"))
 			data, err := ec.unmarshalNInt2ᚕint32ᚄ(ctx, v)

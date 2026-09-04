@@ -1,9 +1,10 @@
 package merchantdetailapimapper
 
 import (
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/response"
-	paginationapimapper "github.com/MamangRust/monolith-ecommerce-shared/mapper/pagination"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/response"
+	paginationapimapper "github.com/MamangRust/monolith-graphql-ecommerce-shared/mapper/pagination"
+
+	pbmerchant_detail "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant_detail"
 )
 
 type merchantDetailCommandResponseMapper struct{}
@@ -12,10 +13,8 @@ func NewMerchantDetailCommandResponseMapper() MerchantDetailCommandResponseMappe
 	return &merchantDetailCommandResponseMapper{}
 }
 
-func (m *merchantDetailCommandResponseMapper) ToResponseMerchantDetail(merchant *pb.MerchantDetailResponse) *response.MerchantDetailResponse {
-	if merchant == nil {
-		return nil
-	}
+func (m *merchantDetailCommandResponseMapper) ToResponseMerchantDetail(merchant *pbmerchant_detail.MerchantDetailResponse) *response.MerchantDetailResponse {
+	if merchant == nil { return nil }
 	return &response.MerchantDetailResponse{
 		ID:               int(merchant.Id),
 		MerchantID:       int(merchant.MerchantId),
@@ -30,10 +29,8 @@ func (m *merchantDetailCommandResponseMapper) ToResponseMerchantDetail(merchant 
 	}
 }
 
-func (m *merchantDetailCommandResponseMapper) ToResponseMerchantDetailRelation(merchant *pb.MerchantDetailResponse) *response.MerchantDetailResponse {
-	if merchant == nil {
-		return nil
-	}
+func (m *merchantDetailCommandResponseMapper) ToResponseMerchantDetailRelation(merchant *pbmerchant_detail.MerchantDetailResponse) *response.MerchantDetailResponse {
+	if merchant == nil { return nil }
 	var socialMediaLinks []*response.MerchantSocialMediaLinkResponse
 	for _, sm := range merchant.SocialMediaLinks {
 		socialMediaLinks = append(socialMediaLinks, &response.MerchantSocialMediaLinkResponse{
@@ -57,7 +54,7 @@ func (m *merchantDetailCommandResponseMapper) ToResponseMerchantDetailRelation(m
 	}
 }
 
-func (m *merchantDetailCommandResponseMapper) ToResponsesMerchantDetail(merchants []*pb.MerchantDetailResponse) []*response.MerchantDetailResponse {
+func (m *merchantDetailCommandResponseMapper) ToResponsesMerchantDetail(merchants []*pbmerchant_detail.MerchantDetailResponse) []*response.MerchantDetailResponse {
 	var mappedMerchants []*response.MerchantDetailResponse
 	for _, merchant := range merchants {
 		mappedMerchants = append(mappedMerchants, m.ToResponseMerchantDetailRelation(merchant))
@@ -65,10 +62,8 @@ func (m *merchantDetailCommandResponseMapper) ToResponsesMerchantDetail(merchant
 	return mappedMerchants
 }
 
-func (m *merchantDetailCommandResponseMapper) ToResponseMerchantDetailDeleteAt(merchant *pb.MerchantDetailResponseDeleteAt) *response.MerchantDetailResponseDeleteAt {
-	if merchant == nil {
-		return nil
-	}
+func (m *merchantDetailCommandResponseMapper) ToResponseMerchantDetailDeleteAt(merchant *pbmerchant_detail.MerchantDetailResponseDeleteAt) *response.MerchantDetailResponseDeleteAt {
+	if merchant == nil { return nil }
 	var deletedAt string
 	if merchant.DeletedAt != nil {
 		deletedAt = merchant.DeletedAt.Value
@@ -98,7 +93,7 @@ func (m *merchantDetailCommandResponseMapper) ToResponseMerchantDetailDeleteAt(m
 	}
 }
 
-func (m *merchantDetailCommandResponseMapper) ToResponsesMerchantDetailDeleteAt(merchants []*pb.MerchantDetailResponseDeleteAt) []*response.MerchantDetailResponseDeleteAt {
+func (m *merchantDetailCommandResponseMapper) ToResponsesMerchantDetailDeleteAt(merchants []*pbmerchant_detail.MerchantDetailResponseDeleteAt) []*response.MerchantDetailResponseDeleteAt {
 	var mappedMerchants []*response.MerchantDetailResponseDeleteAt
 	for _, merchant := range merchants {
 		mappedMerchants = append(mappedMerchants, m.ToResponseMerchantDetailDeleteAt(merchant))
@@ -106,7 +101,7 @@ func (m *merchantDetailCommandResponseMapper) ToResponsesMerchantDetailDeleteAt(
 	return mappedMerchants
 }
 
-func (m *merchantDetailCommandResponseMapper) ToApiResponseMerchantDetail(pbResponse *pb.ApiResponseMerchantDetail) *response.ApiResponseMerchantDetail {
+func (m *merchantDetailCommandResponseMapper) ToApiResponseMerchantDetail(pbResponse *pbmerchant_detail.ApiResponseMerchantDetail) *response.ApiResponseMerchantDetail {
 	return &response.ApiResponseMerchantDetail{
 		Status:  pbResponse.Status,
 		Message: pbResponse.Message,
@@ -114,7 +109,7 @@ func (m *merchantDetailCommandResponseMapper) ToApiResponseMerchantDetail(pbResp
 	}
 }
 
-func (m *merchantDetailCommandResponseMapper) ToApiResponseMerchantDetailDeleteAt(pbResponse *pb.ApiResponseMerchantDetailDeleteAt) *response.ApiResponseMerchantDetailDeleteAt {
+func (m *merchantDetailCommandResponseMapper) ToApiResponseMerchantDetailDeleteAt(pbResponse *pbmerchant_detail.ApiResponseMerchantDetailDeleteAt) *response.ApiResponseMerchantDetailDeleteAt {
 	return &response.ApiResponseMerchantDetailDeleteAt{
 		Status:  pbResponse.Status,
 		Message: pbResponse.Message,
@@ -122,7 +117,7 @@ func (m *merchantDetailCommandResponseMapper) ToApiResponseMerchantDetailDeleteA
 	}
 }
 
-func (m *merchantDetailCommandResponseMapper) ToApiResponsePaginationMerchantDetailDeleteAt(pbResponse *pb.ApiResponsePaginationMerchantDetailDeleteAt) *response.ApiResponsePaginationMerchantDetailDeleteAt {
+func (m *merchantDetailCommandResponseMapper) ToApiResponsePaginationMerchantDetailDeleteAt(pbResponse *pbmerchant_detail.ApiResponsePaginationMerchantDetailDeleteAt) *response.ApiResponsePaginationMerchantDetailDeleteAt {
 	return &response.ApiResponsePaginationMerchantDetailDeleteAt{
 		Status:     pbResponse.Status,
 		Message:    pbResponse.Message,

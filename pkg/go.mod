@@ -1,11 +1,11 @@
-module github.com/MamangRust/monolith-ecommerce-pkg
+module github.com/MamangRust/monolith-graphql-ecommerce-pkg
 
 go 1.25.0
 
 require (
 	github.com/IBM/sarama v1.46.3
-	github.com/MamangRust/monolith-ecommerce-shared v1.0.20
-	github.com/golang-jwt/jwt/v5 v5.3.1
+	github.com/MamangRust/monolith-graphql-ecommerce-shared v1.0.20
+	github.com/golang-jwt/jwt/v5 v5.2.2
 	github.com/google/uuid v1.6.0
 	github.com/gosimple/slug v1.15.0
 	github.com/grafana/pyroscope-go v1.2.8
@@ -85,4 +85,10 @@ require (
 	google.golang.org/genproto/googleapis/api v0.0.0-20260401024825-9d38bb4040a9 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20260401024825-9d38bb4040a9 // indirect
 	google.golang.org/protobuf v1.36.11 // indirect
+)
+
+replace (
+	github.com/MamangRust/monolith-graphql-ecommerce-pb => ../pb
+	github.com/MamangRust/monolith-graphql-ecommerce-pkg => ../pkg
+	github.com/MamangRust/monolith-graphql-ecommerce-shared => ../shared
 )

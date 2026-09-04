@@ -8,11 +8,11 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/requests"
-	sharedErrors "github.com/MamangRust/monolith-ecommerce-shared/errors"
 	mycontext "github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/context"
 	"github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/model"
 	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/requests"
+	sharedErrors "github.com/MamangRust/monolith-graphql-ecommerce-shared/errors"
 )
 
 // VerifyCode is the resolver for the verifyCode field.

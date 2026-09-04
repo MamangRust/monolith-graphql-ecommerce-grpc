@@ -3,16 +3,19 @@ package apps
 import (
 	"fmt"
 
-	"github.com/MamangRust/monolith-ecommerce-pkg/server"
-	"github.com/MamangRust/monolith-ecommerce-shared/observability"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
 	"github.com/MamangRust/monolith-graphql-ecommerce-product/cache"
 	"github.com/MamangRust/monolith-graphql-ecommerce-product/handler"
 	"github.com/MamangRust/monolith-graphql-ecommerce-product/repository"
 	"github.com/MamangRust/monolith-graphql-ecommerce-product/service"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/server"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/observability"
 	"github.com/spf13/viper"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
+
+	pbcategory "github.com/MamangRust/monolith-graphql-ecommerce-pb/category"
+	pbmerchant "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant"
+	pbproduct "github.com/MamangRust/monolith-graphql-ecommerce-pb/product"
 )
 
 func NewServer(cfg *server.Config) (*server.GRPCServer, error) {
@@ -27,7 +30,7 @@ func NewServer(cfg *server.Config) (*server.GRPCServer, error) {
 	if err != nil {
 		return nil, fmt.Errorf("failed to connect to category service: %w", err)
 	}
-	categoryQueryClient := pb.NewCategoryQueryServiceClient(categoryConn)
+	categoryQueryClient := pbcategory.NewCategoryQueryServiceClient(categoryConn)
 
 	merchantAddr := viper.GetString("GRPC_MERCHANT_ADDR")
 
@@ -35,7 +38,7 @@ func NewServer(cfg *server.Config) (*server.GRPCServer, error) {
 	if err != nil {
 		return nil, fmt.Errorf("failed to connect to merchant service: %w", err)
 	}
-	merchantQueryClient := pb.NewMerchantQueryServiceClient(merchantConn)
+	merchantQueryClient := pbmerchant.NewMerchantQueryServiceClient(merchantConn)
 
 	repos := repository.NewRepositories(srv.DB, categoryQueryClient, merchantQueryClient)
 	obs, _ := observability.NewObservability("product-server", srv.Logger)
@@ -51,8 +54,8 @@ func NewServer(cfg *server.Config) (*server.GRPCServer, error) {
 	h := handler.NewHandler(&handler.Deps{Service: svc, Logger: srv.Logger})
 
 	srv.RegisterServices = func(gs *grpc.Server) {
-		pb.RegisterProductQueryServiceServer(gs, h.ProductQuery)
-		pb.RegisterProductCommandServiceServer(gs, h.ProductCommand)
+		pbproduct.RegisterProductQueryServiceServer(gs, h.ProductQuery)
+		pbproduct.RegisterProductCommandServiceServer(gs, h.ProductCommand)
 	}
 
 	return srv, nil

@@ -1,7 +1,7 @@
 package user_errors
 
 import (
-	"github.com/MamangRust/monolith-ecommerce-shared/errors"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/errors"
 )
 
 var (

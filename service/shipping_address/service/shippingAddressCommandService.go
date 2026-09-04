@@ -3,12 +3,12 @@ package service
 import (
 	"context"
 
-	db "github.com/MamangRust/monolith-ecommerce-pkg/database/schema"
-	"github.com/MamangRust/monolith-ecommerce-pkg/logger"
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/requests"
-	"github.com/MamangRust/monolith-ecommerce-shared/errorhandler"
-	shipping_address_errors "github.com/MamangRust/monolith-ecommerce-shared/errors/shipping_address_errors"
-	"github.com/MamangRust/monolith-ecommerce-shared/observability"
+	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/logger"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/requests"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/errorhandler"
+	shipping_address_errors "github.com/MamangRust/monolith-graphql-ecommerce-shared/errors/shipping_address_errors"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/observability"
 	"github.com/MamangRust/monolith-graphql-ecommerce-shipping-address/cache"
 	"github.com/MamangRust/monolith-graphql-ecommerce-shipping-address/repository"
 	"go.opentelemetry.io/otel/attribute"

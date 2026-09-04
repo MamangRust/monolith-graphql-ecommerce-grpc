@@ -2,19 +2,16 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"log"
-	"net/http"
 
-	"github.com/MamangRust/monolith-ecommerce-pkg/dotenv"
-	"github.com/MamangRust/monolith-ecommerce-pkg/kafka"
-	"github.com/MamangRust/monolith-ecommerce-pkg/logger"
-	otel_pkg "github.com/MamangRust/monolith-ecommerce-pkg/otel"
 	"github.com/MamangRust/monolith-graphql-ecommerce-email/internal/config"
 	"github.com/MamangRust/monolith-graphql-ecommerce-email/internal/handler"
 	"github.com/MamangRust/monolith-graphql-ecommerce-email/internal/mailer"
 	"github.com/MamangRust/monolith-graphql-ecommerce-email/internal/metrics"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/dotenv"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/kafka"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/logger"
+	otel_pkg "github.com/MamangRust/monolith-graphql-ecommerce-pkg/otel"
 	"github.com/spf13/viper"
 )
 
@@ -63,14 +60,9 @@ func main() {
 		SMTPPass:     viper.GetString("SMTP_PASS"),
 	}
 
-	metricsAddr := fmt.Sprintf(":%s", viper.GetString("METRIC_EMAIL_ADDR"))
-
-	metrics.Register()
-
-	go func() {
-		http.Handle("/metrics", promhttp.Handler())
-		log.Fatal(http.ListenAndServe(metricsAddr, nil))
-	}()
+	if err := metrics.Register(); err != nil {
+		log.Fatalf("Failed to register metrics: %v", err)
+	}
 
 	m := mailer.NewMailer(
 		ctx,
@@ -80,7 +72,10 @@ func main() {
 		cfg.SMTPPass,
 	)
 
-	h := handler.NewEmailHandler(ctx, logger, m)
+	h, err := handler.NewEmailHandler(ctx, logger, m)
+	if err != nil {
+		log.Fatalf("Error creating email handler: %v", err)
+	}
 
 	myKafka := kafka.NewKafka(logger, cfg.KafkaBrokers)
 

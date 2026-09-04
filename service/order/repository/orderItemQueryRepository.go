@@ -3,17 +3,18 @@ package repository
 import (
 	"context"
 
-	db "github.com/MamangRust/monolith-ecommerce-pkg/database/schema"
-	order_item_errors "github.com/MamangRust/monolith-ecommerce-shared/errors/order_item_errors"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
+	order_item_errors "github.com/MamangRust/monolith-graphql-ecommerce-shared/errors/order_item_errors"
+
+	pborder_item "github.com/MamangRust/monolith-graphql-ecommerce-pb/order_item"
 )
 
 type orderItemQueryRepository struct {
-	queryClient   pb.OrderItemQueryServiceClient
-	commandClient pb.OrderItemCommandServiceClient
+	queryClient   pborder_item.OrderItemQueryServiceClient
+	commandClient pborder_item.OrderItemCommandServiceClient
 }
 
-func NewOrderItemQueryRepository(queryClient pb.OrderItemQueryServiceClient, commandClient pb.OrderItemCommandServiceClient) *orderItemQueryRepository {
+func NewOrderItemQueryRepository(queryClient pborder_item.OrderItemQueryServiceClient, commandClient pborder_item.OrderItemCommandServiceClient) *orderItemQueryRepository {
 	return &orderItemQueryRepository{
 		queryClient:   queryClient,
 		commandClient: commandClient,
@@ -21,7 +22,7 @@ func NewOrderItemQueryRepository(queryClient pb.OrderItemQueryServiceClient, com
 }
 
 func (r *orderItemQueryRepository) FindOrderItemByOrder(ctx context.Context, order_id int) ([]*db.GetOrderItemsByOrderRow, error) {
-	res, err := r.queryClient.FindOrderItemByOrder(ctx, &pb.FindByIdOrderItemRequest{Id: int32(order_id)})
+	res, err := r.queryClient.FindOrderItemByOrder(ctx, &pborder_item.FindByIdOrderItemRequest{Id: int32(order_id)})
 	if err != nil {
 		return nil, order_item_errors.ErrFindOrderItemByOrder.WithInternal(err)
 	}
@@ -41,7 +42,7 @@ func (r *orderItemQueryRepository) FindOrderItemByOrder(ctx context.Context, ord
 }
 
 func (r *orderItemQueryRepository) CalculateTotalPrice(ctx context.Context, order_id int) (*int32, error) {
-	res, err := r.commandClient.CalculateTotalPrice(ctx, &pb.CalculateTotalPriceRequest{OrderId: int32(order_id)})
+	res, err := r.commandClient.CalculateTotalPrice(ctx, &pborder_item.CalculateTotalPriceRequest{OrderId: int32(order_id)})
 	if err != nil {
 		return nil, order_item_errors.ErrCalculateTotalPrice.WithInternal(err)
 	}

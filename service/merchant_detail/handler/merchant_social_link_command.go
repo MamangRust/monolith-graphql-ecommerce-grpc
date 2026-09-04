@@ -3,121 +3,78 @@ package handler
 import (
 	"context"
 
-	"github.com/MamangRust/monolith-ecommerce-pkg/logger"
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/requests"
-	"github.com/MamangRust/monolith-ecommerce-shared/errors"
-	merchantsociallink_errors "github.com/MamangRust/monolith-ecommerce-shared/errors/merchant_social_link_errors"
 	"github.com/MamangRust/monolith-graphql-ecommerce-merchant_detail/service"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/logger"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/requests"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/errors"
+	merchantdetail_errors "github.com/MamangRust/monolith-graphql-ecommerce-shared/errors/merchant_detail"
+
+	pbmerchant_social_link "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant_social_link"
 )
 
 type merchantSocialLinkCommandHandler struct {
-	pb.UnimplementedMerchantSocialLinkServiceServer
+	pbmerchant_social_link.UnimplementedMerchantSocialCommandServiceServer
 	MerchantSocialLinkCommand service.MerchantSocialLinkCommandService
-	MerchantDetailQuery       service.MerchantDetailQueryService
 	logger                    logger.LoggerInterface
 }
 
-func NewMerchantSocialLinkCommandHandler(
-	svc service.MerchantSocialLinkCommandService,
-	querySvc service.MerchantDetailQueryService,
-	logger logger.LoggerInterface,
-) MerchantSocialLinkCommandHandler {
+func NewMerchantSocialLinkCommandHandler(svc service.MerchantSocialLinkCommandService, logger logger.LoggerInterface) MerchantSocialLinkCommandHandler {
 	return &merchantSocialLinkCommandHandler{
 		MerchantSocialLinkCommand: svc,
-		MerchantDetailQuery:       querySvc,
 		logger:                    logger,
 	}
 }
 
-func (s *merchantSocialLinkCommandHandler) CreateMerchantSocialLink(ctx context.Context, request *pb.CreateMerchantSocialInput) (*pb.ApiResponseMerchantSocialMediaLink, error) {
-	if request.MerchantDetailId <= 0 {
-		return nil, merchantsociallink_errors.ErrGrpcMerchantSocialLinkInvalidId
-	}
-	if len(request.SocialLinks) == 0 {
-		return nil, merchantsociallink_errors.ErrGrpcValidateCreateMerchantSocialLink
-	}
-
-	socialLinks := make([]*requests.CreateMerchantSocialRequest, 0, len(request.SocialLinks))
-	for _, link := range request.SocialLinks {
-		socialLinks = append(socialLinks, &requests.CreateMerchantSocialRequest{
-			Platform: link.Platform,
-			Url:      link.Url,
-		})
-	}
-
-	req := &requests.CreateBatchMerchantSocialRequest{
-		MerchantDetailID: int(request.MerchantDetailId),
-		SocialLinks:      socialLinks,
+func (s *merchantSocialLinkCommandHandler) Create(ctx context.Context, request *pbmerchant_social_link.CreateMerchantSocialRequest) (*pbmerchant_social_link.ApiResponseMerchantSocial, error) {
+	merchantDetailID := int(request.GetMerchantDetailId())
+	req := &requests.CreateMerchantSocialRequest{
+		MerchantDetailID: &merchantDetailID,
+		Platform:         request.GetPlatform(),
+		Url:              request.GetUrl(),
 	}
 
 	if err := req.Validate(); err != nil {
-		return nil, merchantsociallink_errors.ErrGrpcValidateCreateMerchantSocialLink
+		return nil, merchantdetail_errors.ErrGrpcValidateCreateMerchantDetail
 	}
 
-	createdLinks, err := s.MerchantSocialLinkCommand.CreateSocialLink(ctx, req)
+	link, err := s.MerchantSocialLinkCommand.Create(ctx, req)
 	if err != nil {
 		return nil, errors.ToGrpcError(err)
 	}
 
-	protoLinks := make([]*pb.MerchantSocialMediaLinkResponse, 0, len(createdLinks))
-	for _, link := range createdLinks {
-		protoLinks = append(protoLinks, &pb.MerchantSocialMediaLinkResponse{
-			Id:       int32(link.MerchantSocialID),
-			Platform: link.Platform,
-			Url:      link.Url,
-		})
-	}
-
-	return &pb.ApiResponseMerchantSocialMediaLink{
+	return &pbmerchant_social_link.ApiResponseMerchantSocial{
 		Status:  "success",
-		Message: "Successfully created merchant social links",
-		Data:    protoLinks,
+		Message: "Successfully created merchant social link",
+		Data:    mapToProtoMerchantSocialLinkResponse(link),
 	}, nil
 }
 
-func (s *merchantSocialLinkCommandHandler) UpdateMerchantSocialLink(ctx context.Context, request *pb.UpdateMerchantSocialInput) (*pb.ApiResponseMerchantSocialMediaLink, error) {
-	if request.MerchantDetailId <= 0 {
-		return nil, merchantsociallink_errors.ErrGrpcMerchantSocialLinkInvalidId
-	}
-	if len(request.SocialLinks) == 0 {
-		return nil, merchantsociallink_errors.ErrGrpcValidateUpdateMerchantSocialLink
+func (s *merchantSocialLinkCommandHandler) Update(ctx context.Context, request *pbmerchant_social_link.UpdateMerchantSocialRequest) (*pbmerchant_social_link.ApiResponseMerchantSocial, error) {
+	id := int(request.GetId())
+	if id == 0 {
+		return nil, merchantdetail_errors.ErrGrpcInvalidMerchantDetailId
 	}
 
-	socialLinks := make([]*requests.UpdateMerchantSocialRequest, 0, len(request.SocialLinks))
-	for _, link := range request.SocialLinks {
-		socialLinks = append(socialLinks, &requests.UpdateMerchantSocialRequest{
-			Platform: link.Platform,
-			Url:      link.Url,
-		})
-	}
-
-	req := &requests.UpdateBatchMerchantSocialRequest{
-		MerchantDetailID: int(request.MerchantDetailId),
-		SocialLinks:      socialLinks,
+	merchantDetailID := int(request.GetMerchantDetailId())
+	req := &requests.UpdateMerchantSocialRequest{
+		ID:               id,
+		MerchantDetailID: &merchantDetailID,
+		Platform:         request.GetPlatform(),
+		Url:              request.GetUrl(),
 	}
 
 	if err := req.Validate(); err != nil {
-		return nil, merchantsociallink_errors.ErrGrpcValidateUpdateMerchantSocialLink
+		return nil, merchantdetail_errors.ErrGrpcValidateUpdateMerchantDetail
 	}
 
-	updatedLinks, err := s.MerchantSocialLinkCommand.UpdateSocialLink(ctx, req)
+	link, err := s.MerchantSocialLinkCommand.Update(ctx, req)
 	if err != nil {
 		return nil, errors.ToGrpcError(err)
 	}
 
-	protoLinks := make([]*pb.MerchantSocialMediaLinkResponse, 0, len(updatedLinks))
-	for _, link := range updatedLinks {
-		protoLinks = append(protoLinks, &pb.MerchantSocialMediaLinkResponse{
-			Id:       int32(link.MerchantSocialID),
-			Platform: link.Platform,
-			Url:      link.Url,
-		})
-	}
-
-	return &pb.ApiResponseMerchantSocialMediaLink{
+	return &pbmerchant_social_link.ApiResponseMerchantSocial{
 		Status:  "success",
-		Message: "Successfully updated merchant social links",
-		Data:    protoLinks,
+		Message: "Successfully updated merchant social link",
+		Data:    mapToProtoMerchantSocialLinkResponse(link),
 	}, nil
 }

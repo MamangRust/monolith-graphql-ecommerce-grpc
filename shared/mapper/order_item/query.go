@@ -1,9 +1,10 @@
 package orderitemapimapper
 
 import (
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/response"
-	paginationapimapper "github.com/MamangRust/monolith-ecommerce-shared/mapper/pagination"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/response"
+	paginationapimapper "github.com/MamangRust/monolith-graphql-ecommerce-shared/mapper/pagination"
+
+	pborder_item "github.com/MamangRust/monolith-graphql-ecommerce-pb/order_item"
 )
 
 type orderItemQueryResponseMapper struct{}
@@ -12,10 +13,8 @@ func NewOrderItemQueryResponseMapper() OrderItemQueryResponseMapper {
 	return &orderItemQueryResponseMapper{}
 }
 
-func (o *orderItemQueryResponseMapper) ToResponseOrderItem(orderItem *pb.OrderItemResponse) *response.OrderItemResponse {
-	if orderItem == nil {
-		return nil
-	}
+func (o *orderItemQueryResponseMapper) ToResponseOrderItem(orderItem *pborder_item.OrderItemResponse) *response.OrderItemResponse {
+	if orderItem == nil { return nil }
 	return &response.OrderItemResponse{
 		ID:        int(orderItem.Id),
 		OrderID:   int(orderItem.OrderId),
@@ -27,7 +26,7 @@ func (o *orderItemQueryResponseMapper) ToResponseOrderItem(orderItem *pb.OrderIt
 	}
 }
 
-func (o *orderItemQueryResponseMapper) ToResponsesOrderItem(orderItems []*pb.OrderItemResponse) []*response.OrderItemResponse {
+func (o *orderItemQueryResponseMapper) ToResponsesOrderItem(orderItems []*pborder_item.OrderItemResponse) []*response.OrderItemResponse {
 	var mappedOrderItems []*response.OrderItemResponse
 	for _, orderItem := range orderItems {
 		mappedOrderItems = append(mappedOrderItems, o.ToResponseOrderItem(orderItem))
@@ -35,7 +34,7 @@ func (o *orderItemQueryResponseMapper) ToResponsesOrderItem(orderItems []*pb.Ord
 	return mappedOrderItems
 }
 
-func (o *orderItemQueryResponseMapper) ToApiResponseOrderItem(pbResponse *pb.ApiResponseOrderItem) *response.ApiResponseOrderItem {
+func (o *orderItemQueryResponseMapper) ToApiResponseOrderItem(pbResponse *pborder_item.ApiResponseOrderItem) *response.ApiResponseOrderItem {
 	return &response.ApiResponseOrderItem{
 		Status:  pbResponse.Status,
 		Message: pbResponse.Message,
@@ -43,7 +42,7 @@ func (o *orderItemQueryResponseMapper) ToApiResponseOrderItem(pbResponse *pb.Api
 	}
 }
 
-func (o *orderItemQueryResponseMapper) ToApiResponsesOrderItem(pbResponse *pb.ApiResponsesOrderItem) *response.ApiResponsesOrderItem {
+func (o *orderItemQueryResponseMapper) ToApiResponsesOrderItem(pbResponse *pborder_item.ApiResponsesOrderItem) *response.ApiResponsesOrderItem {
 	return &response.ApiResponsesOrderItem{
 		Status:  pbResponse.Status,
 		Message: pbResponse.Message,
@@ -51,7 +50,7 @@ func (o *orderItemQueryResponseMapper) ToApiResponsesOrderItem(pbResponse *pb.Ap
 	}
 }
 
-func (o *orderItemQueryResponseMapper) ToApiResponsePaginationOrderItem(pbResponse *pb.ApiResponsePaginationOrderItem) *response.ApiResponsePaginationOrderItem {
+func (o *orderItemQueryResponseMapper) ToApiResponsePaginationOrderItem(pbResponse *pborder_item.ApiResponsePaginationOrderItem) *response.ApiResponsePaginationOrderItem {
 	return &response.ApiResponsePaginationOrderItem{
 		Status:     pbResponse.Status,
 		Message:    pbResponse.Message,
@@ -60,7 +59,7 @@ func (o *orderItemQueryResponseMapper) ToApiResponsePaginationOrderItem(pbRespon
 	}
 }
 
-func (o *orderItemQueryResponseMapper) ToApiResponsePaginationOrderItemDeleteAt(pbResponse *pb.ApiResponsePaginationOrderItemDeleteAt) *response.ApiResponsePaginationOrderItemDeleteAt {
+func (o *orderItemQueryResponseMapper) ToApiResponsePaginationOrderItemDeleteAt(pbResponse *pborder_item.ApiResponsePaginationOrderItemDeleteAt) *response.ApiResponsePaginationOrderItemDeleteAt {
 	var mappedOrderItems []*response.OrderItemResponseDeleteAt
 	for _, orderItem := range pbResponse.Data {
 		var deletedAt string

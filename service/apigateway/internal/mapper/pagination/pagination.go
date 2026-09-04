@@ -2,10 +2,10 @@ package pagination
 
 import (
 	"github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/model"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	pbcommon "github.com/MamangRust/monolith-graphql-ecommerce-pb/common"
 )
 
-func MapPaginationMeta(meta *pb.PaginationMeta) *model.PaginationMeta {
+func MapPaginationMeta(meta *pbcommon.PaginationMeta) *model.PaginationMeta {
 	if meta == nil {
 		return nil
 	}

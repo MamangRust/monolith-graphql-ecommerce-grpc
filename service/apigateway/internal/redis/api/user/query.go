@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/MamangRust/monolith-ecommerce-shared/cache"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/cache"
 	"github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/model"
 )
 
@@ -16,8 +16,28 @@ func NewUserQueryCache(store *cache.CacheStore) UserQueryCache {
 	return &userQueryCache{store: store}
 }
 
+func userCachePagination(req *model.FindAllUserInput) (int32, int32, string) {
+	var page, pageSize int32
+	var search string
+
+	if req != nil {
+		if req.Page != nil {
+			page = *req.Page
+		}
+		if req.PageSize != nil {
+			pageSize = *req.PageSize
+		}
+		if req.Search != nil {
+			search = *req.Search
+		}
+	}
+
+	return page, pageSize, search
+}
+
 func (s *userQueryCache) GetCachedUsersCache(ctx context.Context, req *model.FindAllUserInput) (*model.APIResponsePaginationUser, bool) {
-	key := fmt.Sprintf(userAllCacheKey, *req.Page, *req.PageSize, *req.Search)
+	page, pageSize, search := userCachePagination(req)
+	key := fmt.Sprintf(userAllCacheKey, page, pageSize, search)
 
 	result, found := cache.GetFromCache[model.APIResponsePaginationUser](ctx, s.store, key)
 
@@ -33,13 +53,15 @@ func (s *userQueryCache) SetCachedUsersCache(ctx context.Context, req *model.Fin
 		return
 	}
 
-	key := fmt.Sprintf(userAllCacheKey, *req.Page, *req.PageSize, *req.Search)
+	page, pageSize, search := userCachePagination(req)
+	key := fmt.Sprintf(userAllCacheKey, page, pageSize, search)
 
 	cache.SetToCache(ctx, s.store, key, data, ttlDefault)
 }
 
 func (s *userQueryCache) GetCachedUserActiveCache(ctx context.Context, req *model.FindAllUserInput) (*model.APIResponsePaginationUserDeleteAt, bool) {
-	key := fmt.Sprintf(userActiveCacheKey, *req.Page, *req.PageSize, *req.Search)
+	page, pageSize, search := userCachePagination(req)
+	key := fmt.Sprintf(userActiveCacheKey, page, pageSize, search)
 
 	result, found := cache.GetFromCache[model.APIResponsePaginationUserDeleteAt](ctx, s.store, key)
 
@@ -55,13 +77,15 @@ func (s *userQueryCache) SetCachedUserActiveCache(ctx context.Context, req *mode
 		return
 	}
 
-	key := fmt.Sprintf(userActiveCacheKey, *req.Page, *req.PageSize, *req.Search)
+	page, pageSize, search := userCachePagination(req)
+	key := fmt.Sprintf(userActiveCacheKey, page, pageSize, search)
 
 	cache.SetToCache(ctx, s.store, key, data, ttlDefault)
 }
 
 func (s *userQueryCache) GetCachedUserTrashedCache(ctx context.Context, req *model.FindAllUserInput) (*model.APIResponsePaginationUserDeleteAt, bool) {
-	key := fmt.Sprintf(userTrashedCacheKey, *req.Page, *req.PageSize, *req.Search)
+	page, pageSize, search := userCachePagination(req)
+	key := fmt.Sprintf(userTrashedCacheKey, page, pageSize, search)
 
 	result, found := cache.GetFromCache[model.APIResponsePaginationUserDeleteAt](ctx, s.store, key)
 
@@ -77,7 +101,8 @@ func (s *userQueryCache) SetCachedUserTrashedCache(ctx context.Context, req *mod
 		return
 	}
 
-	key := fmt.Sprintf(userTrashedCacheKey, *req.Page, *req.PageSize, *req.Search)
+	page, pageSize, search := userCachePagination(req)
+	key := fmt.Sprintf(userTrashedCacheKey, page, pageSize, search)
 
 	cache.SetToCache(ctx, s.store, key, data, ttlDefault)
 }

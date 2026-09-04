@@ -2,12 +2,13 @@ package merchant_businessgraphqlmapper
 
 import (
 	"github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/model"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	pbmerchant "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant"
+	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant_business"
 )
 
 type MerchantBusinessGraphqlMapper interface {
-	ToGraphqlResponseMerchantBusinessDelete(res *pb.ApiResponseMerchantDelete) *model.APIResponseMerchantBusinessDelete
-	ToGraphqlResponseMerchantBusinessAll(res *pb.ApiResponseMerchantAll) *model.APIResponseMerchantBusinessAll
+	ToGraphqlResponseMerchantBusinessDelete(res *pbmerchant.ApiResponseMerchantDelete) *model.APIResponseMerchantBusinessDelete
+	ToGraphqlResponseMerchantBusinessAll(res *pbmerchant.ApiResponseMerchantAll) *model.APIResponseMerchantBusinessAll
 	ToGraphqlResponseMerchantBusiness(res *pb.ApiResponseMerchantBusiness) *model.APIResponseMerchantBusiness
 	ToGraphqlResponseMerchantBusinessDeleteAt(res *pb.ApiResponseMerchantBusinessDeleteAt) *model.APIResponseMerchantBusinessDeleteAt
 	ToGraphqlResponsesMerchantBusiness(res *pb.ApiResponsesMerchantBusiness) *model.APIResponsesMerchantBusiness

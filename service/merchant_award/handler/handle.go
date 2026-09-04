@@ -1,8 +1,8 @@
 package handler
 
 import (
-	"github.com/MamangRust/monolith-ecommerce-pkg/logger"
 	"github.com/MamangRust/monolith-graphql-ecommerce-merchant_award/service"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/logger"
 )
 
 type Deps struct {

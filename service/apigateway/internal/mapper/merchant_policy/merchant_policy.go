@@ -3,7 +3,8 @@ package merchant_policygraphqlmapper
 import (
 	graphqlmapper "github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/mapper/pagination"
 	"github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/model"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	pbmerchant "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant"
+	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant_policy"
 )
 
 type merchantPolicyResponseMapper struct{}
@@ -12,14 +13,14 @@ func NewMerchantPolicyResponseMapper() *merchantPolicyResponseMapper {
 	return &merchantPolicyResponseMapper{}
 }
 
-func (m *merchantPolicyResponseMapper) ToGraphqlResponseMerchantPolicyDelete(res *pb.ApiResponseMerchantDelete) *model.APIResponseMerchantPolicyDelete {
+func (m *merchantPolicyResponseMapper) ToGraphqlResponseMerchantPolicyDelete(res *pbmerchant.ApiResponseMerchantDelete) *model.APIResponseMerchantPolicyDelete {
 	return &model.APIResponseMerchantPolicyDelete{
 		Status:  res.Status,
 		Message: res.Message,
 	}
 }
 
-func (m *merchantPolicyResponseMapper) ToGraphqlResponseMerchantPolicyAll(res *pb.ApiResponseMerchantAll) *model.APIResponseMerchantPolicyAll {
+func (m *merchantPolicyResponseMapper) ToGraphqlResponseMerchantPolicyAll(res *pbmerchant.ApiResponseMerchantAll) *model.APIResponseMerchantPolicyAll {
 	return &model.APIResponseMerchantPolicyAll{
 		Status:  res.Status,
 		Message: res.Message,

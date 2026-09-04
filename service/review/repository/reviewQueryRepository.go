@@ -4,10 +4,11 @@ import (
 	"context"
 
 	"database/sql"
+	errorsstd "errors"
 
-	db "github.com/MamangRust/monolith-ecommerce-pkg/database/schema"
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/requests"
-	review_errors "github.com/MamangRust/monolith-ecommerce-shared/errors/review"
+	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/requests"
+	review_errors "github.com/MamangRust/monolith-graphql-ecommerce-shared/errors/review"
 )
 
 type reviewQueryRepository struct {
@@ -116,8 +117,8 @@ func (r *reviewQueryRepository) FindByID(ctx context.Context, id int) (*db.GetRe
 	res, err := r.db.GetReviewByID(ctx, int32(id))
 
 	if err != nil {
-		if err == sql.ErrNoRows {
-			return nil, review_errors.ErrReviewNotFound
+		if errorsstd.Is(err, sql.ErrNoRows) {
+			return nil, review_errors.ErrReviewNotFound.WithInternal(err)
 		}
 		return nil, review_errors.ErrFindReviewByID.WithInternal(err)
 	}

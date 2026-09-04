@@ -3,16 +3,18 @@ package apps
 import (
 	"fmt"
 
-	"github.com/MamangRust/monolith-ecommerce-pkg/server"
-	"github.com/MamangRust/monolith-ecommerce-shared/observability"
 	"github.com/MamangRust/monolith-graphql-ecommerce-merchant_award/cache"
 	"github.com/MamangRust/monolith-graphql-ecommerce-merchant_award/handler"
 	"github.com/MamangRust/monolith-graphql-ecommerce-merchant_award/repository"
 	"github.com/MamangRust/monolith-graphql-ecommerce-merchant_award/service"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/server"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/observability"
 	"github.com/spf13/viper"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
+
+	pbmerchant "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant"
+	pbmerchant_award "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant_award"
 )
 
 func NewServer(cfg *server.Config) (*server.GRPCServer, error) {
@@ -31,7 +33,7 @@ func NewServer(cfg *server.Config) (*server.GRPCServer, error) {
 		return nil, fmt.Errorf("failed to connect to merchant service: %w", err)
 	}
 
-	merchantQueryClient := pb.NewMerchantQueryServiceClient(merchantConn)
+	merchantQueryClient := pbmerchant.NewMerchantQueryServiceClient(merchantConn)
 
 	repos := repository.NewRepositories(srv.DB, merchantQueryClient)
 	observability, _ := observability.NewObservability("merchant_award-server", srv.Logger)
@@ -48,8 +50,8 @@ func NewServer(cfg *server.Config) (*server.GRPCServer, error) {
 	h := handler.NewHandler(&handler.Deps{Service: svc, Logger: srv.Logger})
 
 	srv.RegisterServices = func(gs *grpc.Server) {
-		pb.RegisterMerchantAwardQueryServiceServer(gs, h.MerchantAwardQuery)
-		pb.RegisterMerchantAwardCommandServiceServer(gs, h.MerchantAwardCommand)
+		pbmerchant_award.RegisterMerchantAwardQueryServiceServer(gs, h.MerchantAwardQuery)
+		pbmerchant_award.RegisterMerchantAwardCommandServiceServer(gs, h.MerchantAwardCommand)
 	}
 
 	return srv, nil

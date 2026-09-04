@@ -3,8 +3,8 @@ package service
 import (
 	"context"
 
-	db "github.com/MamangRust/monolith-ecommerce-pkg/database/schema"
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/requests"
+	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/requests"
 )
 
 type MerchantDetailQueryService interface {
@@ -25,11 +25,11 @@ type MerchantDetailCommandService interface {
 }
 
 type MerchantSocialLinkCommandService interface {
-	CreateSocialLink(ctx context.Context, req *requests.CreateBatchMerchantSocialRequest) ([]*db.CreateMerchantSocialMediaLinkRow, error)
-	UpdateSocialLink(ctx context.Context, req *requests.UpdateBatchMerchantSocialRequest) ([]*db.UpdateMerchantSocialMediaLinkRow, error)
-	TrashSocialLink(ctx context.Context, socialID int) (bool, error)
-	RestoreSocialLink(ctx context.Context, socialID int) (bool, error)
-	DeletePermanentSocialLink(ctx context.Context, socialID int) (bool, error)
-	RestoreAllSocialLinks(ctx context.Context) (bool, error)
-	DeleteAllSocialLinks(ctx context.Context) (bool, error)
+	Create(ctx context.Context, req *requests.CreateMerchantSocialRequest) (*db.CreateMerchantSocialMediaLinkRow, error)
+	Update(ctx context.Context, req *requests.UpdateMerchantSocialRequest) (*db.UpdateMerchantSocialMediaLinkRow, error)
+	Trash(ctx context.Context, socialID int) (bool, error)
+	Restore(ctx context.Context, socialID int) (bool, error)
+	DeletePermanent(ctx context.Context, socialID int) (bool, error)
+	RestoreAll(ctx context.Context) (bool, error)
+	DeleteAll(ctx context.Context) (bool, error)
 }

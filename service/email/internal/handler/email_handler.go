@@ -6,46 +6,78 @@ import (
 	"time"
 
 	"github.com/IBM/sarama"
-	"github.com/MamangRust/monolith-ecommerce-pkg/logger"
-	traceunic "github.com/MamangRust/monolith-ecommerce-pkg/trace_unic"
 	"github.com/MamangRust/monolith-graphql-ecommerce-email/internal/mailer"
 	"github.com/MamangRust/monolith-graphql-ecommerce-email/internal/metrics"
-	"github.com/prometheus/client_golang/prometheus"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/logger"
+	traceunic "github.com/MamangRust/monolith-graphql-ecommerce-pkg/trace_unic"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/codes"
+	"go.opentelemetry.io/otel/metric"
 	"go.opentelemetry.io/otel/trace"
 	"go.uber.org/zap"
 )
+
+// retryPublisher is implemented by *kafka.Kafka and lets the handlers publish
+// retry/DLQ messages with metadata headers (Phase 4).
+type retryPublisher interface {
+	SendMessageWithHeaders(ctx context.Context, topic, key string, value []byte, headers []sarama.RecordHeader) error
+}
 
 type emailHandler struct {
 	ctx             context.Context
 	trace           trace.Tracer
 	logger          logger.LoggerInterface
 	Mailer          *mailer.Mailer
-	requestCounter  *prometheus.CounterVec
-	requestDuration *prometheus.HistogramVec
+	requestCounter  metric.Int64Counter
+	requestDuration metric.Float64Histogram
 }
 
-func NewEmailHandler(ctx context.Context, logger logger.LoggerInterface, mailer *mailer.Mailer) *emailHandler {
-	requestCounter := prometheus.NewCounterVec(
-		prometheus.CounterOpts{
-			Name: "email_service_requests_total",
-			Help: "Total number of requests to the EmailService",
-		},
-		[]string{"method", "status"},
-	)
+// kafkaHeaderCarrier adapts sarama record headers to the OTel propagation
+// HeaderCarrier interface so trace context can be extracted.
+type kafkaHeaderCarrier []*sarama.RecordHeader
 
-	requestDuration := prometheus.NewHistogramVec(
-		prometheus.HistogramOpts{
-			Name:    "email_service_request_duration_seconds",
-			Help:    "Histogram of request durations for the EmailService",
-			Buckets: prometheus.DefBuckets,
-		},
-		[]string{"method", "status"},
-	)
+func (c kafkaHeaderCarrier) Get(key string) string {
+	for _, h := range c {
+		if h != nil && string(h.Key) == key {
+			return string(h.Value)
+		}
+	}
+	return ""
+}
 
-	prometheus.MustRegister(requestCounter, requestDuration)
+func (c kafkaHeaderCarrier) Set(key, value string) {
+	c = append(c, &sarama.RecordHeader{Key: []byte(key), Value: []byte(value)})
+}
+
+func (c kafkaHeaderCarrier) Keys() []string {
+	keys := make([]string, 0, len(c))
+	for _, h := range c {
+		if h != nil {
+			keys = append(keys, string(h.Key))
+		}
+	}
+	return keys
+}
+
+func NewEmailHandler(ctx context.Context, logger logger.LoggerInterface, mailer *mailer.Mailer) (*emailHandler, error) {
+	meter := otel.Meter("email-service")
+
+	requestCounter, err := meter.Int64Counter(
+		"email_service_requests_total",
+		metric.WithDescription("Total number of requests to the EmailService"),
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	requestDuration, err := meter.Float64Histogram(
+		"email_service_request_duration_seconds",
+		metric.WithDescription("Histogram of request durations for the EmailService"),
+	)
+	if err != nil {
+		return nil, err
+	}
 
 	return &emailHandler{
 		ctx:             ctx,
@@ -54,7 +86,7 @@ func NewEmailHandler(ctx context.Context, logger logger.LoggerInterface, mailer 
 		trace:           otel.Tracer("email-handler"),
 		requestCounter:  requestCounter,
 		requestDuration: requestDuration,
-	}
+	}, nil
 }
 
 func (h *emailHandler) Setup(_ sarama.ConsumerGroupSession) error   { return nil }
@@ -65,7 +97,7 @@ func (h *emailHandler) ConsumeClaim(sess sarama.ConsumerGroupSession, claim sara
 	status := "success"
 
 	defer func() {
-		h.recordMetrics("ConsumeClaim", status, start)
+		h.recordMetrics(h.ctx, "ConsumeClaim", status, start)
 	}()
 
 	_, span := h.trace.Start(h.ctx, "ConsumeClaim")
@@ -100,9 +132,9 @@ func (h *emailHandler) ConsumeClaim(sess sarama.ConsumerGroupSession, claim sara
 			span.SetStatus(codes.Error, "Failed to send email")
 			status = "failed_send_email"
 
-			metrics.EmailFailed.Inc()
+			metrics.EmailFailed.Add(h.ctx, 1)
 		} else {
-			metrics.EmailSent.Inc()
+			metrics.EmailSent.Add(h.ctx, 1)
 		}
 
 		sess.MarkMessage(msg, "")
@@ -110,7 +142,8 @@ func (h *emailHandler) ConsumeClaim(sess sarama.ConsumerGroupSession, claim sara
 	return nil
 }
 
-func (s *emailHandler) recordMetrics(method string, status string, start time.Time) {
-	s.requestCounter.WithLabelValues(method, status).Inc()
-	s.requestDuration.WithLabelValues(method, status).Observe(time.Since(start).Seconds())
+func (s *emailHandler) recordMetrics(ctx context.Context, method string, status string, start time.Time) {
+	attrs := metric.WithAttributes(attribute.String("method", method), attribute.String("status", status))
+	s.requestCounter.Add(ctx, 1, attrs)
+	s.requestDuration.Record(ctx, time.Since(start).Seconds(), attrs)
 }

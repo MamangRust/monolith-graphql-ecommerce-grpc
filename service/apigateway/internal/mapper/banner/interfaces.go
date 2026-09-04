@@ -2,7 +2,7 @@ package bannergraphqlmapper
 
 import (
 	"github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/model"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb/banner"
 )
 
 type BannerGraphqlMapper interface {

@@ -1,8 +1,10 @@
 package repository
 
 import (
-	db "github.com/MamangRust/monolith-ecommerce-pkg/database/schema"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
+
+	pbcategory "github.com/MamangRust/monolith-graphql-ecommerce-pb/category"
+	pbmerchant "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant"
 )
 
 type Repositories struct {
@@ -12,7 +14,7 @@ type Repositories struct {
 	MerchantQuery  MerchantQueryRepository
 }
 
-func NewRepositories(DB *db.Queries, categoryQueryClient pb.CategoryQueryServiceClient, merchantQueryClient pb.MerchantQueryServiceClient) *Repositories {
+func NewRepositories(DB *db.Queries, categoryQueryClient pbcategory.CategoryQueryServiceClient, merchantQueryClient pbmerchant.MerchantQueryServiceClient) *Repositories {
 	return &Repositories{
 		ProductQuery:   NewProductQueryRepository(DB),
 		ProductCommand: NewProductCommandRepository(DB),

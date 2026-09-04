@@ -4,10 +4,11 @@ import (
 	"context"
 
 	"database/sql"
+	errorsstd "errors"
 
-	db "github.com/MamangRust/monolith-ecommerce-pkg/database/schema"
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/requests"
-	merchantaward_errors "github.com/MamangRust/monolith-ecommerce-shared/errors/merchant_award"
+	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/requests"
+	merchantaward_errors "github.com/MamangRust/monolith-graphql-ecommerce-shared/errors/merchant_award"
 )
 
 type merchantAwardQueryRepository struct {
@@ -78,7 +79,7 @@ func (r *merchantAwardQueryRepository) FindByID(ctx context.Context, user_id int
 	res, err := r.db.GetMerchantCertificationOrAward(ctx, int32(user_id))
 
 	if err != nil {
-		if err == sql.ErrNoRows {
+		if errorsstd.Is(err, sql.ErrNoRows) {
 			return nil, merchantaward_errors.ErrMerchantAwardNotFound.WithInternal(err)
 		}
 		return nil, merchantaward_errors.ErrFindByIdMerchantAward.WithInternal(err)

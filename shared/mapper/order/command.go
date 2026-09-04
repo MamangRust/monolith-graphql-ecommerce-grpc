@@ -1,8 +1,9 @@
 package orderapimapper
 
 import (
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/response"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/response"
+
+	pborder "github.com/MamangRust/monolith-graphql-ecommerce-pb/order"
 )
 
 type orderCommandResponseMapper struct{}
@@ -11,10 +12,8 @@ func NewOrderCommandResponseMapper() OrderCommandResponseMapper {
 	return &orderCommandResponseMapper{}
 }
 
-func (o *orderCommandResponseMapper) ToResponseOrder(order *pb.OrderResponse) *response.OrderResponse {
-	if order == nil {
-		return nil
-	}
+func (o *orderCommandResponseMapper) ToResponseOrder(order *pborder.OrderResponse) *response.OrderResponse {
+	if order == nil { return nil }
 	return &response.OrderResponse{
 		ID:         int(order.Id),
 		MerchantID: int(order.MerchantId),
@@ -25,7 +24,7 @@ func (o *orderCommandResponseMapper) ToResponseOrder(order *pb.OrderResponse) *r
 	}
 }
 
-func (o *orderCommandResponseMapper) ToResponsesOrder(orders []*pb.OrderResponse) []*response.OrderResponse {
+func (o *orderCommandResponseMapper) ToResponsesOrder(orders []*pborder.OrderResponse) []*response.OrderResponse {
 	var mappedOrders []*response.OrderResponse
 	for _, order := range orders {
 		mappedOrders = append(mappedOrders, o.ToResponseOrder(order))
@@ -33,7 +32,7 @@ func (o *orderCommandResponseMapper) ToResponsesOrder(orders []*pb.OrderResponse
 	return mappedOrders
 }
 
-func (o *orderCommandResponseMapper) ToApiResponseOrder(pbResponse *pb.ApiResponseOrder) *response.ApiResponseOrder {
+func (o *orderCommandResponseMapper) ToApiResponseOrder(pbResponse *pborder.ApiResponseOrder) *response.ApiResponseOrder {
 	return &response.ApiResponseOrder{
 		Status:  pbResponse.Status,
 		Message: pbResponse.Message,
@@ -41,7 +40,7 @@ func (o *orderCommandResponseMapper) ToApiResponseOrder(pbResponse *pb.ApiRespon
 	}
 }
 
-func (o *orderCommandResponseMapper) ToResponseOrderDeleteAt(order *pb.OrderResponseDeleteAt) *response.OrderResponseDeleteAt {
+func (o *orderCommandResponseMapper) ToResponseOrderDeleteAt(order *pborder.OrderResponseDeleteAt) *response.OrderResponseDeleteAt {
 	var deletedAt string
 	if order.DeletedAt != nil {
 		deletedAt = order.DeletedAt.Value
@@ -58,7 +57,7 @@ func (o *orderCommandResponseMapper) ToResponseOrderDeleteAt(order *pb.OrderResp
 	}
 }
 
-func (o *orderCommandResponseMapper) ToResponsesOrderDeleteAt(orders []*pb.OrderResponseDeleteAt) []*response.OrderResponseDeleteAt {
+func (o *orderCommandResponseMapper) ToResponsesOrderDeleteAt(orders []*pborder.OrderResponseDeleteAt) []*response.OrderResponseDeleteAt {
 	var mappedOrders []*response.OrderResponseDeleteAt
 	for _, order := range orders {
 		mappedOrders = append(mappedOrders, o.ToResponseOrderDeleteAt(order))
@@ -66,7 +65,7 @@ func (o *orderCommandResponseMapper) ToResponsesOrderDeleteAt(orders []*pb.Order
 	return mappedOrders
 }
 
-func (o *orderCommandResponseMapper) ToApiResponseOrderDeleteAt(pbResponse *pb.ApiResponseOrderDeleteAt) *response.ApiResponseOrderDeleteAt {
+func (o *orderCommandResponseMapper) ToApiResponseOrderDeleteAt(pbResponse *pborder.ApiResponseOrderDeleteAt) *response.ApiResponseOrderDeleteAt {
 	return &response.ApiResponseOrderDeleteAt{
 		Status:  pbResponse.Status,
 		Message: pbResponse.Message,
@@ -74,14 +73,14 @@ func (o *orderCommandResponseMapper) ToApiResponseOrderDeleteAt(pbResponse *pb.A
 	}
 }
 
-func (o *orderCommandResponseMapper) ToApiResponseOrderDelete(pbResponse *pb.ApiResponseOrderDelete) *response.ApiResponseOrderDelete {
+func (o *orderCommandResponseMapper) ToApiResponseOrderDelete(pbResponse *pborder.ApiResponseOrderDelete) *response.ApiResponseOrderDelete {
 	return &response.ApiResponseOrderDelete{
 		Status:  pbResponse.Status,
 		Message: pbResponse.Message,
 	}
 }
 
-func (o *orderCommandResponseMapper) ToApiResponseOrderAll(pbResponse *pb.ApiResponseOrderAll) *response.ApiResponseOrderAll {
+func (o *orderCommandResponseMapper) ToApiResponseOrderAll(pbResponse *pborder.ApiResponseOrderAll) *response.ApiResponseOrderAll {
 	return &response.ApiResponseOrderAll{
 		Status:  pbResponse.Status,
 		Message: pbResponse.Message,

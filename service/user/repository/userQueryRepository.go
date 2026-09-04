@@ -5,10 +5,10 @@ import (
 	"database/sql"
 	"errors"
 
-	db "github.com/MamangRust/monolith-ecommerce-pkg/database/schema"
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/requests"
-	sharedErrors "github.com/MamangRust/monolith-ecommerce-shared/errors"
-	"github.com/MamangRust/monolith-ecommerce-shared/errors/user_errors"
+	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/requests"
+	sharedErrors "github.com/MamangRust/monolith-graphql-ecommerce-shared/errors"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/errors/user_errors"
 )
 
 

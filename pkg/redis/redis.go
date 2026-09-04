@@ -1,4 +1,4 @@
-package redis
+package redisclient
 
 import (
 	"fmt"
@@ -7,6 +7,7 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
+// Config represents the configuration for the Redis client.
 type Config struct {
 	Host         string
 	Port         string
@@ -19,13 +20,16 @@ type Config struct {
 	MinIdleConns int
 }
 
-type RedisClient struct {
+type redisClient struct {
 	Client *redis.Client
 }
 
-func NewRedisClient(cfg *Config) *RedisClient {
+// NewRedisClient creates a new Redis client using provided configuration.
+func NewRedisClient(cfg *Config) *redisClient {
+	addr := fmt.Sprintf("%s:%s", cfg.Host, cfg.Port)
+
 	client := redis.NewClient(&redis.Options{
-		Addr:         fmt.Sprintf("%s:%s", cfg.Host, cfg.Port),
+		Addr:         addr,
 		Password:     cfg.Password,
 		DB:           cfg.DB,
 		DialTimeout:  cfg.DialTimeout,
@@ -34,7 +38,6 @@ func NewRedisClient(cfg *Config) *RedisClient {
 		PoolSize:     cfg.PoolSize,
 		MinIdleConns: cfg.MinIdleConns,
 	})
-	return &RedisClient{
-		Client: client,
-	}
+
+	return &redisClient{Client: client}
 }

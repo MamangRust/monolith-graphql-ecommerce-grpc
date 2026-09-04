@@ -3,17 +3,18 @@ package service
 import (
 	"context"
 
-	db "github.com/MamangRust/monolith-ecommerce-pkg/database/schema"
-	"github.com/MamangRust/monolith-ecommerce-pkg/logger"
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/requests"
-	"github.com/MamangRust/monolith-ecommerce-shared/errorhandler"
-	"github.com/MamangRust/monolith-ecommerce-shared/errors/order_errors"
-	"github.com/MamangRust/monolith-ecommerce-shared/observability"
 	"github.com/MamangRust/monolith-graphql-ecommerce-order/cache"
 	"github.com/MamangRust/monolith-graphql-ecommerce-order/repository"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/logger"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/requests"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/errorhandler"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/errors/order_errors"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/observability"
 	"go.opentelemetry.io/otel/attribute"
 	"go.uber.org/zap"
+
+	pbshipping_address "github.com/MamangRust/monolith-graphql-ecommerce-pb/shipping_address"
 )
 
 type orderCommandService struct {
@@ -29,25 +30,25 @@ type orderCommandService struct {
 	merchantQueryRepository   repository.MerchantQueryRepository
 	shippingAddressRepository repository.ShippingAddressCommandRepository
 	transactionCommandRepos   repository.TransactionCommandRepository
-	shippingQueryRepository   pb.ShippingQueryServiceClient
+	shippingQueryRepository   pbshipping_address.ShippingQueryServiceClient
 	logger                    logger.LoggerInterface
 }
 
 type OrderCommandServiceDeps struct {
-	Observability                observability.TraceLoggerObservability
-	Cache                        cache.OrderCommandCache
-	UserQueryRepository          repository.UserQueryRepository
-	ProductQueryRepository       repository.ProductQueryRepository
-	ProductCommandRepository     repository.ProductCommandRepository
-	OrderQueryRepository         repository.OrderQueryRepository
-	OrderCommandRepository       repository.OrderCommandRepository
-	OrderItemQueryRepository     repository.OrderItemQueryRepository
-	OrderItemCommandRepository   repository.OrderItemCommandRepository
-	MerchantQueryRepository      repository.MerchantQueryRepository
-	ShippingAddressRepository    repository.ShippingAddressCommandRepository
+	Observability             observability.TraceLoggerObservability
+	Cache                     cache.OrderCommandCache
+	UserQueryRepository       repository.UserQueryRepository
+	ProductQueryRepository    repository.ProductQueryRepository
+	ProductCommandRepository  repository.ProductCommandRepository
+	OrderQueryRepository      repository.OrderQueryRepository
+	OrderCommandRepository    repository.OrderCommandRepository
+	OrderItemQueryRepository  repository.OrderItemQueryRepository
+	OrderItemCommandRepository repository.OrderItemCommandRepository
+	MerchantQueryRepository   repository.MerchantQueryRepository
+	ShippingAddressRepository repository.ShippingAddressCommandRepository
 	TransactionCommandRepository repository.TransactionCommandRepository
-	ShippingQueryRepository      pb.ShippingQueryServiceClient
-	Logger                       logger.LoggerInterface
+	ShippingQueryRepository   pbshipping_address.ShippingQueryServiceClient
+	Logger                    logger.LoggerInterface
 }
 
 func NewOrderCommandService(deps *OrderCommandServiceDeps) OrderCommandService {
@@ -80,6 +81,21 @@ func (s *orderCommandService) Create(ctx context.Context, req *requests.CreateOr
 		end(status)
 	}()
 
+	// Preflight: validate product existence and stock for every item before
+	// creating the order, so a failed create leaves no orphan order rows.
+	for _, item := range req.Items {
+		product, err := s.productQueryRepository.FindByID(ctx, item.ProductID)
+		if err != nil {
+			status = "error"
+			return errorhandler.HandleError[*db.CreateOrderRow](s.logger, err, method, span)
+		}
+
+		if product.CountInStock < int32(item.Quantity) {
+			status = "error"
+			return errorhandler.HandleError[*db.CreateOrderRow](s.logger, order_errors.ErrInsufficientProductStock, method, span)
+		}
+	}
+
 	order, err := s.orderCommandRepository.Create(ctx, &requests.CreateOrderRecordRequest{
 		MerchantID: req.MerchantID,
 		UserID:     req.UserID,
@@ -95,11 +111,6 @@ func (s *orderCommandService) Create(ctx context.Context, req *requests.CreateOr
 		if err != nil {
 			status = "error"
 			return errorhandler.HandleError[*db.CreateOrderRow](s.logger, err, method, span)
-		}
-
-		if product.CountInStock < int32(item.Quantity) {
-			status = "error"
-			return errorhandler.HandleError[*db.CreateOrderRow](s.logger, order_errors.ErrInsufficientProductStock, method, span)
 		}
 
 		_, err = s.orderItemCommandRepos.Create(ctx, &requests.CreateOrderItemRecordRequest{
@@ -230,7 +241,7 @@ func (s *orderCommandService) Update(ctx context.Context, req *requests.UpdateOr
 
 	shippingID := req.ShippingAddress.ShippingID
 	if shippingID == nil {
-		shippingRes, err := s.shippingQueryRepository.FindByOrder(ctx, &pb.FindByIdShippingRequest{
+		shippingRes, err := s.shippingQueryRepository.FindByOrder(ctx, &pbshipping_address.FindByIdShippingRequest{
 			Id: int32(*req.OrderID),
 		})
 		if err == nil && shippingRes != nil && shippingRes.Data != nil {

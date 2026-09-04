@@ -1,8 +1,9 @@
 package merchantdocumentsapimapper
 
 import (
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/response"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/response"
+
+	pbmerchant_document "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant_document"
 )
 
 type merchantDocumentCommandResponseMapper struct{}
@@ -11,10 +12,8 @@ func NewMerchantDocumentCommandResponseMapper() MerchantDocumentCommandResponseM
 	return &merchantDocumentCommandResponseMapper{}
 }
 
-func (m *merchantDocumentCommandResponseMapper) MapMerchantDocument(doc *pb.MerchantDocument) *response.MerchantDocumentResponse {
-	if doc == nil {
-		return nil
-	}
+func (m *merchantDocumentCommandResponseMapper) MapMerchantDocument(doc *pbmerchant_document.MerchantDocument) *response.MerchantDocumentResponse {
+	if doc == nil { return nil }
 	return &response.MerchantDocumentResponse{
 		ID:           int(doc.DocumentId),
 		MerchantID:   int(doc.MerchantId),
@@ -27,7 +26,7 @@ func (m *merchantDocumentCommandResponseMapper) MapMerchantDocument(doc *pb.Merc
 	}
 }
 
-func (m *merchantDocumentCommandResponseMapper) MapMerchantDocuments(docs []*pb.MerchantDocument) []*response.MerchantDocumentResponse {
+func (m *merchantDocumentCommandResponseMapper) MapMerchantDocuments(docs []*pbmerchant_document.MerchantDocument) []*response.MerchantDocumentResponse {
 	var responses []*response.MerchantDocumentResponse
 	for _, doc := range docs {
 		responses = append(responses, m.MapMerchantDocument(doc))
@@ -35,7 +34,7 @@ func (m *merchantDocumentCommandResponseMapper) MapMerchantDocuments(docs []*pb.
 	return responses
 }
 
-func (m *merchantDocumentCommandResponseMapper) ToApiResponseMerchantDocument(doc *pb.ApiResponseMerchantDocument) *response.ApiResponseMerchantDocument {
+func (m *merchantDocumentCommandResponseMapper) ToApiResponseMerchantDocument(doc *pbmerchant_document.ApiResponseMerchantDocument) *response.ApiResponseMerchantDocument {
 	return &response.ApiResponseMerchantDocument{
 		Status:  doc.Status,
 		Message: doc.Message,
@@ -43,10 +42,8 @@ func (m *merchantDocumentCommandResponseMapper) ToApiResponseMerchantDocument(do
 	}
 }
 
-func (m *merchantDocumentCommandResponseMapper) MapMerchantDocumentDeletedAt(doc *pb.MerchantDocumentDeleteAt) *response.MerchantDocumentResponseDeleteAt {
-	if doc == nil {
-		return nil
-	}
+func (m *merchantDocumentCommandResponseMapper) MapMerchantDocumentDeletedAt(doc *pbmerchant_document.MerchantDocumentDeleteAt) *response.MerchantDocumentResponseDeleteAt {
+	if doc == nil { return nil }
 	var deletedAt *string
 	if doc.DeletedAt != nil {
 		deletedAt = &doc.DeletedAt.Value
@@ -65,7 +62,7 @@ func (m *merchantDocumentCommandResponseMapper) MapMerchantDocumentDeletedAt(doc
 	}
 }
 
-func (m *merchantDocumentCommandResponseMapper) MapMerchantDocumentsDeletedAt(docs []*pb.MerchantDocumentDeleteAt) []*response.MerchantDocumentResponseDeleteAt {
+func (m *merchantDocumentCommandResponseMapper) MapMerchantDocumentsDeletedAt(docs []*pbmerchant_document.MerchantDocumentDeleteAt) []*response.MerchantDocumentResponseDeleteAt {
 	var responses []*response.MerchantDocumentResponseDeleteAt
 	for _, doc := range docs {
 		responses = append(responses, m.MapMerchantDocumentDeletedAt(doc))
@@ -73,14 +70,14 @@ func (m *merchantDocumentCommandResponseMapper) MapMerchantDocumentsDeletedAt(do
 	return responses
 }
 
-func (m *merchantDocumentCommandResponseMapper) ToApiResponseMerchantDocumentAll(resp *pb.ApiResponseMerchantDocumentAll) *response.ApiResponseMerchantDocumentAll {
+func (m *merchantDocumentCommandResponseMapper) ToApiResponseMerchantDocumentAll(resp *pbmerchant_document.ApiResponseMerchantDocumentAll) *response.ApiResponseMerchantDocumentAll {
 	return &response.ApiResponseMerchantDocumentAll{
 		Status:  resp.Status,
 		Message: resp.Message,
 	}
 }
 
-func (m *merchantDocumentCommandResponseMapper) ToApiResponseMerchantDocumentDeleteAt(resp *pb.ApiResponseMerchantDocumentDelete) *response.ApiResponseMerchantDocumentDelete {
+func (m *merchantDocumentCommandResponseMapper) ToApiResponseMerchantDocumentDeleteAt(resp *pbmerchant_document.ApiResponseMerchantDocumentDelete) *response.ApiResponseMerchantDocumentDelete {
 	return &response.ApiResponseMerchantDocumentDelete{
 		Status:  resp.Status,
 		Message: resp.Message,

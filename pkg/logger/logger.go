@@ -55,12 +55,16 @@ func NewLogger(service string, loggerProvider *log.LoggerProvider) (LoggerInterf
 			zapcore.DebugLevel,
 		)
 
-		otelCore := otelzap.NewCore(
-			service,
-			otelzap.WithLoggerProvider(loggerProvider),
-		)
-
-		core := zapcore.NewTee(stdoutCore, otelCore)
+		// Only wire the OpenTelemetry core when a provider is supplied; some
+		// tools (e.g. the seeder) run without one.
+		var core zapcore.Core = stdoutCore
+		if loggerProvider != nil {
+			otelCore := otelzap.NewCore(
+				service,
+				otelzap.WithLoggerProvider(loggerProvider),
+			)
+			core = zapcore.NewTee(stdoutCore, otelCore)
+		}
 
 		logger := zap.New(core,
 			zap.AddCaller(),

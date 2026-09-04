@@ -21,6 +21,7 @@ input DeleteCartInput {
 }
 
 input DeleteCartsInput {
+  user_id: Int!
   cart_ids: [Int!]!
 }
 

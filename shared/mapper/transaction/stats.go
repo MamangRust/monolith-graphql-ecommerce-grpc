@@ -1,8 +1,9 @@
 package transactionapimapper
 
 import (
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/response"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/response"
+
+	pbtransaction "github.com/MamangRust/monolith-graphql-ecommerce-pb/transaction"
 )
 
 type transactionStatsResponseMapper struct{}
@@ -11,7 +12,7 @@ func NewTransactionStatsResponseMapper() TransactionStatsResponseMapper {
 	return &transactionStatsResponseMapper{}
 }
 
-func (m *transactionStatsResponseMapper) ToTransactionMonthAmountSuccess(row *pb.TransactionMonthlyAmountSuccess) *response.TransactionMonthlyAmountSuccessResponse {
+func (m *transactionStatsResponseMapper) ToTransactionMonthAmountSuccess(row *pbtransaction.TransactionMonthlyAmountSuccess) *response.TransactionMonthlyAmountSuccessResponse {
 	return &response.TransactionMonthlyAmountSuccessResponse{
 		Year:         row.Year,
 		Month:        row.Month,
@@ -20,7 +21,7 @@ func (m *transactionStatsResponseMapper) ToTransactionMonthAmountSuccess(row *pb
 	}
 }
 
-func (m *transactionStatsResponseMapper) ToTransactionMonthlyAmountSuccess(rows []*pb.TransactionMonthlyAmountSuccess) []*response.TransactionMonthlyAmountSuccessResponse {
+func (m *transactionStatsResponseMapper) ToTransactionMonthlyAmountSuccess(rows []*pbtransaction.TransactionMonthlyAmountSuccess) []*response.TransactionMonthlyAmountSuccessResponse {
 	var mapped []*response.TransactionMonthlyAmountSuccessResponse
 	for _, row := range rows {
 		mapped = append(mapped, m.ToTransactionMonthAmountSuccess(row))
@@ -28,7 +29,7 @@ func (m *transactionStatsResponseMapper) ToTransactionMonthlyAmountSuccess(rows 
 	return mapped
 }
 
-func (m *transactionStatsResponseMapper) ToTransactionYearAmountSuccess(row *pb.TransactionYearlyAmountSuccess) *response.TransactionYearlyAmountSuccessResponse {
+func (m *transactionStatsResponseMapper) ToTransactionYearAmountSuccess(row *pbtransaction.TransactionYearlyAmountSuccess) *response.TransactionYearlyAmountSuccessResponse {
 	return &response.TransactionYearlyAmountSuccessResponse{
 		Year:         row.Year,
 		TotalSuccess: int(row.TotalSuccess),
@@ -36,7 +37,7 @@ func (m *transactionStatsResponseMapper) ToTransactionYearAmountSuccess(row *pb.
 	}
 }
 
-func (m *transactionStatsResponseMapper) ToTransactionYearlyAmountSuccess(rows []*pb.TransactionYearlyAmountSuccess) []*response.TransactionYearlyAmountSuccessResponse {
+func (m *transactionStatsResponseMapper) ToTransactionYearlyAmountSuccess(rows []*pbtransaction.TransactionYearlyAmountSuccess) []*response.TransactionYearlyAmountSuccessResponse {
 	var mapped []*response.TransactionYearlyAmountSuccessResponse
 	for _, row := range rows {
 		mapped = append(mapped, m.ToTransactionYearAmountSuccess(row))
@@ -44,7 +45,7 @@ func (m *transactionStatsResponseMapper) ToTransactionYearlyAmountSuccess(rows [
 	return mapped
 }
 
-func (m *transactionStatsResponseMapper) ToTransactionMonthAmountFailed(row *pb.TransactionMonthlyAmountFailed) *response.TransactionMonthlyAmountFailedResponse {
+func (m *transactionStatsResponseMapper) ToTransactionMonthAmountFailed(row *pbtransaction.TransactionMonthlyAmountFailed) *response.TransactionMonthlyAmountFailedResponse {
 	return &response.TransactionMonthlyAmountFailedResponse{
 		Year:        row.Year,
 		Month:       row.Month,
@@ -53,7 +54,7 @@ func (m *transactionStatsResponseMapper) ToTransactionMonthAmountFailed(row *pb.
 	}
 }
 
-func (m *transactionStatsResponseMapper) ToTransactionMonthlyAmountFailed(rows []*pb.TransactionMonthlyAmountFailed) []*response.TransactionMonthlyAmountFailedResponse {
+func (m *transactionStatsResponseMapper) ToTransactionMonthlyAmountFailed(rows []*pbtransaction.TransactionMonthlyAmountFailed) []*response.TransactionMonthlyAmountFailedResponse {
 	var mapped []*response.TransactionMonthlyAmountFailedResponse
 	for _, row := range rows {
 		mapped = append(mapped, m.ToTransactionMonthAmountFailed(row))
@@ -61,7 +62,7 @@ func (m *transactionStatsResponseMapper) ToTransactionMonthlyAmountFailed(rows [
 	return mapped
 }
 
-func (m *transactionStatsResponseMapper) ToTransactionYearAmountFailed(row *pb.TransactionYearlyAmountFailed) *response.TransactionYearlyAmountFailedResponse {
+func (m *transactionStatsResponseMapper) ToTransactionYearAmountFailed(row *pbtransaction.TransactionYearlyAmountFailed) *response.TransactionYearlyAmountFailedResponse {
 	return &response.TransactionYearlyAmountFailedResponse{
 		Year:        row.Year,
 		TotalFailed: int(row.TotalFailed),
@@ -69,7 +70,7 @@ func (m *transactionStatsResponseMapper) ToTransactionYearAmountFailed(row *pb.T
 	}
 }
 
-func (m *transactionStatsResponseMapper) ToTransactionYearlyAmountFailed(rows []*pb.TransactionYearlyAmountFailed) []*response.TransactionYearlyAmountFailedResponse {
+func (m *transactionStatsResponseMapper) ToTransactionYearlyAmountFailed(rows []*pbtransaction.TransactionYearlyAmountFailed) []*response.TransactionYearlyAmountFailedResponse {
 	var mapped []*response.TransactionYearlyAmountFailedResponse
 	for _, row := range rows {
 		mapped = append(mapped, m.ToTransactionYearAmountFailed(row))
@@ -77,7 +78,7 @@ func (m *transactionStatsResponseMapper) ToTransactionYearlyAmountFailed(rows []
 	return mapped
 }
 
-func (m *transactionStatsResponseMapper) ToTransactionMonthMethod(row *pb.TransactionMonthlyMethod) *response.TransactionMonthlyMethodResponse {
+func (m *transactionStatsResponseMapper) ToTransactionMonthMethod(row *pbtransaction.TransactionMonthlyMethod) *response.TransactionMonthlyMethodResponse {
 	return &response.TransactionMonthlyMethodResponse{
 		Month:             row.Month,
 		PaymentMethod:     row.PaymentMethod,
@@ -86,7 +87,7 @@ func (m *transactionStatsResponseMapper) ToTransactionMonthMethod(row *pb.Transa
 	}
 }
 
-func (m *transactionStatsResponseMapper) ToTransactionMonthlyMethod(rows []*pb.TransactionMonthlyMethod) []*response.TransactionMonthlyMethodResponse {
+func (m *transactionStatsResponseMapper) ToTransactionMonthlyMethod(rows []*pbtransaction.TransactionMonthlyMethod) []*response.TransactionMonthlyMethodResponse {
 	var mapped []*response.TransactionMonthlyMethodResponse
 	for _, row := range rows {
 		mapped = append(mapped, m.ToTransactionMonthMethod(row))
@@ -94,7 +95,7 @@ func (m *transactionStatsResponseMapper) ToTransactionMonthlyMethod(rows []*pb.T
 	return mapped
 }
 
-func (m *transactionStatsResponseMapper) ToTransactionYearMethod(row *pb.TransactionYearlyMethod) *response.TransactionYearlyMethodResponse {
+func (m *transactionStatsResponseMapper) ToTransactionYearMethod(row *pbtransaction.TransactionYearlyMethod) *response.TransactionYearlyMethodResponse {
 	return &response.TransactionYearlyMethodResponse{
 		Year:              row.Year,
 		PaymentMethod:     row.PaymentMethod,
@@ -103,7 +104,7 @@ func (m *transactionStatsResponseMapper) ToTransactionYearMethod(row *pb.Transac
 	}
 }
 
-func (m *transactionStatsResponseMapper) ToTransactionYearlyMethod(rows []*pb.TransactionYearlyMethod) []*response.TransactionYearlyMethodResponse {
+func (m *transactionStatsResponseMapper) ToTransactionYearlyMethod(rows []*pbtransaction.TransactionYearlyMethod) []*response.TransactionYearlyMethodResponse {
 	var mapped []*response.TransactionYearlyMethodResponse
 	for _, row := range rows {
 		mapped = append(mapped, m.ToTransactionYearMethod(row))
@@ -111,7 +112,7 @@ func (m *transactionStatsResponseMapper) ToTransactionYearlyMethod(rows []*pb.Tr
 	return mapped
 }
 
-func (m *transactionStatsResponseMapper) ToApiResponseTransactionMonthAmountSuccess(pbResponse *pb.ApiResponseTransactionMonthAmountSuccess) *response.ApiResponsesTransactionMonthSuccess {
+func (m *transactionStatsResponseMapper) ToApiResponseTransactionMonthAmountSuccess(pbResponse *pbtransaction.ApiResponseTransactionMonthAmountSuccess) *response.ApiResponsesTransactionMonthSuccess {
 	return &response.ApiResponsesTransactionMonthSuccess{
 		Status:  pbResponse.Status,
 		Message: pbResponse.Message,
@@ -119,7 +120,7 @@ func (m *transactionStatsResponseMapper) ToApiResponseTransactionMonthAmountSucc
 	}
 }
 
-func (m *transactionStatsResponseMapper) ToApiResponseTransactionMonthAmountFailed(pbResponse *pb.ApiResponseTransactionMonthAmountFailed) *response.ApiResponsesTransactionMonthFailed {
+func (m *transactionStatsResponseMapper) ToApiResponseTransactionMonthAmountFailed(pbResponse *pbtransaction.ApiResponseTransactionMonthAmountFailed) *response.ApiResponsesTransactionMonthFailed {
 	return &response.ApiResponsesTransactionMonthFailed{
 		Status:  pbResponse.Status,
 		Message: pbResponse.Message,
@@ -127,7 +128,7 @@ func (m *transactionStatsResponseMapper) ToApiResponseTransactionMonthAmountFail
 	}
 }
 
-func (m *transactionStatsResponseMapper) ToApiResponseTransactionYearAmountSuccess(pbResponse *pb.ApiResponseTransactionYearAmountSuccess) *response.ApiResponsesTransactionYearSuccess {
+func (m *transactionStatsResponseMapper) ToApiResponseTransactionYearAmountSuccess(pbResponse *pbtransaction.ApiResponseTransactionYearAmountSuccess) *response.ApiResponsesTransactionYearSuccess {
 	return &response.ApiResponsesTransactionYearSuccess{
 		Status:  pbResponse.Status,
 		Message: pbResponse.Message,
@@ -135,7 +136,7 @@ func (m *transactionStatsResponseMapper) ToApiResponseTransactionYearAmountSucce
 	}
 }
 
-func (m *transactionStatsResponseMapper) ToApiResponseTransactionYearAmountFailed(pbResponse *pb.ApiResponseTransactionYearAmountFailed) *response.ApiResponsesTransactionYearFailed {
+func (m *transactionStatsResponseMapper) ToApiResponseTransactionYearAmountFailed(pbResponse *pbtransaction.ApiResponseTransactionYearAmountFailed) *response.ApiResponsesTransactionYearFailed {
 	return &response.ApiResponsesTransactionYearFailed{
 		Status:  pbResponse.Status,
 		Message: pbResponse.Message,
@@ -143,7 +144,7 @@ func (m *transactionStatsResponseMapper) ToApiResponseTransactionYearAmountFaile
 	}
 }
 
-func (m *transactionStatsResponseMapper) ToApiResponseTransactionMonthMethod(pbResponse *pb.ApiResponseTransactionMonthPaymentMethod) *response.ApiResponsesTransactionMonthMethod {
+func (m *transactionStatsResponseMapper) ToApiResponseTransactionMonthMethod(pbResponse *pbtransaction.ApiResponseTransactionMonthPaymentMethod) *response.ApiResponsesTransactionMonthMethod {
 	return &response.ApiResponsesTransactionMonthMethod{
 		Status:  pbResponse.Status,
 		Message: pbResponse.Message,
@@ -151,7 +152,7 @@ func (m *transactionStatsResponseMapper) ToApiResponseTransactionMonthMethod(pbR
 	}
 }
 
-func (m *transactionStatsResponseMapper) ToApiResponseTransactionYearMethod(pbResponse *pb.ApiResponseTransactionYearPaymentmethod) *response.ApiResponsesTransactionYearMethod {
+func (m *transactionStatsResponseMapper) ToApiResponseTransactionYearMethod(pbResponse *pbtransaction.ApiResponseTransactionYearPaymentmethod) *response.ApiResponsesTransactionYearMethod {
 	return &response.ApiResponsesTransactionYearMethod{
 		Status:  pbResponse.Status,
 		Message: pbResponse.Message,

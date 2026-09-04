@@ -7,11 +7,11 @@ package graph
 import (
 	"context"
 
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/requests"
-	sharedErrors "github.com/MamangRust/monolith-ecommerce-shared/errors"
 	graphqlerror "github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/errors"
 	"github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/model"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb/cart"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/requests"
+	sharedErrors "github.com/MamangRust/monolith-graphql-ecommerce-shared/errors"
 )
 
 // CreateCart is the resolver for the createCart field.
@@ -64,6 +64,8 @@ func (r *mutationResolver) DeleteCart(ctx context.Context, input model.DeleteCar
 			return nil, r.handleGraphQLError(err, "DeleteCart")
 		}
 
+		r.CartGraphql.Cache.InvalidateCartsCache(ctx)
+
 		so := r.CartGraphql.Mapping.ToGraphqlResponseCartDelete(res)
 
 		return so, nil
@@ -78,12 +80,14 @@ func (r *mutationResolver) DeleteAllCarts(ctx context.Context, input model.Delet
 			cartIDs[i] = int32(id)
 		}
 
-		req := &pb.DeleteAllCartRequest{CartIds: cartIDs}
+		req := &pb.DeleteAllCartRequest{UserId: input.UserID, CartIds: cartIDs}
 
 		res, err := r.CartGraphql.CartCommandClient.DeleteAll(ctx, req)
 		if err != nil {
 			return nil, r.handleGraphQLError(err, "DeleteAllCarts")
 		}
+
+		r.CartGraphql.Cache.InvalidateCartsCache(ctx)
 
 		so := r.CartGraphql.Mapping.ToGraphqlResponseCartAll(res)
 
@@ -97,7 +101,10 @@ func (r *queryResolver) FindAllCarts(ctx context.Context, input model.FindAllCar
 		userID := input.UserID
 		page := int32(*input.Page)
 		pageSize := int32(*input.PageSize)
-		search := input.Search
+		search := ""
+		if input.Search != nil {
+			search = *input.Search
+		}
 
 		if page <= 0 {
 			page = 1
@@ -110,7 +117,7 @@ func (r *queryResolver) FindAllCarts(ctx context.Context, input model.FindAllCar
 			Page:     &page,
 			PageSize: &pageSize,
 			UserID:   userID,
-			Search:   search,
+			Search:   &search,
 		}
 
 		if cached, found := r.CartGraphql.Cache.GetCachedCarts(ctx, normalizedInput); found {
@@ -121,7 +128,7 @@ func (r *queryResolver) FindAllCarts(ctx context.Context, input model.FindAllCar
 			UserId:   userID,
 			Page:     page,
 			PageSize: pageSize,
-			Search:   *search,
+			Search:   search,
 		}
 
 		cartItems, err := r.CartGraphql.CartQueryClient.FindAll(ctx, req)

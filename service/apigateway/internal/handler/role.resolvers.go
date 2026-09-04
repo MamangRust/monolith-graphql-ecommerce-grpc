@@ -7,11 +7,11 @@ package graph
 import (
 	"context"
 
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/requests"
-	sharedErrors "github.com/MamangRust/monolith-ecommerce-shared/errors"
 	graphqlerror "github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/errors"
 	"github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/model"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb/role"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/requests"
+	sharedErrors "github.com/MamangRust/monolith-graphql-ecommerce-shared/errors"
 	"google.golang.org/protobuf/types/known/emptypb"
 )
 
@@ -169,7 +169,10 @@ func (r *mutationResolver) DeleteAllRolePermanent(ctx context.Context) (*model.A
 func (r *queryResolver) FindAllRole(ctx context.Context, input *model.FindAllRoleInput) (*model.APIResponsePaginationRole, error) {
 	page := int32(*input.Page)
 	pageSize := int32(*input.PageSize)
-	search := input.Search
+	search := ""
+	if input.Search != nil {
+		search = *input.Search
+	}
 
 	if page <= 0 {
 		page = 1
@@ -181,7 +184,7 @@ func (r *queryResolver) FindAllRole(ctx context.Context, input *model.FindAllRol
 	reqService := &pb.FindAllRoleRequest{
 		Page:     page,
 		PageSize: pageSize,
-		Search:   *search,
+		Search:   search,
 	}
 
 	res, errResp := r.RoleGraphql.RoleQueryClient.FindAllRole(ctx, reqService)
@@ -215,7 +218,10 @@ func (r *queryResolver) FindByIDRole(ctx context.Context, input model.FindByIDRo
 func (r *queryResolver) FindByActiveRole(ctx context.Context, input *model.FindAllRoleInput) (*model.APIResponsePaginationRoleDeleteAt, error) {
 	page := int32(*input.Page)
 	pageSize := int32(*input.PageSize)
-	search := input.Search
+	search := ""
+	if input.Search != nil {
+		search = *input.Search
+	}
 
 	if page <= 0 {
 		page = 1
@@ -227,7 +233,7 @@ func (r *queryResolver) FindByActiveRole(ctx context.Context, input *model.FindA
 	reqService := &pb.FindAllRoleRequest{
 		Page:     page,
 		PageSize: pageSize,
-		Search:   *search,
+		Search:   search,
 	}
 
 	res, errResp := r.RoleGraphql.RoleQueryClient.FindByActive(ctx, reqService)
@@ -244,7 +250,10 @@ func (r *queryResolver) FindByActiveRole(ctx context.Context, input *model.FindA
 func (r *queryResolver) FindByTrashedRole(ctx context.Context, input *model.FindAllRoleInput) (*model.APIResponsePaginationRoleDeleteAt, error) {
 	page := int32(*input.Page)
 	pageSize := int32(*input.PageSize)
-	search := input.Search
+	search := ""
+	if input.Search != nil {
+		search = *input.Search
+	}
 
 	if page <= 0 {
 		page = 1
@@ -256,7 +265,7 @@ func (r *queryResolver) FindByTrashedRole(ctx context.Context, input *model.Find
 	reqService := &pb.FindAllRoleRequest{
 		Page:     page,
 		PageSize: pageSize,
-		Search:   *search,
+		Search:   search,
 	}
 
 	res, errResp := r.RoleGraphql.RoleQueryClient.FindByTrashed(ctx, reqService)

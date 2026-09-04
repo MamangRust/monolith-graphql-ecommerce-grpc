@@ -3,25 +3,26 @@ package repository
 import (
 	"context"
 
-	db "github.com/MamangRust/monolith-ecommerce-pkg/database/schema"
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/requests"
-	order_item_errors "github.com/MamangRust/monolith-ecommerce-shared/errors/order_item_errors"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/requests"
+	order_item_errors "github.com/MamangRust/monolith-graphql-ecommerce-shared/errors/order_item_errors"
 	"google.golang.org/protobuf/types/known/emptypb"
+
+	pborder_item "github.com/MamangRust/monolith-graphql-ecommerce-pb/order_item"
 )
 
 type orderItemCommandRepository struct {
-	client pb.OrderItemCommandServiceClient
+	client pborder_item.OrderItemCommandServiceClient
 }
 
-func NewOrderItemCommandRepository(client pb.OrderItemCommandServiceClient) *orderItemCommandRepository {
+func NewOrderItemCommandRepository(client pborder_item.OrderItemCommandServiceClient) *orderItemCommandRepository {
 	return &orderItemCommandRepository{
 		client: client,
 	}
 }
 
 func (r *orderItemCommandRepository) Create(ctx context.Context, req *requests.CreateOrderItemRecordRequest) (*db.CreateOrderItemRow, error) {
-	res, err := r.client.CreateOrderItem(ctx, &pb.CreateOrderItemRecordRequest{
+	res, err := r.client.CreateOrderItem(ctx, &pborder_item.CreateOrderItemRecordRequest{
 		OrderId:   int32(req.OrderID),
 		ProductId: int32(req.ProductID),
 		Quantity:  int32(req.Quantity),
@@ -41,7 +42,7 @@ func (r *orderItemCommandRepository) Create(ctx context.Context, req *requests.C
 }
 
 func (r *orderItemCommandRepository) Update(ctx context.Context, req *requests.UpdateOrderItemRecordRequest) (*db.UpdateOrderItemRow, error) {
-	res, err := r.client.UpdateOrderItem(ctx, &pb.UpdateOrderItemRecordRequest{
+	res, err := r.client.UpdateOrderItem(ctx, &pborder_item.UpdateOrderItemRecordRequest{
 		OrderItemId: int32(req.OrderItemID),
 		Quantity:    int32(req.Quantity),
 		Price:       int32(req.Price),
@@ -60,7 +61,7 @@ func (r *orderItemCommandRepository) Update(ctx context.Context, req *requests.U
 }
 
 func (r *orderItemCommandRepository) Trash(ctx context.Context, order_id int) (*db.OrderItem, error) {
-	res, err := r.client.TrashOrderItem(ctx, &pb.FindByIdOrderItemRequest{Id: int32(order_id)})
+	res, err := r.client.TrashOrderItem(ctx, &pborder_item.FindByIdOrderItemRequest{Id: int32(order_id)})
 	if err != nil {
 		return nil, order_item_errors.ErrTrashedOrderItem.WithInternal(err)
 	}
@@ -75,7 +76,7 @@ func (r *orderItemCommandRepository) Trash(ctx context.Context, order_id int) (*
 }
 
 func (r *orderItemCommandRepository) Restore(ctx context.Context, order_id int) (*db.OrderItem, error) {
-	res, err := r.client.RestoreOrderItem(ctx, &pb.FindByIdOrderItemRequest{Id: int32(order_id)})
+	res, err := r.client.RestoreOrderItem(ctx, &pborder_item.FindByIdOrderItemRequest{Id: int32(order_id)})
 	if err != nil {
 		return nil, order_item_errors.ErrRestoreOrderItem.WithInternal(err)
 	}
@@ -90,7 +91,7 @@ func (r *orderItemCommandRepository) Restore(ctx context.Context, order_id int) 
 }
 
 func (r *orderItemCommandRepository) DeletePermanent(ctx context.Context, order_id int) (bool, error) {
-	res, err := r.client.DeleteOrderItemPermanent(ctx, &pb.FindByIdOrderItemRequest{Id: int32(order_id)})
+	res, err := r.client.DeleteOrderItemPermanent(ctx, &pborder_item.FindByIdOrderItemRequest{Id: int32(order_id)})
 	if err != nil {
 		return false, order_item_errors.ErrDeleteOrderItemPermanent.WithInternal(err)
 	}
@@ -99,7 +100,7 @@ func (r *orderItemCommandRepository) DeletePermanent(ctx context.Context, order_
 }
 
 func (r *orderItemCommandRepository) DeleteByOrderIDPermanent(ctx context.Context, order_id int) (bool, error) {
-	res, err := r.client.DeleteOrderItemByOrderPermanent(ctx, &pb.FindByIdOrderItemRequest{Id: int32(order_id)})
+	res, err := r.client.DeleteOrderItemByOrderPermanent(ctx, &pborder_item.FindByIdOrderItemRequest{Id: int32(order_id)})
 	if err != nil {
 		return false, order_item_errors.ErrDeleteOrderItemPermanent.WithInternal(err)
 	}

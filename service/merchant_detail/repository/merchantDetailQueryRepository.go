@@ -4,10 +4,11 @@ import (
 	"context"
 
 	"database/sql"
+	errorsstd "errors"
 
-	db "github.com/MamangRust/monolith-ecommerce-pkg/database/schema"
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/requests"
-	merchantdetail_errors "github.com/MamangRust/monolith-ecommerce-shared/errors/merchant_detail"
+	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/requests"
+	merchantdetail_errors "github.com/MamangRust/monolith-graphql-ecommerce-shared/errors/merchant_detail"
 )
 
 type merchantDetailQueryRepository struct {
@@ -74,7 +75,7 @@ func (r *merchantDetailQueryRepository) FindTrashed(ctx context.Context, req *re
 func (r *merchantDetailQueryRepository) FindByID(ctx context.Context, user_id int) (*db.GetMerchantDetailRow, error) {
 	res, err := r.db.GetMerchantDetail(ctx, int32(user_id))
 	if err != nil {
-		if err == sql.ErrNoRows {
+		if errorsstd.Is(err, sql.ErrNoRows) {
 			return nil, merchantdetail_errors.ErrMerchantDetailNotFound.WithInternal(err)
 		}
 		return nil, merchantdetail_errors.ErrMerchantDetailInternal.WithInternal(err)
@@ -86,7 +87,7 @@ func (r *merchantDetailQueryRepository) FindByID(ctx context.Context, user_id in
 func (r *merchantDetailQueryRepository) FindByIDTrashed(ctx context.Context, user_id int) (*db.GetMerchantDetailTrashedRow, error) {
 	res, err := r.db.GetMerchantDetailTrashed(ctx, int32(user_id))
 	if err != nil {
-		if err == sql.ErrNoRows {
+		if errorsstd.Is(err, sql.ErrNoRows) {
 			return nil, merchantdetail_errors.ErrMerchantDetailNotFound.WithInternal(err)
 		}
 		return nil, merchantdetail_errors.ErrFindByIdTrashedMerchantDetail.WithInternal(err)

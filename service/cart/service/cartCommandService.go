@@ -3,12 +3,13 @@ package service
 import (
 	"context"
 
-	db "github.com/MamangRust/monolith-ecommerce-pkg/database/schema"
-	"github.com/MamangRust/monolith-ecommerce-pkg/logger"
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/requests"
-	"github.com/MamangRust/monolith-ecommerce-shared/errorhandler"
-	"github.com/MamangRust/monolith-ecommerce-shared/observability"
+	"github.com/MamangRust/monolith-graphql-ecommerce-cart/cache"
 	"github.com/MamangRust/monolith-graphql-ecommerce-cart/repository"
+	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/logger"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/requests"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/errorhandler"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/observability"
 	"go.opentelemetry.io/otel/attribute"
 	"go.uber.org/zap"
 )
@@ -17,6 +18,7 @@ type cartCommandService struct {
 	cartCommandRepository  repository.CartCommandRepository
 	productQueryRepository repository.ProductQueryRepository
 	userQueryRepository    repository.UserQueryRepository
+	cache                  cache.CartCommandCache
 	observability          observability.TraceLoggerObservability
 	logger                 logger.LoggerInterface
 }
@@ -25,6 +27,7 @@ type CartCommandServiceDeps struct {
 	CartCommandRepository  repository.CartCommandRepository
 	ProductQueryRepository repository.ProductQueryRepository
 	UserQueryRepository    repository.UserQueryRepository
+	Cache                  cache.CartCommandCache
 	Observability          observability.TraceLoggerObservability
 	Logger                 logger.LoggerInterface
 }
@@ -34,6 +37,7 @@ func NewCartCommandService(deps *CartCommandServiceDeps) *cartCommandService {
 		cartCommandRepository:  deps.CartCommandRepository,
 		productQueryRepository: deps.ProductQueryRepository,
 		userQueryRepository:    deps.UserQueryRepository,
+		cache:                  deps.Cache,
 		logger:                 deps.Logger,
 		observability:          deps.Observability,
 	}
@@ -144,6 +148,8 @@ func (s *cartCommandService) DeletePermanent(ctx context.Context, req *requests.
 		)
 	}
 
+	s.cache.InvalidateCartsCache(ctx)
+
 	logSuccess("Successfully deleted cart permanently", zap.Int("cartID", req.CartID))
 	return success, nil
 }
@@ -167,6 +173,8 @@ func (s *cartCommandService) DeleteAll(ctx context.Context, req *requests.Delete
 			span,
 		)
 	}
+
+	s.cache.InvalidateCartsCache(ctx)
 
 	logSuccess("Successfully deleted all carts permanently")
 	return success, nil

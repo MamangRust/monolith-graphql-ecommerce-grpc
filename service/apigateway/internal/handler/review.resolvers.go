@@ -7,10 +7,10 @@ package graph
 import (
 	"context"
 
-	sharedErrors "github.com/MamangRust/monolith-ecommerce-shared/errors"
 	graphqlerror "github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/errors"
 	"github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/model"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb/review"
+	sharedErrors "github.com/MamangRust/monolith-graphql-ecommerce-shared/errors"
 	"google.golang.org/protobuf/types/known/emptypb"
 )
 
@@ -54,9 +54,15 @@ func (r *mutationResolver) UpdateReview(ctx context.Context, input model.UpdateR
 
 		req := &pb.UpdateReviewRequest{
 			ReviewId: id,
-			Name:     *input.Name,
-			Rating:   int32(*input.Rating),
-			Comment:  *input.Comment,
+		}
+		if input.Name != nil {
+			req.Name = *input.Name
+		}
+		if input.Rating != nil {
+			req.Rating = int32(*input.Rating)
+		}
+		if input.Comment != nil {
+			req.Comment = *input.Comment
 		}
 
 		review, err := r.ReviewGraphql.ReviewCommandClient.Update(ctx, req)

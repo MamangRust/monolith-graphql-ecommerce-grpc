@@ -6,11 +6,12 @@ package graph
 
 import (
 	"context"
+	"strings"
 
-	sharedErrors "github.com/MamangRust/monolith-ecommerce-shared/errors"
 	graphqlerror "github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/errors"
 	"github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/model"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb/product"
+	sharedErrors "github.com/MamangRust/monolith-graphql-ecommerce-shared/errors"
 	"google.golang.org/protobuf/types/known/emptypb"
 )
 
@@ -29,6 +30,11 @@ func (r *mutationResolver) CreateProduct(ctx context.Context, input model.Create
 		if err != nil {
 			return nil, r.handleGraphQLError(err, "CreateProduct-ImageUpload")
 		}
+		if imagePath == "" {
+			imagePath = "uploads/product/default.png"
+		}
+
+		slug := strings.ToLower(strings.ReplaceAll(input.Name, " ", "-"))
 
 		req := &pb.CreateProductRequest{
 			MerchantId:   int32(input.MerchantID),
@@ -39,6 +45,8 @@ func (r *mutationResolver) CreateProduct(ctx context.Context, input model.Create
 			CountInStock: int32(input.CountInStock),
 			Brand:        input.Brand,
 			Weight:       int32(input.Weight),
+			Rating:       0,
+			SlugProduct:  slug,
 			ImageProduct: imagePath,
 		}
 
@@ -66,6 +74,9 @@ func (r *mutationResolver) UpdateProduct(ctx context.Context, input model.Update
 		imagePath, err := r.saveProductImage(input.ImageProduct)
 		if err != nil {
 			return nil, r.handleGraphQLError(err, "UpdateProduct-ImageUpload")
+		}
+		if imagePath == "" {
+			imagePath = "uploads/product/default.png"
 		}
 
 		req := &pb.UpdateProductRequest{

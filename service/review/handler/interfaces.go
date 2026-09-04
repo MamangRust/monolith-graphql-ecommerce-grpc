@@ -1,16 +1,17 @@
 package handler
 
-import pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
-
+import (
+	pbreview "github.com/MamangRust/monolith-graphql-ecommerce-pb/review"
+)
 type ReviewHandleGrpc interface {
-	pb.ReviewQueryServiceServer
-	pb.ReviewCommandServiceServer
+	pbreview.ReviewQueryServiceServer
+	pbreview.ReviewCommandServiceServer
 }
 
 type ReviewQueryHandler interface {
-	pb.ReviewQueryServiceServer
+	pbreview.ReviewQueryServiceServer
 }
 
 type ReviewCommandHandler interface {
-	pb.ReviewCommandServiceServer
+	pbreview.ReviewCommandServiceServer
 }

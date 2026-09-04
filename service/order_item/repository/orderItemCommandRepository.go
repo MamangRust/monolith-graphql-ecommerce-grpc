@@ -3,9 +3,9 @@ package repository
 import (
 	"context"
 
-	db "github.com/MamangRust/monolith-ecommerce-pkg/database/schema"
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/requests"
-	orderitem_errors "github.com/MamangRust/monolith-ecommerce-shared/errors/order_item_errors"
+	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/requests"
+	orderitem_errors "github.com/MamangRust/monolith-graphql-ecommerce-shared/errors/order_item_errors"
 )
 
 type orderItemCommandRepository struct {

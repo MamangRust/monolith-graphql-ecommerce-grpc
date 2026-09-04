@@ -1,8 +1,10 @@
 package repository
 
 import (
-	db "github.com/MamangRust/monolith-ecommerce-pkg/database/schema"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
+
+	pbproduct "github.com/MamangRust/monolith-graphql-ecommerce-pb/product"
+	pbuser "github.com/MamangRust/monolith-graphql-ecommerce-pb/user"
 )
 
 type Repositories struct {
@@ -13,8 +15,8 @@ type Repositories struct {
 }
 
 func NewRepositories(DB *db.Queries,
-	userQuery pb.UserQueryServiceClient,
-	productQuery pb.ProductQueryServiceClient,
+	userQuery pbuser.UserQueryServiceClient,
+	productQuery pbproduct.ProductQueryServiceClient,
 ) *Repositories {
 	return &Repositories{
 		CartQuery:    NewCartQueryRepository(DB),

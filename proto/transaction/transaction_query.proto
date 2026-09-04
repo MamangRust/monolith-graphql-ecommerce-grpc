@@ -1,10 +1,10 @@
 syntax = "proto3";
 
-package pb;
+package pb.transaction;
 
 import "transaction/transaction_common.proto";
 
-option go_package = "github.com/MamangRust/monolith-graphql-ecommerce-pb";
+option go_package = "github.com/MamangRust/monolith-graphql-ecommerce-pb/transaction";
 
 message FindAllTransactionRequest {
     int32 page = 1;
@@ -29,6 +29,6 @@ service TransactionQueryService {
     rpc FindById(FindByIdTransactionRequest) returns (ApiResponseTransaction);
     rpc FindByOrderId(FindByOrderIdTransactionRequest) returns (ApiResponseTransaction);
     
-    rpc FindByActive(FindAllTransactionRequest) returns (ApiResponsePaginationTransactionDeleteAt);
+    rpc FindByActive(FindAllTransactionRequest) returns (ApiResponsePaginationTransaction);
     rpc FindByTrashed(FindAllTransactionRequest) returns (ApiResponsePaginationTransactionDeleteAt);
 }

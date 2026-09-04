@@ -1,9 +1,10 @@
 package handler
 
 import (
-	"github.com/MamangRust/monolith-ecommerce-pkg/logger"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
 	"github.com/MamangRust/monolith-graphql-ecommerce-role/service"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/logger"
+
+	pbrole "github.com/MamangRust/monolith-graphql-ecommerce-pb/role"
 )
 
 type Deps struct {
@@ -12,8 +13,8 @@ type Deps struct {
 }
 
 type Handler struct {
-	RoleQuery   pb.RoleQueryServiceServer
-	RoleCommand pb.RoleCommandServiceServer
+	RoleQuery   pbrole.RoleQueryServiceServer
+	RoleCommand pbrole.RoleCommandServiceServer
 }
 
 func NewHandler(deps *Deps) *Handler {

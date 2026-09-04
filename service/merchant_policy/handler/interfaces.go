@@ -1,11 +1,13 @@
 package handler
 
-import pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+import (
+	pbmerchant_policy "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant_policy"
+)
 
 type MerchantPolicyQueryHandler interface {
-	pb.MerchantPolicyQueryServiceServer
+	pbmerchant_policy.MerchantPolicyQueryServiceServer
 }
 
 type MerchantPolicyCommandHandler interface {
-	pb.MerchantPolicyCommandServiceServer
+	pbmerchant_policy.MerchantPolicyCommandServiceServer
 }

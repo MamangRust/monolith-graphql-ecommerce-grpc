@@ -1,9 +1,10 @@
 package handler
 
 import (
-	"github.com/MamangRust/monolith-ecommerce-pkg/logger"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
 	"github.com/MamangRust/monolith-graphql-ecommerce-slider/service"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/logger"
+
+	pbslider "github.com/MamangRust/monolith-graphql-ecommerce-pb/slider"
 )
 
 type Deps struct {
@@ -12,8 +13,8 @@ type Deps struct {
 }
 
 type Handler struct {
-	SliderQuery   pb.SliderQueryServiceServer
-	SliderCommand pb.SliderCommandServiceServer
+	SliderQuery   pbslider.SliderQueryServiceServer
+	SliderCommand pbslider.SliderCommandServiceServer
 }
 
 func NewHandler(deps *Deps) *Handler {

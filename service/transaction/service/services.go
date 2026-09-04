@@ -1,9 +1,9 @@
 package service
 
 import (
-	"github.com/MamangRust/monolith-ecommerce-pkg/kafka"
-	"github.com/MamangRust/monolith-ecommerce-pkg/logger"
-	"github.com/MamangRust/monolith-ecommerce-shared/observability"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/kafka"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/logger"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/observability"
 	mencache "github.com/MamangRust/monolith-graphql-ecommerce-transaction/cache"
 	"github.com/MamangRust/monolith-graphql-ecommerce-transaction/repository"
 )

@@ -3,22 +3,23 @@ package repository
 import (
 	"context"
 
-	db "github.com/MamangRust/monolith-ecommerce-pkg/database/schema"
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/requests"
-	"github.com/MamangRust/monolith-ecommerce-shared/errors/user_errors"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/requests"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/errors/user_errors"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+
+	pbuser "github.com/MamangRust/monolith-graphql-ecommerce-pb/user"
 )
 
 // userRepository is a struct that implements the UserRepository interface using gRPC clients
 type userRepository struct {
-	queryClient   pb.UserQueryServiceClient
-	commandClient pb.UserCommandServiceClient
+	queryClient   pbuser.UserQueryServiceClient
+	commandClient pbuser.UserCommandServiceClient
 }
 
 // NewUserRepository returns a new instance of userRepository using gRPC clients.
-func NewUserRepository(queryClient pb.UserQueryServiceClient, commandClient pb.UserCommandServiceClient) *userRepository {
+func NewUserRepository(queryClient pbuser.UserQueryServiceClient, commandClient pbuser.UserCommandServiceClient) *userRepository {
 	return &userRepository{
 		queryClient:   queryClient,
 		commandClient: commandClient,
@@ -27,7 +28,7 @@ func NewUserRepository(queryClient pb.UserQueryServiceClient, commandClient pb.U
 
 // FindById retrieves a user by their unique ID via gRPC.
 func (r *userRepository) FindById(ctx context.Context, user_id int) (*db.GetUserByIDRow, error) {
-	res, err := r.queryClient.FindById(ctx, &pb.FindByIdUserRequest{Id: int32(user_id)})
+	res, err := r.queryClient.FindById(ctx, &pbuser.FindByIdUserRequest{Id: int32(user_id)})
 	if err != nil {
 		return nil, user_errors.ErrUserNotFound.WithInternal(err)
 	}
@@ -42,7 +43,7 @@ func (r *userRepository) FindById(ctx context.Context, user_id int) (*db.GetUser
 
 // FindByEmail retrieves a user by their email address via gRPC.
 func (r *userRepository) FindByEmail(ctx context.Context, email string) (*db.User, error) {
-	res, err := r.queryClient.FindByEmail(ctx, &pb.FindByEmailRequest{Email: email})
+	res, err := r.queryClient.FindByEmail(ctx, &pbuser.FindByEmailRequest{Email: email})
 	if err != nil {
 		st, ok := status.FromError(err)
 		if ok && st.Code() == codes.NotFound {
@@ -64,7 +65,7 @@ func (r *userRepository) FindByEmail(ctx context.Context, email string) (*db.Use
 func (r *userRepository) FindByEmailAndVerify(ctx context.Context, email string) (*db.GetUserByEmailAndVerifyRow, error) {
 	// We use FindByEmail but we should probably check if it's verified in the auth service or add a Verify check in the request.
 	// For now, our FindByEmail returns the user if found.
-	res, err := r.queryClient.FindByEmail(ctx, &pb.FindByEmailRequest{Email: email})
+	res, err := r.queryClient.FindByEmail(ctx, &pbuser.FindByEmailRequest{Email: email})
 	if err != nil {
 		return nil, user_errors.ErrUserNotFound.WithInternal(err)
 	}
@@ -80,7 +81,7 @@ func (r *userRepository) FindByEmailAndVerify(ctx context.Context, email string)
 
 // FindByVerificationCode retrieves a user by their verification code via gRPC.
 func (r *userRepository) FindByVerificationCode(ctx context.Context, verification_code string) (*db.GetUserByVerificationCodeRow, error) {
-	res, err := r.queryClient.FindByVerificationCode(ctx, &pb.FindByVerificationCodeRequest{VerificationCode: verification_code})
+	res, err := r.queryClient.FindByVerificationCode(ctx, &pbuser.FindByVerificationCodeRequest{VerificationCode: verification_code})
 	if err != nil {
 		return nil, user_errors.ErrUserNotFound.WithInternal(err)
 	}
@@ -95,7 +96,7 @@ func (r *userRepository) FindByVerificationCode(ctx context.Context, verificatio
 
 // CreateUser inserts a new user via gRPC.
 func (r *userRepository) CreateUser(ctx context.Context, request *requests.RegisterRequest) (*db.CreateUserRow, error) {
-	res, err := r.commandClient.Create(ctx, &pb.CreateUserRequest{
+	res, err := r.commandClient.Create(ctx, &pbuser.CreateUserRequest{
 		Firstname:       request.FirstName,
 		Lastname:        request.LastName,
 		Email:           request.Email,
@@ -117,7 +118,7 @@ func (r *userRepository) CreateUser(ctx context.Context, request *requests.Regis
 
 // UpdateUserIsVerified updates the verification status of a user via gRPC.
 func (r *userRepository) UpdateUserIsVerified(ctx context.Context, user_id int, is_verified bool) (*db.UpdateUserIsVerifiedRow, error) {
-	res, err := r.commandClient.UpdateIsVerified(ctx, &pb.UpdateUserIsVerifiedRequest{
+	res, err := r.commandClient.UpdateIsVerified(ctx, &pbuser.UpdateUserIsVerifiedRequest{
 		Id:         int32(user_id),
 		IsVerified: is_verified,
 	})
@@ -136,7 +137,7 @@ func (r *userRepository) UpdateUserIsVerified(ctx context.Context, user_id int, 
 
 // UpdateUserPassword updates a user's password via gRPC.
 func (r *userRepository) UpdateUserPassword(ctx context.Context, user_id int, password string) (*db.UpdateUserPasswordRow, error) {
-	res, err := r.commandClient.UpdatePassword(ctx, &pb.UpdateUserPasswordRequest{
+	res, err := r.commandClient.UpdatePassword(ctx, &pbuser.UpdateUserPasswordRequest{
 		Id:       int32(user_id),
 		Password: password,
 	})

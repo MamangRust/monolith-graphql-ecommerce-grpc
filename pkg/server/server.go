@@ -10,15 +10,15 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/MamangRust/monolith-ecommerce-pkg/database"
-	db "github.com/MamangRust/monolith-ecommerce-pkg/database/schema"
-	"github.com/MamangRust/monolith-ecommerce-pkg/dotenv"
-	"github.com/MamangRust/monolith-ecommerce-pkg/logger"
-	"github.com/MamangRust/monolith-ecommerce-pkg/middleware"
-	otel_pkg "github.com/MamangRust/monolith-ecommerce-pkg/otel"
-	"github.com/MamangRust/monolith-ecommerce-pkg/resilience"
-	"github.com/MamangRust/monolith-ecommerce-shared/cache"
-	"github.com/MamangRust/monolith-ecommerce-shared/observability"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/database"
+	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/dotenv"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/logger"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/middleware"
+	otel_pkg "github.com/MamangRust/monolith-graphql-ecommerce-pkg/otel"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/resilience"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/cache"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/observability"
 	"github.com/grafana/pyroscope-go"
 	"github.com/redis/go-redis/v9"
 	"github.com/spf13/viper"
@@ -28,13 +28,11 @@ import (
 	"google.golang.org/grpc/health/grpc_health_v1"
 	"google.golang.org/grpc/keepalive"
 	"google.golang.org/grpc/reflection"
-	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 type GRPCServer struct {
 	Logger           logger.LoggerInterface
 	DB               *db.Queries
-	Pool             *pgxpool.Pool
 	Ctx              context.Context
 	Cancel           context.CancelFunc
 	CacheStore       *cache.CacheStore
@@ -87,7 +85,6 @@ func New(cfg *Config) (*GRPCServer, error) {
 	return &GRPCServer{
 		Logger:     l,
 		DB:         queries,
-		Pool:       dbConn,
 		Ctx:        ctx,
 		Cancel:     cancel,
 		CacheStore: cacheStore,

@@ -3,16 +3,19 @@ package apps
 import (
 	"fmt"
 
-	"github.com/MamangRust/monolith-ecommerce-pkg/server"
-	"github.com/MamangRust/monolith-ecommerce-shared/observability"
 	"github.com/MamangRust/monolith-graphql-ecommerce-cart/cache"
 	"github.com/MamangRust/monolith-graphql-ecommerce-cart/handler"
 	"github.com/MamangRust/monolith-graphql-ecommerce-cart/repository"
 	"github.com/MamangRust/monolith-graphql-ecommerce-cart/service"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/server"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/observability"
 	"github.com/spf13/viper"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
+
+	pbcart "github.com/MamangRust/monolith-graphql-ecommerce-pb/cart"
+	pbproduct "github.com/MamangRust/monolith-graphql-ecommerce-pb/product"
+	pbuser "github.com/MamangRust/monolith-graphql-ecommerce-pb/user"
 )
 
 func NewServer(cfg *server.Config) (*server.GRPCServer, error) {
@@ -41,8 +44,8 @@ func NewServer(cfg *server.Config) (*server.GRPCServer, error) {
 		return nil, fmt.Errorf("failed to connect to product service: %w", err)
 	}
 
-	userQueryClient := pb.NewUserQueryServiceClient(userConn)
-	productQueryClient := pb.NewProductQueryServiceClient(productConn)
+	userQueryClient := pbuser.NewUserQueryServiceClient(userConn)
+	productQueryClient := pbproduct.NewProductQueryServiceClient(productConn)
 
 	repos := repository.NewRepositories(srv.DB, userQueryClient, productQueryClient)
 
@@ -59,8 +62,8 @@ func NewServer(cfg *server.Config) (*server.GRPCServer, error) {
 	h := handler.NewHandler(&handler.Deps{Service: svc, Logger: srv.Logger})
 
 	srv.RegisterServices = func(gs *grpc.Server) {
-		pb.RegisterCartQueryServiceServer(gs, h.CartQuery)
-		pb.RegisterCartCommandServiceServer(gs, h.CartCommand)
+		pbcart.RegisterCartQueryServiceServer(gs, h.CartQuery)
+		pbcart.RegisterCartCommandServiceServer(gs, h.CartCommand)
 	}
 
 	return srv, nil

@@ -2,7 +2,7 @@ package transactiongraphqlmapper
 
 import (
 	"github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/model"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb/transaction"
 )
 
 type TransactionGraphqlMapper interface {

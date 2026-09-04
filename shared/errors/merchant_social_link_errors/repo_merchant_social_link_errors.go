@@ -1,7 +1,7 @@
 package merchant_social_link_errors
 
 import (
-	"github.com/MamangRust/monolith-ecommerce-shared/errors"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/errors"
 )
 
 var (
@@ -16,8 +16,6 @@ var (
 	ErrDeletePermanentMerchantSocialLink     = errors.ErrInternal.WithMessage("failed to permanently delete merchant social link")
 	ErrRestoreAllMerchantSocialLinks         = errors.ErrInternal.WithMessage("failed to restore all merchant social links")
 	ErrDeleteAllPermanentMerchantSocialLinks = errors.ErrInternal.WithMessage("failed to permanently delete all merchant social links")
-	ErrBeginTx                               = errors.ErrInternal.WithMessage("failed to begin transaction")
-	ErrCommitTx                              = errors.ErrInternal.WithMessage("failed to commit transaction")
 
 	ErrMerchantSocialLinkInternal = errors.ErrInternal.WithMessage("merchant social link internal repository error")
 )

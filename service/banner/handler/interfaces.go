@@ -1,11 +1,13 @@
 package handler
 
-import pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
-
+import (
+	pbbanner "github.com/MamangRust/monolith-graphql-ecommerce-pb/banner"
+)
 type BannerQueryHandler interface {
-	pb.BannerQueryServiceServer
+	pbbanner.BannerQueryServiceServer
 }
 
 type BannerCommandHandler interface {
-	pb.BannerCommandServiceServer
+	pbbanner.BannerCommandServiceServer
 }
+

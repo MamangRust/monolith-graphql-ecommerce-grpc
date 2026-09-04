@@ -10,8 +10,8 @@ import (
 	"time"
 
 	mycontext "github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/context"
-	"github.com/MamangRust/monolith-ecommerce-pkg/auth"
-	"github.com/MamangRust/monolith-ecommerce-pkg/logger"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/auth"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/logger"
 	"go.uber.org/zap"
 )
 

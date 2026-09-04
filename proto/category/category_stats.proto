@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package pb;
+package pb.category;
 
-option go_package = "github.com/MamangRust/monolith-graphql-ecommerce-pb";
+option go_package = "github.com/MamangRust/monolith-graphql-ecommerce-pb/category";
 
 
 import "category/category_common.proto";

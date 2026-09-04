@@ -1,14 +1,15 @@
 package apps
 
 import (
-	"github.com/MamangRust/monolith-ecommerce-pkg/server"
-	"github.com/MamangRust/monolith-ecommerce-shared/observability"
 	"github.com/MamangRust/monolith-graphql-ecommerce-banner/cache"
 	"github.com/MamangRust/monolith-graphql-ecommerce-banner/handler"
 	"github.com/MamangRust/monolith-graphql-ecommerce-banner/repository"
 	"github.com/MamangRust/monolith-graphql-ecommerce-banner/service"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/server"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/observability"
 	"google.golang.org/grpc"
+
+	pbbanner "github.com/MamangRust/monolith-graphql-ecommerce-pb/banner"
 )
 
 func NewServer(cfg *server.Config) (*server.GRPCServer, error) {
@@ -33,8 +34,8 @@ func NewServer(cfg *server.Config) (*server.GRPCServer, error) {
 	h := handler.NewHandler(&handler.Deps{Service: svc, Logger: srv.Logger})
 
 	srv.RegisterServices = func(gs *grpc.Server) {
-		pb.RegisterBannerQueryServiceServer(gs, h.BannerQuery)
-		pb.RegisterBannerCommandServiceServer(gs, h.BannerCommand)
+		pbbanner.RegisterBannerQueryServiceServer(gs, h.BannerQuery)
+		pbbanner.RegisterBannerCommandServiceServer(gs, h.BannerCommand)
 	}
 
 	return srv, nil

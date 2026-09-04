@@ -7,42 +7,45 @@ package graph
 import (
 	"context"
 
-	sharedErrors "github.com/MamangRust/monolith-ecommerce-shared/errors"
 	graphqlerror "github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/errors"
 	"github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/model"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant_social_link"
+	sharedErrors "github.com/MamangRust/monolith-graphql-ecommerce-shared/errors"
 )
 
 // CreateMerchantSocialLink is the resolver for the createMerchantSocialLink field.
 func (r *mutationResolver) CreateMerchantSocialLink(ctx context.Context, input *model.CreateMerchantSocialInput) (*model.APIResponseMerchantSocialMediaLink, error) {
 	return ResolverHandle(r.ResolverHandle, "CreateMerchantSocialLink", ctx, func(ctx context.Context) (*model.APIResponseMerchantSocialMediaLink, error) {
-		id := int(input.MerchantDetailID)
-
-		if id == 0 {
+		if input.MerchantDetailID == 0 {
 			return nil, graphqlerror.ToGraphqlErrorFromErrorResponse(sharedErrors.NewBadRequestError("invalid request: merchant detail ID cannot be zero"))
 		}
 
-		socialLinks := make([]*pb.MerchantSocialLinkInput, 0)
+		var data []*model.MerchantSocialMediaLinkResponse
+		var status, message string
+
 		for _, link := range input.SocialLinks {
-			socialLinks = append(socialLinks, &pb.MerchantSocialLinkInput{
-				Platform: link.Platform,
-				Url:      link.URL,
-			})
+			req := &pb.CreateMerchantSocialRequest{
+				MerchantDetailId: int32(input.MerchantDetailID),
+				Platform:         link.Platform,
+				Url:              link.URL,
+			}
+
+			res, err := r.MerchantSocialLinkGraphql.MerchantSocialLinkClient.Create(ctx, req)
+			if err != nil {
+				return nil, r.handleGraphQLError(err, "CreateMerchantSocialLink")
+			}
+
+			so := r.MerchantSocialLinkGraphql.Mapping.ToGraphqlResponseMerchantSocialLink(res)
+			status = so.Status
+			message = so.Message
+			data = append(data, so.Data...)
 		}
 
-		req := &pb.CreateMerchantSocialInput{
-			MerchantDetailId: int32(input.MerchantDetailID),
-			SocialLinks:      socialLinks,
-		}
-
-		res, err := r.MerchantSocialLinkGraphql.MerchantSocialLinkClient.CreateMerchantSocialLink(ctx, req)
-		if err != nil {
-			return nil, r.handleGraphQLError(err, "CreateMerchantSocialLink")
-		}
-
-		so := r.MerchantSocialLinkGraphql.Mapping.ToGraphqlResponseMerchantSocialLink(res)
-
-		return so, nil
+		return &model.APIResponseMerchantSocialMediaLink{
+			Status:  status,
+			Message: message,
+			Data:    data,
+		}, nil
 	})
 }
 
@@ -53,26 +56,31 @@ func (r *mutationResolver) UpdateMerchantSocialLink(ctx context.Context, input *
 			return nil, graphqlerror.ToGraphqlErrorFromErrorResponse(sharedErrors.NewBadRequestError("invalid request: merchant detail ID cannot be zero"))
 		}
 
-		socialLinks := make([]*pb.MerchantSocialLinkInput, 0)
+		var data []*model.MerchantSocialMediaLinkResponse
+		var status, message string
+
 		for _, link := range input.SocialLinks {
-			socialLinks = append(socialLinks, &pb.MerchantSocialLinkInput{
-				Platform: link.Platform,
-				Url:      link.URL,
-			})
+			req := &pb.CreateMerchantSocialRequest{
+				MerchantDetailId: int32(input.MerchantDetailID),
+				Platform:         link.Platform,
+				Url:              link.URL,
+			}
+
+			res, err := r.MerchantSocialLinkGraphql.MerchantSocialLinkClient.Create(ctx, req)
+			if err != nil {
+				return nil, r.handleGraphQLError(err, "UpdateMerchantSocialLink")
+			}
+
+			so := r.MerchantSocialLinkGraphql.Mapping.ToGraphqlResponseMerchantSocialLink(res)
+			status = so.Status
+			message = so.Message
+			data = append(data, so.Data...)
 		}
 
-		req := &pb.UpdateMerchantSocialInput{
-			MerchantDetailId: int32(input.MerchantDetailID),
-			SocialLinks:      socialLinks,
-		}
-
-		res, err := r.MerchantSocialLinkGraphql.MerchantSocialLinkClient.UpdateMerchantSocialLink(ctx, req)
-		if err != nil {
-			return nil, r.handleGraphQLError(err, "UpdateMerchantSocialLink")
-		}
-
-		so := r.MerchantSocialLinkGraphql.Mapping.ToGraphqlResponseMerchantSocialLink(res)
-
-		return so, nil
+		return &model.APIResponseMerchantSocialMediaLink{
+			Status:  status,
+			Message: message,
+			Data:    data,
+		}, nil
 	})
 }

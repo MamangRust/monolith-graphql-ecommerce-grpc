@@ -4,41 +4,41 @@ import (
 	"context"
 	"os"
 
-	db "github.com/MamangRust/monolith-ecommerce-pkg/database/schema"
-	"github.com/MamangRust/monolith-ecommerce-pkg/logger"
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/requests"
-	"github.com/MamangRust/monolith-ecommerce-shared/errorhandler"
-	merchantdetail_errors "github.com/MamangRust/monolith-ecommerce-shared/errors/merchant_detail"
-	"github.com/MamangRust/monolith-ecommerce-shared/observability"
 	"github.com/MamangRust/monolith-graphql-ecommerce-merchant_detail/cache"
 	"github.com/MamangRust/monolith-graphql-ecommerce-merchant_detail/repository"
+	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/logger"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/requests"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/errorhandler"
+	merchantdetail_errors "github.com/MamangRust/monolith-graphql-ecommerce-shared/errors/merchant_detail"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/observability"
 	"go.opentelemetry.io/otel/attribute"
 	"go.uber.org/zap"
 )
 
 type merchantDetailCommandService struct {
-	observability            observability.TraceLoggerObservability
-	cache                    cache.MerchantDetailCommandCache
-	merchantDetailRepository repository.MerchantDetailCommandRepository
-	merchantQueryRepository  repository.MerchantQueryRepository
-	logger                   logger.LoggerInterface
+	observability             observability.TraceLoggerObservability
+	cache                     cache.MerchantDetailCommandCache
+	merchantDetailRepository  repository.MerchantDetailCommandRepository
+	merchantQueryRepository   repository.MerchantQueryRepository
+	logger                    logger.LoggerInterface
 }
 
 type MerchantDetailCommandServiceDeps struct {
-	Observability            observability.TraceLoggerObservability
-	Cache                    cache.MerchantDetailCommandCache
-	MerchantDetailRepository repository.MerchantDetailCommandRepository
-	MerchantQueryRepository  repository.MerchantQueryRepository
-	Logger                   logger.LoggerInterface
+	Observability             observability.TraceLoggerObservability
+	Cache                     cache.MerchantDetailCommandCache
+	MerchantDetailRepository  repository.MerchantDetailCommandRepository
+	MerchantQueryRepository   repository.MerchantQueryRepository
+	Logger                    logger.LoggerInterface
 }
 
 func NewMerchantDetailCommandService(deps *MerchantDetailCommandServiceDeps) *merchantDetailCommandService {
 	return &merchantDetailCommandService{
-		observability:            deps.Observability,
-		cache:                    deps.Cache,
-		merchantDetailRepository: deps.MerchantDetailRepository,
-		merchantQueryRepository:  deps.MerchantQueryRepository,
-		logger:                   deps.Logger,
+		observability:             deps.Observability,
+		cache:                     deps.Cache,
+		merchantDetailRepository:  deps.MerchantDetailRepository,
+		merchantQueryRepository:   deps.MerchantQueryRepository,
+		logger:                    deps.Logger,
 	}
 }
 

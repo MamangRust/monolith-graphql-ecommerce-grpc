@@ -3,16 +3,16 @@ package repository
 import (
 	"context"
 	"fmt"
-
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
 	"google.golang.org/protobuf/types/known/emptypb"
+
+	pbtransaction "github.com/MamangRust/monolith-graphql-ecommerce-pb/transaction"
 )
 
 type transactionCommandRepository struct {
-	client pb.TransactionCommandServiceClient
+	client pbtransaction.TransactionCommandServiceClient
 }
 
-func NewTransactionCommandRepository(client pb.TransactionCommandServiceClient) TransactionCommandRepository {
+func NewTransactionCommandRepository(client pbtransaction.TransactionCommandServiceClient) TransactionCommandRepository {
 	return &transactionCommandRepository{client: client}
 }
 
@@ -20,7 +20,7 @@ func (r *transactionCommandRepository) DeleteByOrderIDPermanent(ctx context.Cont
 	if r.client == nil {
 		return false, fmt.Errorf("transaction command client is not initialized")
 	}
-	_, err := r.client.DeleteTransactionByOrderPermanent(ctx, &pb.FindByIdTransactionRequest{
+	_, err := r.client.DeleteTransactionByOrderPermanent(ctx, &pbtransaction.FindByIdTransactionRequest{
 		Id: int32(order_id),
 	})
 	if err != nil {

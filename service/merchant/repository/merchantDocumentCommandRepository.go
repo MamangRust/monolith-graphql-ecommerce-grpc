@@ -3,11 +3,10 @@ package repository
 import (
 	"context"
 
-	db "github.com/MamangRust/monolith-ecommerce-pkg/database/schema"
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/requests"
-	"github.com/MamangRust/monolith-ecommerce-shared/errors/merchant"
+	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/requests"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/errors/merchant"
 )
-
 
 type merchantDocumentCommandRepository struct {
 	db *db.Queries
@@ -33,7 +32,6 @@ func (r *merchantDocumentCommandRepository) Create(ctx context.Context, request 
 		return nil, merchant_errors.ErrMerchantInternal.WithInternal(err)
 	}
 
-
 	return res, nil
 }
 
@@ -51,7 +49,6 @@ func (r *merchantDocumentCommandRepository) Update(ctx context.Context, request 
 		return nil, merchant_errors.ErrMerchantInternal.WithInternal(err)
 	}
 
-
 	return res, nil
 }
 
@@ -67,7 +64,6 @@ func (r *merchantDocumentCommandRepository) UpdateStatus(ctx context.Context, re
 		return nil, merchant_errors.ErrMerchantInternal.WithInternal(err)
 	}
 
-
 	return res, nil
 }
 
@@ -76,7 +72,6 @@ func (r *merchantDocumentCommandRepository) Trash(ctx context.Context, documentI
 	if err != nil {
 		return nil, merchant_errors.ErrMerchantInternal.WithInternal(err)
 	}
-
 
 	return res, nil
 }
@@ -87,7 +82,6 @@ func (r *merchantDocumentCommandRepository) Restore(ctx context.Context, documen
 		return nil, merchant_errors.ErrMerchantInternal.WithInternal(err)
 	}
 
-
 	return res, nil
 }
 
@@ -96,7 +90,6 @@ func (r *merchantDocumentCommandRepository) DeletePermanent(ctx context.Context,
 	if err != nil {
 		return false, merchant_errors.ErrMerchantInternal.WithInternal(err)
 	}
-
 
 	return true, nil
 }
@@ -107,7 +100,6 @@ func (r *merchantDocumentCommandRepository) RestoreAll(ctx context.Context) (boo
 		return false, merchant_errors.ErrMerchantInternal.WithInternal(err)
 	}
 
-
 	return true, nil
 }
 
@@ -116,7 +108,6 @@ func (r *merchantDocumentCommandRepository) DeleteAll(ctx context.Context) (bool
 	if err != nil {
 		return false, merchant_errors.ErrMerchantInternal.WithInternal(err)
 	}
-
 
 	return true, nil
 }

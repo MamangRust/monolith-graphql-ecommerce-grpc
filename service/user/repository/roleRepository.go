@@ -3,24 +3,25 @@ package repository
 import (
 	"context"
 
-	db "github.com/MamangRust/monolith-ecommerce-pkg/database/schema"
-	"github.com/MamangRust/monolith-ecommerce-shared/errors"
-	role_errors "github.com/MamangRust/monolith-ecommerce-shared/errors/role_errors"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/errors"
+	role_errors "github.com/MamangRust/monolith-graphql-ecommerce-shared/errors/role_errors"
+
+	pbrole "github.com/MamangRust/monolith-graphql-ecommerce-pb/role"
 )
 
 type roleRepository struct {
-	client pb.RoleQueryServiceClient
+	client pbrole.RoleQueryServiceClient
 }
 
-func NewRoleRepository(client pb.RoleQueryServiceClient) *roleRepository {
+func NewRoleRepository(client pbrole.RoleQueryServiceClient) *roleRepository {
 	return &roleRepository{
 		client: client,
 	}
 }
 
 func (r *roleRepository) FindByID(ctx context.Context, role_id int) (*db.Role, error) {
-	res, err := r.client.FindByIdRole(ctx, &pb.FindByIdRoleRequest{RoleId: int32(role_id)})
+	res, err := r.client.FindByIdRole(ctx, &pbrole.FindByIdRoleRequest{RoleId: int32(role_id)})
 	if err != nil {
 		return nil, role_errors.ErrRoleNotFound.WithInternal(err)
 	}
@@ -32,7 +33,7 @@ func (r *roleRepository) FindByID(ctx context.Context, role_id int) (*db.Role, e
 }
 
 func (r *roleRepository) FindByName(ctx context.Context, name string) (*db.Role, error) {
-	res, err := r.client.FindAllRole(ctx, &pb.FindAllRoleRequest{
+	res, err := r.client.FindAllRole(ctx, &pbrole.FindAllRoleRequest{
 		Search:   name,
 		Page:     1,
 		PageSize: 10,

@@ -1,7 +1,8 @@
 package authapimapper
 
 import (
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/response"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/response"
+
 	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
 )
 

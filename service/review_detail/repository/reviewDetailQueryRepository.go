@@ -4,10 +4,11 @@ import (
 	"context"
 
 	"database/sql"
+	errorsstd "errors"
 
-	db "github.com/MamangRust/monolith-ecommerce-pkg/database/schema"
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/requests"
-	review_detail_errors "github.com/MamangRust/monolith-ecommerce-shared/errors/review_detail"
+	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/requests"
+	review_detail_errors "github.com/MamangRust/monolith-graphql-ecommerce-shared/errors/review_detail"
 )
 
 type reviewDetailQueryRepository struct {
@@ -78,8 +79,8 @@ func (r *reviewDetailQueryRepository) FindByID(ctx context.Context, user_id int)
 	res, err := r.db.GetReviewDetail(ctx, int32(user_id))
 
 	if err != nil {
-		if err == sql.ErrNoRows {
-			return nil, review_detail_errors.ErrReviewDetailNotFound
+		if errorsstd.Is(err, sql.ErrNoRows) {
+			return nil, review_detail_errors.ErrReviewDetailNotFound.WithInternal(err)
 		}
 		return nil, review_detail_errors.ErrFindByIdReviewDetail.WithInternal(err)
 	}
@@ -91,8 +92,8 @@ func (r *reviewDetailQueryRepository) FindByIDTrashed(ctx context.Context, user_
 	res, err := r.db.GetReviewDetailTrashed(ctx, int32(user_id))
 
 	if err != nil {
-		if err == sql.ErrNoRows {
-			return nil, review_detail_errors.ErrReviewDetailNotFound
+		if errorsstd.Is(err, sql.ErrNoRows) {
+			return nil, review_detail_errors.ErrReviewDetailNotFound.WithInternal(err)
 		}
 		return nil, review_detail_errors.ErrFindByIdTrashedReviewDetail.WithInternal(err)
 	}

@@ -1,10 +1,10 @@
 package service
 
 import (
-	"github.com/MamangRust/monolith-ecommerce-pkg/logger"
-	"github.com/MamangRust/monolith-ecommerce-shared/observability"
 	mencache "github.com/MamangRust/monolith-graphql-ecommerce-merchant_business/cache"
 	"github.com/MamangRust/monolith-graphql-ecommerce-merchant_business/repository"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/logger"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/observability"
 )
 
 type Service struct {

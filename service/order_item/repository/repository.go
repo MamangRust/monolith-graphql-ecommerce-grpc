@@ -1,7 +1,7 @@
 package repository
 
 import (
-	db "github.com/MamangRust/monolith-ecommerce-pkg/database/schema"
+	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
 )
 
 type Repositories struct {

@@ -3,7 +3,8 @@ package review_detailgraphqlmapper
 import (
 	graphqlmapper "github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/mapper/pagination"
 	"github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/model"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	pbreview "github.com/MamangRust/monolith-graphql-ecommerce-pb/review"
+	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb/review_detail"
 )
 
 type reviewDetailResponseMapper struct{}
@@ -12,14 +13,14 @@ func NewReviewDetailResponseMapper() *reviewDetailResponseMapper {
 	return &reviewDetailResponseMapper{}
 }
 
-func (s *reviewDetailResponseMapper) ToGraphqlResponseAll(res *pb.ApiResponseReviewAll) *model.APIResponseReviewDetailAll {
+func (s *reviewDetailResponseMapper) ToGraphqlResponseAll(res *pbreview.ApiResponseReviewAll) *model.APIResponseReviewDetailAll {
 	return &model.APIResponseReviewDetailAll{
 		Status:  res.Status,
 		Message: res.Message,
 	}
 }
 
-func (s *reviewDetailResponseMapper) ToGraphqlResponseDelete(res *pb.ApiResponseReviewDelete) *model.APIResponseReviewDetailDelete {
+func (s *reviewDetailResponseMapper) ToGraphqlResponseDelete(res *pbreview.ApiResponseReviewDelete) *model.APIResponseReviewDetailDelete {
 	return &model.APIResponseReviewDetailDelete{
 		Status:  res.Status,
 		Message: res.Message,

@@ -7,10 +7,11 @@ package graph
 import (
 	"context"
 
-	sharedErrors "github.com/MamangRust/monolith-ecommerce-shared/errors"
 	graphqlerror "github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/errors"
 	"github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/model"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	pbreview "github.com/MamangRust/monolith-graphql-ecommerce-pb/review"
+	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb/review_detail"
+	sharedErrors "github.com/MamangRust/monolith-graphql-ecommerce-shared/errors"
 	"google.golang.org/protobuf/types/known/emptypb"
 )
 
@@ -195,7 +196,7 @@ func (r *queryResolver) FindAllReviewDetails(ctx context.Context, input *model.F
 			return data, nil
 		}
 
-		req := &pb.FindAllReviewRequest{
+		req := &pbreview.FindAllReviewRequest{
 			Page:     page,
 			PageSize: pageSize,
 			Search:   search,
@@ -276,7 +277,7 @@ func (r *queryResolver) FindActiveReviewDetails(ctx context.Context, input *mode
 			return data, nil
 		}
 
-		req := &pb.FindAllReviewRequest{
+		req := &pbreview.FindAllReviewRequest{
 			Page:     page,
 			PageSize: pageSize,
 			Search:   search,
@@ -326,7 +327,7 @@ func (r *queryResolver) FindTrashedReviewDetails(ctx context.Context, input *mod
 			return data, nil
 		}
 
-		req := &pb.FindAllReviewRequest{
+		req := &pbreview.FindAllReviewRequest{
 			Page:     page,
 			PageSize: pageSize,
 			Search:   search,

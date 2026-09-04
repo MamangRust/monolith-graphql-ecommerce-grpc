@@ -3,23 +3,24 @@ package repository
 import (
 	"context"
 
-	db "github.com/MamangRust/monolith-ecommerce-pkg/database/schema"
-	"github.com/MamangRust/monolith-ecommerce-shared/errors/user_errors"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/errors/user_errors"
+
+	pbuser "github.com/MamangRust/monolith-graphql-ecommerce-pb/user"
 )
 
 type userQueryRepository struct {
-	client pb.UserQueryServiceClient
+	client pbuser.UserQueryServiceClient
 }
 
-func NewUserQueryRepository(client pb.UserQueryServiceClient) UserQueryRepository {
+func NewUserQueryRepository(client pbuser.UserQueryServiceClient) UserQueryRepository {
 	return &userQueryRepository{
 		client: client,
 	}
 }
 
 func (r *userQueryRepository) FindById(ctx context.Context, user_id int) (*db.GetUserByIDRow, error) {
-	res, err := r.client.FindById(ctx, &pb.FindByIdUserRequest{Id: int32(user_id)})
+	res, err := r.client.FindById(ctx, &pbuser.FindByIdUserRequest{Id: int32(user_id)})
 	if err != nil {
 		return nil, user_errors.ErrUserNotFound.WithInternal(err)
 	}

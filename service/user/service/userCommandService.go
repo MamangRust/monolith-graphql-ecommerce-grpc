@@ -3,37 +3,37 @@ package service
 import (
 	"context"
 
-	db "github.com/MamangRust/monolith-ecommerce-pkg/database/schema"
-	"github.com/MamangRust/monolith-ecommerce-pkg/hash"
-	"github.com/MamangRust/monolith-ecommerce-pkg/logger"
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/requests"
-	"github.com/MamangRust/monolith-ecommerce-shared/errorhandler"
-	"github.com/MamangRust/monolith-ecommerce-shared/errors/user_errors"
-	"github.com/MamangRust/monolith-ecommerce-shared/observability"
 	"github.com/MamangRust/monolith-graphql-ecommerce-user/cache"
 	"github.com/MamangRust/monolith-graphql-ecommerce-user/repository"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/hash"
+	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/logger"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/requests"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/errorhandler"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/errors/user_errors"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/observability"
 	"go.opentelemetry.io/otel/attribute"
 	"go.uber.org/zap"
 )
 
 type userCommandService struct {
-	observability         observability.TraceLoggerObservability
-	cache                 cache.UserCommandCache
+	observability       observability.TraceLoggerObservability
+	cache               cache.UserCommandCache
 	userCommandRepository repository.UserCommandRepository
 	userQueryRepository   repository.UserQueryRepository
-	roleRepository        repository.RoleRepository
-	logger                logger.LoggerInterface
-	hashing               hash.HashPassword
+	roleRepository      repository.RoleRepository
+	logger              logger.LoggerInterface
+	hashing             hash.HashPassword
 }
 
 type UserCommandServiceDeps struct {
-	Observability         observability.TraceLoggerObservability
-	Cache                 cache.UserCommandCache
+	Observability       observability.TraceLoggerObservability
+	Cache               cache.UserCommandCache
 	UserCommandRepository repository.UserCommandRepository
 	UserQueryRepository   repository.UserQueryRepository
-	RoleRepository        repository.RoleRepository
-	Logger                logger.LoggerInterface
-	Hash                  hash.HashPassword
+	RoleRepository      repository.RoleRepository
+	Logger              logger.LoggerInterface
+	Hash                hash.HashPassword
 }
 
 func NewUserCommandService(deps *UserCommandServiceDeps) UserCommandService {

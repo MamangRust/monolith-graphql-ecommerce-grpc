@@ -3,9 +3,9 @@ package repository
 import (
 	"context"
 
-	db "github.com/MamangRust/monolith-ecommerce-pkg/database/schema"
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/requests"
-	shippingaddress_errors "github.com/MamangRust/monolith-ecommerce-shared/errors/shipping_address_errors"
+	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/requests"
+	shippingaddress_errors "github.com/MamangRust/monolith-graphql-ecommerce-shared/errors/shipping_address_errors"
 )
 
 type shippingAddressCommandRepository struct {
@@ -24,7 +24,7 @@ func (r *shippingAddressCommandRepository) Create(ctx context.Context, request *
 		orderID = int32(*request.OrderID)
 	}
 	req := db.CreateShippingAddressParams{
-		OrderID: orderID,
+		OrderID:        orderID,
 		Alamat:         request.Alamat,
 		Provinsi:       request.Provinsi,
 		Kota:           request.Kota,

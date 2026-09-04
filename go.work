@@ -27,4 +27,5 @@ use (
 	./service/transaction
 	./service/user
 	./shared
+	./tests
 )

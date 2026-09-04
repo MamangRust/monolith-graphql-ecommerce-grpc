@@ -1,6 +1,6 @@
 package product_cache
 
-import "github.com/MamangRust/monolith-ecommerce-shared/cache"
+import "github.com/MamangRust/monolith-graphql-ecommerce-shared/cache"
 
 type ProductMencache interface {
 	ProductQueryCache

@@ -1,9 +1,9 @@
 package repository
 
 import (
-	db "github.com/MamangRust/monolith-ecommerce-pkg/database/schema"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
-	"github.com/jackc/pgx/v5/pgxpool"
+	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
+
+	pbmerchant "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant"
 )
 
 type Repositories struct {
@@ -13,11 +13,11 @@ type Repositories struct {
 	MerchantSocialLinkCommand MerchantSocialLinkCommandRepository
 }
 
-func NewRepositories(db *db.Queries, merchantQuery pb.MerchantQueryServiceClient, pool *pgxpool.Pool) *Repositories {
+func NewRepositories(db *db.Queries, merchantQuery pbmerchant.MerchantQueryServiceClient) *Repositories {
 	return &Repositories{
 		MerchantQuery:             NewMerchantQueryRepository(merchantQuery),
 		MerchantDetailQuery:       NewMerchantDetailQueryRepository(db),
 		MerchantDetailCommand:     NewMerchantDetailCommandRepository(db),
-		MerchantSocialLinkCommand: NewMerchantSocialLinkCommandRepository(pool, db),
+		MerchantSocialLinkCommand: NewMerchantSocialLinkCommandRepository(db),
 	}
 }

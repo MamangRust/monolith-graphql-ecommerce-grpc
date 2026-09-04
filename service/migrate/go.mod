@@ -3,7 +3,7 @@ module github.com/MamangRust/monolith-graphql-ecommerce-migrate
 go 1.25.0
 
 require (
-	github.com/MamangRust/monolith-ecommerce-pkg v1.0.18
+	github.com/MamangRust/monolith-graphql-ecommerce-pkg v1.0.18
 	github.com/jackc/pgx/v5 v5.9.1
 	github.com/pressly/goose/v3 v3.24.3
 	github.com/spf13/viper v1.21.0
@@ -32,7 +32,7 @@ require (
 )
 
 replace (
-	github.com/MamangRust/monolith-ecommerce-pkg => ../../pkg
-	github.com/MamangRust/monolith-ecommerce-shared => ../../shared
 	github.com/MamangRust/monolith-graphql-ecommerce-pb => ../../pb
+	github.com/MamangRust/monolith-graphql-ecommerce-pkg => ../../pkg
+	github.com/MamangRust/monolith-graphql-ecommerce-shared => ../../shared
 )

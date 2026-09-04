@@ -3,6 +3,7 @@ package authgraphqlmapper
 import (
 	"github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/model"
 	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	pbuser "github.com/MamangRust/monolith-graphql-ecommerce-pb/user"
 )
 
 type authGraphqlMapper struct {
@@ -65,7 +66,7 @@ func (s *authGraphqlMapper) ToGraphqlResponseGetMe(res *pb.ApiResponseGetMe) *mo
 	}
 }
 
-func (s *authGraphqlMapper) mapResponseUser(res *pb.UserResponse) *model.UserResponse {
+func (s *authGraphqlMapper) mapResponseUser(res *pbuser.UserResponse) *model.UserResponse {
 	return &model.UserResponse{
 		ID:        res.Id,
 		Firstname: res.Firstname,

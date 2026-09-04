@@ -1,23 +1,24 @@
 package cartapimapper
 
 import (
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/response"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/response"
+
+	pbcart "github.com/MamangRust/monolith-graphql-ecommerce-pb/cart"
 )
 
 type CartBaseResponseMapper interface {
-	ToResponseCart(pbResponse *pb.CartResponse) *response.CartResponse
-	ToResponseCarts(pbResponse []*pb.CartResponse) []*response.CartResponse
-	ToApiResponseCart(pbResponse *pb.ApiResponseCart) *response.ApiResponseCart
+	ToResponseCart(pbResponse *pbcart.CartResponse) *response.CartResponse
+	ToResponseCarts(pbResponse []*pbcart.CartResponse) []*response.CartResponse
+	ToApiResponseCart(pbResponse *pbcart.ApiResponseCart) *response.ApiResponseCart
 }
 
 type CartQueryResponseMapper interface {
 	CartBaseResponseMapper
-	ToApiResponseCartPagination(pbResponse *pb.ApiResponsePaginationCart) *response.ApiResponseCartPagination
+	ToApiResponseCartPagination(pbResponse *pbcart.ApiResponsePaginationCart) *response.ApiResponseCartPagination
 }
 
 type CartCommandResponseMapper interface {
 	CartBaseResponseMapper
-	ToApiResponseCartDelete(pbResponse *pb.ApiResponseCartDelete) *response.ApiResponseCartDelete
-	ToApiResponseCartAll(pbResponse *pb.ApiResponseCartAll) *response.ApiResponseCartAll
+	ToApiResponseCartDelete(pbResponse *pbcart.ApiResponseCartDelete) *response.ApiResponseCartDelete
+	ToApiResponseCartAll(pbResponse *pbcart.ApiResponseCartAll) *response.ApiResponseCartAll
 }

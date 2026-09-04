@@ -3,87 +3,91 @@ package service
 import (
 	"context"
 
-	db "github.com/MamangRust/monolith-ecommerce-pkg/database/schema"
-	"github.com/MamangRust/monolith-ecommerce-pkg/logger"
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/requests"
-	"github.com/MamangRust/monolith-ecommerce-shared/errorhandler"
-	merchant_social_link_errors "github.com/MamangRust/monolith-ecommerce-shared/errors/merchant_social_link_errors"
-	"github.com/MamangRust/monolith-ecommerce-shared/observability"
 	"github.com/MamangRust/monolith-graphql-ecommerce-merchant_detail/repository"
+	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/logger"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/requests"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/errorhandler"
+	merchant_social_link_errors "github.com/MamangRust/monolith-graphql-ecommerce-shared/errors/merchant_social_link_errors"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/observability"
 	"go.opentelemetry.io/otel/attribute"
 	"go.uber.org/zap"
 )
 
 type merchantSocialLinkCommandService struct {
-	observability observability.TraceLoggerObservability
-	repository    repository.MerchantSocialLinkCommandRepository
-	logger        logger.LoggerInterface
+	observability    observability.TraceLoggerObservability
+	repository       repository.MerchantSocialLinkCommandRepository
+	logger           logger.LoggerInterface
 }
 
 type MerchantSocialLinkCommandServiceDeps struct {
-	Observability observability.TraceLoggerObservability
-	Repository    repository.MerchantSocialLinkCommandRepository
-	Logger        logger.LoggerInterface
+	Observability    observability.TraceLoggerObservability
+	Repository       repository.MerchantSocialLinkCommandRepository
+	Logger           logger.LoggerInterface
 }
 
 func NewMerchantSocialLinkCommandService(deps *MerchantSocialLinkCommandServiceDeps) *merchantSocialLinkCommandService {
 	return &merchantSocialLinkCommandService{
-		observability: deps.Observability,
-		repository:    deps.Repository,
-		logger:        deps.Logger,
+		observability:    deps.Observability,
+		repository:       deps.Repository,
+		logger:           deps.Logger,
 	}
 }
 
-func (s *merchantSocialLinkCommandService) CreateSocialLink(ctx context.Context, req *requests.CreateBatchMerchantSocialRequest) ([]*db.CreateMerchantSocialMediaLinkRow, error) {
-	const method = "CreateSocialLink"
+func (s *merchantSocialLinkCommandService) Create(ctx context.Context, req *requests.CreateMerchantSocialRequest) (*db.CreateMerchantSocialMediaLinkRow, error) {
+	const method = "Create"
 
-	ctx, span, end, status, logSuccess := s.observability.StartTracingAndLogging(ctx, method)
+	ctx, span, end, status, logSuccess := s.observability.StartTracingAndLogging(ctx, method,
+		attribute.Int("merchantDetailID", *req.MerchantDetailID))
+
 	defer func() {
 		end(status)
 	}()
 
-	social, err := s.repository.CreateSocialLink(ctx, req)
+	res, err := s.repository.Create(ctx, req)
 	if err != nil {
 		status = "error"
-		return errorhandler.HandleError[[]*db.CreateMerchantSocialMediaLinkRow](
+		return errorhandler.HandleError[*db.CreateMerchantSocialMediaLinkRow](
 			s.logger,
-			merchant_social_link_errors.ErrFailedCreateMerchantSocialLink,
+			merchant_social_link_errors.ErrCreateMerchantSocialLink,
 			method,
 			span,
-			zap.Any("request", req),
+			zap.Int("merchantDetailID", *req.MerchantDetailID),
 		)
 	}
 
-	logSuccess("Successfully created social links", zap.Int("count", len(social)))
-	return social, nil
+	logSuccess("Successfully created merchant social link", zap.Int("socialLinkID", int(res.MerchantSocialID)))
+	return res, nil
 }
 
-func (s *merchantSocialLinkCommandService) UpdateSocialLink(ctx context.Context, req *requests.UpdateBatchMerchantSocialRequest) ([]*db.UpdateMerchantSocialMediaLinkRow, error) {
-	const method = "UpdateSocialLink"
+func (s *merchantSocialLinkCommandService) Update(ctx context.Context, req *requests.UpdateMerchantSocialRequest) (*db.UpdateMerchantSocialMediaLinkRow, error) {
+	const method = "Update"
 
-	ctx, span, end, status, logSuccess := s.observability.StartTracingAndLogging(ctx, method)
+	ctx, span, end, status, logSuccess := s.observability.StartTracingAndLogging(ctx, method,
+		attribute.Int("socialLinkID", req.ID))
+
 	defer func() {
 		end(status)
 	}()
 
-	social, err := s.repository.UpdateSocialLink(ctx, req)
+	res, err := s.repository.Update(ctx, req)
 	if err != nil {
 		status = "error"
-		return errorhandler.HandleError[[]*db.UpdateMerchantSocialMediaLinkRow](
+		return errorhandler.HandleError[*db.UpdateMerchantSocialMediaLinkRow](
 			s.logger,
-			merchant_social_link_errors.ErrFailedUpdateMerchantSocialLink,
+			merchant_social_link_errors.ErrUpdateMerchantSocialLink,
 			method,
 			span,
-			zap.Any("request", req),
+			zap.Int("socialLinkID", req.ID),
 		)
 	}
 
-	logSuccess("Successfully updated social links", zap.Int("count", len(social)))
-	return social, nil
+	logSuccess("Successfully updated merchant social link", zap.Int("socialLinkID", req.ID))
+	return res, nil
 }
 
-func (s *merchantSocialLinkCommandService) TrashSocialLink(ctx context.Context, socialID int) (bool, error) {
-	const method = "TrashSocialLink"
+func (s *merchantSocialLinkCommandService) Trash(ctx context.Context, socialID int) (bool, error) {
+	const method = "Trash"
 
 	ctx, span, end, status, logSuccess := s.observability.StartTracingAndLogging(ctx, method,
 		attribute.Int("socialLinkID", socialID))
@@ -92,7 +96,7 @@ func (s *merchantSocialLinkCommandService) TrashSocialLink(ctx context.Context, 
 		end(status)
 	}()
 
-	success, err := s.repository.TrashSocialLink(ctx, socialID)
+	success, err := s.repository.Trash(ctx, socialID)
 	if err != nil {
 		status = "error"
 		return errorhandler.HandleError[bool](
@@ -108,8 +112,8 @@ func (s *merchantSocialLinkCommandService) TrashSocialLink(ctx context.Context, 
 	return success, nil
 }
 
-func (s *merchantSocialLinkCommandService) RestoreSocialLink(ctx context.Context, socialID int) (bool, error) {
-	const method = "RestoreSocialLink"
+func (s *merchantSocialLinkCommandService) Restore(ctx context.Context, socialID int) (bool, error) {
+	const method = "Restore"
 
 	ctx, span, end, status, logSuccess := s.observability.StartTracingAndLogging(ctx, method,
 		attribute.Int("socialLinkID", socialID))
@@ -118,7 +122,7 @@ func (s *merchantSocialLinkCommandService) RestoreSocialLink(ctx context.Context
 		end(status)
 	}()
 
-	success, err := s.repository.RestoreSocialLink(ctx, socialID)
+	success, err := s.repository.Restore(ctx, socialID)
 	if err != nil {
 		status = "error"
 		return errorhandler.HandleError[bool](
@@ -134,8 +138,8 @@ func (s *merchantSocialLinkCommandService) RestoreSocialLink(ctx context.Context
 	return success, nil
 }
 
-func (s *merchantSocialLinkCommandService) DeletePermanentSocialLink(ctx context.Context, socialID int) (bool, error) {
-	const method = "DeletePermanentSocialLink"
+func (s *merchantSocialLinkCommandService) DeletePermanent(ctx context.Context, socialID int) (bool, error) {
+	const method = "DeletePermanent"
 
 	ctx, span, end, status, logSuccess := s.observability.StartTracingAndLogging(ctx, method,
 		attribute.Int("socialLinkID", socialID))
@@ -144,7 +148,7 @@ func (s *merchantSocialLinkCommandService) DeletePermanentSocialLink(ctx context
 		end(status)
 	}()
 
-	success, err := s.repository.DeletePermanentSocialLink(ctx, socialID)
+	success, err := s.repository.DeletePermanent(ctx, socialID)
 	if err != nil {
 		status = "error"
 		return errorhandler.HandleError[bool](
@@ -160,8 +164,8 @@ func (s *merchantSocialLinkCommandService) DeletePermanentSocialLink(ctx context
 	return success, nil
 }
 
-func (s *merchantSocialLinkCommandService) RestoreAllSocialLinks(ctx context.Context) (bool, error) {
-	const method = "RestoreAllSocialLinks"
+func (s *merchantSocialLinkCommandService) RestoreAll(ctx context.Context) (bool, error) {
+	const method = "RestoreAll"
 
 	ctx, span, end, status, logSuccess := s.observability.StartTracingAndLogging(ctx, method)
 
@@ -169,7 +173,7 @@ func (s *merchantSocialLinkCommandService) RestoreAllSocialLinks(ctx context.Con
 		end(status)
 	}()
 
-	success, err := s.repository.RestoreAllSocialLinks(ctx)
+	success, err := s.repository.RestoreAll(ctx)
 	if err != nil {
 		status = "error"
 		return errorhandler.HandleError[bool](
@@ -184,8 +188,8 @@ func (s *merchantSocialLinkCommandService) RestoreAllSocialLinks(ctx context.Con
 	return success, nil
 }
 
-func (s *merchantSocialLinkCommandService) DeleteAllSocialLinks(ctx context.Context) (bool, error) {
-	const method = "DeleteAllSocialLinks"
+func (s *merchantSocialLinkCommandService) DeleteAll(ctx context.Context) (bool, error) {
+	const method = "DeleteAll"
 
 	ctx, span, end, status, logSuccess := s.observability.StartTracingAndLogging(ctx, method)
 

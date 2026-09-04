@@ -4,10 +4,11 @@ import (
 	"context"
 
 	"database/sql"
+	errorsstd "errors"
 
-	db "github.com/MamangRust/monolith-ecommerce-pkg/database/schema"
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/requests"
-	merchantbusiness_errors "github.com/MamangRust/monolith-ecommerce-shared/errors/merchant_business"
+	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/requests"
+	merchantbusiness_errors "github.com/MamangRust/monolith-graphql-ecommerce-shared/errors/merchant_business"
 )
 
 type merchantBusinessQueryRepository struct {
@@ -80,7 +81,7 @@ func (r *merchantBusinessQueryRepository) FindByID(ctx context.Context, user_id 
 	res, err := r.db.GetMerchantBusinessInformation(ctx, int32(user_id))
 
 	if err != nil {
-		if err == sql.ErrNoRows {
+		if errorsstd.Is(err, sql.ErrNoRows) {
 			return nil, merchantbusiness_errors.ErrMerchantBusinessNotFound.WithInternal(err)
 		}
 		return nil, merchantbusiness_errors.ErrMerchantBusinessInternal.WithInternal(err)

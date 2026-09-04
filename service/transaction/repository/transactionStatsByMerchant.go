@@ -4,9 +4,9 @@ import (
 	"context"
 	"time"
 
-	db "github.com/MamangRust/monolith-ecommerce-pkg/database/schema"
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/requests"
-	"github.com/MamangRust/monolith-ecommerce-shared/errors/transaction_errors"
+	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/requests"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/errors/transaction_errors"
 )
 
 type transactionStatsByMerchantRepository struct {
@@ -162,4 +162,3 @@ func (r *transactionStatsByMerchantRepository) GetYearlyTransactionMethodByMerch
 
 	return res, nil
 }
-

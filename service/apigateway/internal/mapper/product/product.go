@@ -3,7 +3,7 @@ package productgraphqlmapper
 import (
 	graphqlmapper "github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/mapper/pagination"
 	"github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/model"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb/product"
 )
 
 type productGraphqlMapper struct {
@@ -110,9 +110,9 @@ func (p *productGraphqlMapper) mapResponseProductDeleteAt(product *pb.ProductRes
 	countInStock := int32(product.CountInStock)
 	weight := int32(product.Weight)
 
-	var deletedAt *string
+	var deletedAt string
 	if product.DeletedAt != nil {
-		deletedAt = &product.DeletedAt.Value
+		deletedAt = product.DeletedAt.Value
 	}
 
 	return &model.ProductResponseDeleteAt{
@@ -129,7 +129,7 @@ func (p *productGraphqlMapper) mapResponseProductDeleteAt(product *pb.ProductRes
 		ImageProduct: product.ImageProduct,
 		CreatedAt:    product.CreatedAt,
 		UpdatedAt:    product.UpdatedAt,
-		DeletedAt:    *deletedAt,
+		DeletedAt:    deletedAt,
 	}
 }
 

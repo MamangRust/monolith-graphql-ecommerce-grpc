@@ -2,7 +2,7 @@ package cartgraphqlmapper
 
 import (
 	"github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/model"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb/cart"
 )
 
 type CartGraphqlMapper interface {

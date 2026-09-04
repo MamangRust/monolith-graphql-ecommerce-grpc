@@ -2,7 +2,7 @@ package shipping_addressgraphqlmapper
 
 import (
 	"github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/model"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb/shipping_address"
 )
 
 type ShippingAddresGraphqlMapper interface {

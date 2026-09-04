@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/MamangRust/monolith-ecommerce-shared/cache"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/cache"
 )
 
 type merchantBusinessCommandCache struct {

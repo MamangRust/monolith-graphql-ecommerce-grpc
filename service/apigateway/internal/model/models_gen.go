@@ -1112,6 +1112,7 @@ type DeleteCartInput struct {
 }
 
 type DeleteCartsInput struct {
+	UserID  int32   `json:"user_id"`
 	CartIds []int32 `json:"cart_ids"`
 }
 

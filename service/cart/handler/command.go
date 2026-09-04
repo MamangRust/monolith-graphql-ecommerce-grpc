@@ -3,17 +3,18 @@ package handler
 import (
 	"context"
 
-	"github.com/MamangRust/monolith-ecommerce-pkg/logger"
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/requests"
-	"github.com/MamangRust/monolith-ecommerce-shared/errors"
-	"github.com/MamangRust/monolith-ecommerce-shared/errors/cart_errors"
 	"github.com/MamangRust/monolith-graphql-ecommerce-cart/service"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/logger"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/requests"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/errors"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/errors/cart_errors"
 	"google.golang.org/protobuf/types/known/emptypb"
+
+	pbcart "github.com/MamangRust/monolith-graphql-ecommerce-pb/cart"
 )
 
 type cartCommandHandler struct {
-	pb.UnimplementedCartCommandServiceServer
+	pbcart.UnimplementedCartCommandServiceServer
 	cartCommand service.CartCommandService
 	logger      logger.LoggerInterface
 }
@@ -25,7 +26,7 @@ func NewCartCommandHandler(cartCommand service.CartCommandService, logger logger
 	}
 }
 
-func (h *cartCommandHandler) Create(ctx context.Context, request *pb.CreateCartRequest) (*pb.ApiResponseCart, error) {
+func (h *cartCommandHandler) Create(ctx context.Context, request *pbcart.CreateCartRequest) (*pbcart.ApiResponseCart, error) {
 	req := &requests.CreateCartRequest{
 		ProductID: int(request.GetProductId()),
 		UserID:    int(request.GetUserId()),
@@ -41,14 +42,14 @@ func (h *cartCommandHandler) Create(ctx context.Context, request *pb.CreateCartR
 		return nil, errors.ToGrpcError(err)
 	}
 
-	return &pb.ApiResponseCart{
+	return &pbcart.ApiResponseCart{
 		Status:  "success",
 		Message: "Successfully created cart",
 		Data:    mapToProtoCartResponse(cart),
 	}, nil
 }
 
-func (h *cartCommandHandler) DeletePermanent(ctx context.Context, request *pb.DeleteCartRequest) (*pb.ApiResponseCartDelete, error) {
+func (h *cartCommandHandler) Delete(ctx context.Context, request *pbcart.DeleteCartRequest) (*pbcart.ApiResponseCartDelete, error) {
 	req := &requests.DeleteCartRequest{
 		CartID: int(request.GetCartId()),
 		UserID: int(request.GetUserId()),
@@ -63,15 +64,20 @@ func (h *cartCommandHandler) DeletePermanent(ctx context.Context, request *pb.De
 		return nil, errors.ToGrpcError(err)
 	}
 
-	return &pb.ApiResponseCartDelete{
+	return &pbcart.ApiResponseCartDelete{
 		Status:  "success",
 		Message: "Successfully deleted cart item permanently",
 	}, nil
 }
 
-func (h *cartCommandHandler) DeleteAllPermanent(ctx context.Context, request *pb.DeleteAllCartRequest) (*pb.ApiResponseCartAll, error) {
+func (h *cartCommandHandler) DeleteAll(ctx context.Context, request *pbcart.DeleteAllCartRequest) (*pbcart.ApiResponseCartAll, error) {
 	req := &requests.DeleteAllCartRequest{
-		UserID: int(request.GetUserId()),
+		UserID:  int(request.GetUserId()),
+		CartIds: make([]int, len(request.GetCartIds())),
+	}
+
+	for i, id := range request.GetCartIds() {
+		req.CartIds[i] = int(id)
 	}
 
 	if err := req.Validate(); err != nil {
@@ -83,19 +89,19 @@ func (h *cartCommandHandler) DeleteAllPermanent(ctx context.Context, request *pb
 		return nil, errors.ToGrpcError(err)
 	}
 
-	return &pb.ApiResponseCartAll{
+	return &pbcart.ApiResponseCartAll{
 		Status:  "success",
 		Message: "Successfully deleted all cart items permanently",
 	}, nil
 }
 
-func (h *cartCommandHandler) DeleteAllPermanentEmptypb(ctx context.Context, _ *emptypb.Empty) (*pb.ApiResponseCartAll, error) {
+func (h *cartCommandHandler) DeleteAllPermanentEmptypb(ctx context.Context, _ *emptypb.Empty) (*pbcart.ApiResponseCartAll, error) {
 	_, err := h.cartCommand.DeleteAll(ctx, &requests.DeleteAllCartRequest{})
 	if err != nil {
 		return nil, errors.ToGrpcError(err)
 	}
 
-	return &pb.ApiResponseCartAll{
+	return &pbcart.ApiResponseCartAll{
 		Status:  "success",
 		Message: "Successfully deleted all cart items permanently",
 	}, nil

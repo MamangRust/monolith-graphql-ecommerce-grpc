@@ -7,10 +7,10 @@ package graph
 import (
 	"context"
 
-	sharedErrors "github.com/MamangRust/monolith-ecommerce-shared/errors"
 	graphqlerror "github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/errors"
 	"github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/model"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb/order_item"
+	sharedErrors "github.com/MamangRust/monolith-graphql-ecommerce-shared/errors"
 )
 
 // FindAllOrderItems is the resolver for the findAllOrderItems field.

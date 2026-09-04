@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/MamangRust/monolith-ecommerce-shared/cache"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/cache"
 	"github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/model"
 )
 
@@ -96,7 +96,12 @@ func (p *productQueryCache) GetCachedProductsByCategory(ctx context.Context, req
 		search = *req.Search
 	}
 
-	key := fmt.Sprintf(productCategoryCacheKey, req.CategoryName, req.Page, req.PageSize, search)
+	var category string
+	if req.CategoryName != nil {
+		category = *req.CategoryName
+	}
+
+	key := fmt.Sprintf(productCategoryCacheKey, category, req.Page, req.PageSize, search)
 	result, found := cache.GetFromCache[model.APIResponsePaginationProduct](ctx, p.store, key)
 
 	if !found || result == nil {

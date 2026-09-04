@@ -7,10 +7,10 @@ package graph
 import (
 	"context"
 
-	sharedErrors "github.com/MamangRust/monolith-ecommerce-shared/errors"
 	graphqlerror "github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/errors"
 	"github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/model"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb/transaction"
+	sharedErrors "github.com/MamangRust/monolith-graphql-ecommerce-shared/errors"
 	"google.golang.org/protobuf/types/known/emptypb"
 )
 
@@ -850,7 +850,28 @@ func (r *queryResolver) FindByActive(ctx context.Context, input *model.FindAllTr
 			return nil, r.handleGraphQLError(err, "FindByActive")
 		}
 
-		res := r.TransactionGraphql.Mapping.ToGraphqlResponsePaginationTransactionDeleteAt(transactions)
+		active := r.TransactionGraphql.Mapping.ToGraphqlResponsePaginationTransaction(transactions)
+
+		var data []*model.TransactionResponseDeleteAt
+		for _, tx := range active.Data {
+			data = append(data, &model.TransactionResponseDeleteAt{
+				ID:            tx.ID,
+				OrderID:       tx.OrderID,
+				MerchantID:    tx.MerchantID,
+				PaymentMethod: tx.PaymentMethod,
+				Amount:        tx.Amount,
+				PaymentStatus: tx.PaymentStatus,
+				CreatedAt:     tx.CreatedAt,
+				UpdatedAt:     tx.UpdatedAt,
+			})
+		}
+
+		res := &model.APIResponsePaginationTransactionDeleteAt{
+			Status:     active.Status,
+			Message:    active.Message,
+			Data:       data,
+			Pagination: active.Pagination,
+		}
 
 		r.TransactionGraphql.Cache.SetCachedTransactionActiveCache(ctx, input, res)
 

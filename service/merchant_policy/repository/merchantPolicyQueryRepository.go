@@ -2,10 +2,12 @@ package repository
 
 import (
 	"context"
+	"database/sql"
+	errorsstd "errors"
 
-	db "github.com/MamangRust/monolith-ecommerce-pkg/database/schema"
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/requests"
-	merchant_policy_errors "github.com/MamangRust/monolith-ecommerce-shared/errors/merchant_policy_errors"
+	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/requests"
+	merchant_policy_errors "github.com/MamangRust/monolith-graphql-ecommerce-shared/errors/merchant_policy_errors"
 )
 
 type merchantPolicyQueryRepository struct {
@@ -76,6 +78,9 @@ func (r *merchantPolicyQueryRepository) FindByID(ctx context.Context, user_id in
 	res, err := r.db.GetMerchantPolicy(ctx, int32(user_id))
 
 	if err != nil {
+		if errorsstd.Is(err, sql.ErrNoRows) {
+			return nil, merchant_policy_errors.ErrMerchantPolicyNotFound.WithInternal(err)
+		}
 		return nil, merchant_policy_errors.ErrFindMerchantPolicyByID.WithInternal(err)
 	}
 

@@ -1,7 +1,7 @@
 package cache
 
 import (
-	"github.com/MamangRust/monolith-ecommerce-shared/cache"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/cache"
 )
 
 type Mencache struct {

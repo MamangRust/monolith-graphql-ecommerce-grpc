@@ -12,11 +12,11 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/requests"
-	sharedErrors "github.com/MamangRust/monolith-ecommerce-shared/errors"
 	graphqlerror "github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/errors"
 	"github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/model"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb/category"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/requests"
+	sharedErrors "github.com/MamangRust/monolith-graphql-ecommerce-shared/errors"
 	"google.golang.org/protobuf/types/known/emptypb"
 )
 
@@ -51,6 +51,7 @@ func (r *mutationResolver) CreateCategory(ctx context.Context, input model.Creat
 		req := &requests.CreateCategoryRequest{
 			Name:          input.Name,
 			Description:   input.Description,
+			SlugCategory:  &input.SlugCategory,
 			ImageCategory: imagePath,
 		}
 
@@ -62,6 +63,7 @@ func (r *mutationResolver) CreateCategory(ctx context.Context, input model.Creat
 		reqPb := &pb.CreateCategoryRequest{
 			Name:          req.Name,
 			Description:   req.Description,
+			SlugCategory:  *req.SlugCategory,
 			ImageCategory: req.ImageCategory,
 		}
 
@@ -117,6 +119,7 @@ func (r *mutationResolver) UpdateCategory(ctx context.Context, input model.Updat
 			CategoryID:    &id,
 			Name:          input.Name,
 			Description:   input.Description,
+			SlugCategory:  &input.SlugCategory,
 			ImageCategory: imagePath,
 		}
 
@@ -129,6 +132,7 @@ func (r *mutationResolver) UpdateCategory(ctx context.Context, input model.Updat
 			CategoryId:    int32(id),
 			Name:          req.Name,
 			Description:   req.Description,
+			SlugCategory:  *req.SlugCategory,
 			ImageCategory: req.ImageCategory,
 		}
 
@@ -704,9 +708,14 @@ func (r *queryResolver) FindMonthlyTotalPricesByID(ctx context.Context, input mo
 	return ResolverHandle(r.ResolverHandle, "FindMonthlyTotalPricesByID", ctx, func(ctx context.Context) (*model.APIResponseCategoryMonthlyTotalPrice, error) {
 		year := int(input.Year)
 		categoryID := int(input.CategoryID)
+		month := int(input.Month)
 
 		if year <= 0 {
 			return nil, graphqlerror.ToGraphqlErrorFromErrorResponse(sharedErrors.NewBadRequestError("invalid request: year cannot be zero"))
+		}
+
+		if month <= 0 || month > 12 {
+			return nil, graphqlerror.ToGraphqlErrorFromErrorResponse(sharedErrors.NewBadRequestError("invalid request: month must be between 1 and 12"))
 		}
 
 		if categoryID <= 0 {
@@ -719,6 +728,7 @@ func (r *queryResolver) FindMonthlyTotalPricesByID(ctx context.Context, input mo
 
 		req := &pb.FindYearMonthTotalPriceById{
 			Year:       int32(year),
+			Month:      int32(month),
 			CategoryId: int32(categoryID),
 		}
 

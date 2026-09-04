@@ -1,11 +1,11 @@
-module github.com/MamangRust/monolith-ecommerce-auth
+module github.com/MamangRust/monolith-graphql-ecommerce-auth
 
 go 1.25.1
 
 require (
-	github.com/MamangRust/monolith-ecommerce-pkg v1.0.18
-	github.com/MamangRust/monolith-ecommerce-shared v1.0.20
 	github.com/MamangRust/monolith-graphql-ecommerce-pb v0.0.0-00010101000000-000000000000
+	github.com/MamangRust/monolith-graphql-ecommerce-pkg v1.0.18
+	github.com/MamangRust/monolith-graphql-ecommerce-shared v1.0.20
 	github.com/jackc/pgx/v5 v5.9.1
 	github.com/spf13/viper v1.21.0
 	go.opentelemetry.io/otel v1.43.0
@@ -30,7 +30,7 @@ require (
 	github.com/go-playground/universal-translator v0.18.1 // indirect
 	github.com/go-playground/validator/v10 v10.30.1 // indirect
 	github.com/go-viper/mapstructure/v2 v2.5.0 // indirect
-	github.com/golang-jwt/jwt/v5 v5.3.1 // indirect
+	github.com/golang-jwt/jwt/v5 v5.2.2 // indirect
 	github.com/golang/snappy v1.0.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/grafana/pyroscope-go v1.2.8 // indirect
@@ -91,7 +91,7 @@ require (
 )
 
 replace (
-	github.com/MamangRust/monolith-ecommerce-pkg => ../../pkg
-	github.com/MamangRust/monolith-ecommerce-shared => ../../shared
 	github.com/MamangRust/monolith-graphql-ecommerce-pb => ../../pb
+	github.com/MamangRust/monolith-graphql-ecommerce-pkg => ../../pkg
+	github.com/MamangRust/monolith-graphql-ecommerce-shared => ../../shared
 )

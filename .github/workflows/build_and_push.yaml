@@ -46,7 +46,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/mamangrust/monolith-graphql-ecommerce/${{ matrix.service }}
+          images: ghcr.io/mamangrust/monolith-ecommerce-grpc/${{ matrix.service }}
           tags: |
             type=ref,event=branch,name=main
             type=ref,event=tag
@@ -56,8 +56,8 @@ jobs:
           labels: |
             org.opencontainers.image.title=${{ matrix.service }}
             org.opencontainers.image.description=Microservice ${{ matrix.service }} for Payment Gateway
-            org.opencontainers.image.source=https://github.com/mamangrust/monolith-graphql-ecommerce
-            org.opencontainers.image.url=https://github.com/mamangrust/monolith-graphql-ecommerce
+            org.opencontainers.image.source=https://github.com/MamangRust/monolith-graphql-ecommerce-grpc
+            org.opencontainers.image.url=https://github.com/MamangRust/monolith-graphql-ecommerce-grpc
             org.opencontainers.image.licenses=MIT
 
       - name: Set up Docker Buildx
@@ -83,5 +83,5 @@ jobs:
           file: ./service/${{ matrix.service }}/Dockerfile
           tags: |
             ${{ steps.meta.outputs.tags }}
-            ghcr.io/mamangrust/monolith-graphql-ecommerce/${{ matrix.service }}:latest
+            ghcr.io/mamangrust/monolith-ecommerce-grpc/${{ matrix.service }}:latest
           labels: ${{ steps.meta.outputs.labels }}

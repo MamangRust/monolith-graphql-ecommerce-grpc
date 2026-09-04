@@ -14,18 +14,37 @@ import (
 	"github.com/99designs/gqlgen/graphql/handler/lru"
 	"github.com/99designs/gqlgen/graphql/handler/transport"
 	"github.com/99designs/gqlgen/graphql/playground"
-	"github.com/MamangRust/monolith-ecommerce-pkg/auth"
-	"github.com/MamangRust/monolith-ecommerce-pkg/dotenv"
-	"github.com/MamangRust/monolith-ecommerce-pkg/logger"
-	otel_pkg "github.com/MamangRust/monolith-ecommerce-pkg/otel"
-	redisclient "github.com/MamangRust/monolith-ecommerce-pkg/redis"
-	"github.com/MamangRust/monolith-ecommerce-pkg/upload_image"
-	sharedcache "github.com/MamangRust/monolith-ecommerce-shared/cache"
-	sharedobservability "github.com/MamangRust/monolith-ecommerce-shared/observability"
 	graph "github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/handler"
 	graphqlmapper "github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/mapper"
 	"github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/middlewares"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	authpb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	pbbanner "github.com/MamangRust/monolith-graphql-ecommerce-pb/banner"
+	pbcart "github.com/MamangRust/monolith-graphql-ecommerce-pb/cart"
+	pbcategory "github.com/MamangRust/monolith-graphql-ecommerce-pb/category"
+	pbmerchant "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant"
+	pbmerchantaward "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant_award"
+	pbmerchantbusiness "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant_business"
+	pbmerchantdetail "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant_detail"
+	pbmerchantpolicy "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant_policy"
+	pbmsl "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant_social_link"
+	pborder "github.com/MamangRust/monolith-graphql-ecommerce-pb/order"
+	pborderitem "github.com/MamangRust/monolith-graphql-ecommerce-pb/order_item"
+	pbproduct "github.com/MamangRust/monolith-graphql-ecommerce-pb/product"
+	pbreview "github.com/MamangRust/monolith-graphql-ecommerce-pb/review"
+	pbreviewdetail "github.com/MamangRust/monolith-graphql-ecommerce-pb/review_detail"
+	pbrole "github.com/MamangRust/monolith-graphql-ecommerce-pb/role"
+	pbshipping "github.com/MamangRust/monolith-graphql-ecommerce-pb/shipping_address"
+	pbslider "github.com/MamangRust/monolith-graphql-ecommerce-pb/slider"
+	pbtransaction "github.com/MamangRust/monolith-graphql-ecommerce-pb/transaction"
+	pbuser "github.com/MamangRust/monolith-graphql-ecommerce-pb/user"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/auth"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/dotenv"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/logger"
+	otel_pkg "github.com/MamangRust/monolith-graphql-ecommerce-pkg/otel"
+	redisclient "github.com/MamangRust/monolith-graphql-ecommerce-pkg/redis"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/upload_image"
+	sharedcache "github.com/MamangRust/monolith-graphql-ecommerce-shared/cache"
+	sharedobservability "github.com/MamangRust/monolith-graphql-ecommerce-shared/observability"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/spf13/viper"
 	"github.com/vektah/gqlparser/v2/ast"
@@ -276,50 +295,50 @@ func RunClient() (*Client, func(), error) {
 	graphqlMapper := graphqlmapper.NewGraphqlMapper()
 
 	grpcClients := &graph.GRPCClients{
-		AuthClient:                    pb.NewAuthServiceClient(conns.AuthClient),
-		RoleCommandClient:             pb.NewRoleCommandServiceClient(conns.RoleClient),
-		RoleQueryClient:               pb.NewRoleQueryServiceClient(conns.RoleClient),
-		UserCommandClient:             pb.NewUserCommandServiceClient(conns.UserClient),
-		UserQueryClient:               pb.NewUserQueryServiceClient(conns.UserClient),
-		BannerCommandClient:           pb.NewBannerCommandServiceClient(conns.BannerClient),
-		BannerQueryClient:             pb.NewBannerQueryServiceClient(conns.BannerClient),
-		CartCommandClient:             pb.NewCartCommandServiceClient(conns.CartClient),
-		CartQueryClient:               pb.NewCartQueryServiceClient(conns.CartClient),
-		CategoryCommandClient:         pb.NewCategoryCommandServiceClient(conns.CategoryClient),
-		CategoryQueryClient:           pb.NewCategoryQueryServiceClient(conns.CategoryClient),
-		CategoryStatsClient:           pb.NewCategoryStatsServiceClient(conns.CategoryClient),
-		CategoryStatsByMerchantClient: pb.NewCategoryStatsByMerchantServiceClient(conns.CategoryClient),
-		CategoryStatsByIdClient:       pb.NewCategoryStatsByIdServiceClient(conns.CategoryClient),
-		MerchantCommandClient:         pb.NewMerchantCommandServiceClient(conns.MerchantClient),
-		MerchantQueryClient:           pb.NewMerchantQueryServiceClient(conns.MerchantClient),
-		MerchantAwardCommandClient:    pb.NewMerchantAwardCommandServiceClient(conns.MerchantAwardClient),
-		MerchantAwardQueryClient:      pb.NewMerchantAwardQueryServiceClient(conns.MerchantAwardClient),
-		MerchantBusinessCommandClient: pb.NewMerchantBusinessCommandServiceClient(conns.MerchantBusinessClient),
-		MerchantBusinessQueryClient:   pb.NewMerchantBusinessQueryServiceClient(conns.MerchantBusinessClient),
-		MerchantDetailCommandClient:   pb.NewMerchantDetailCommandServiceClient(conns.MerchantDetailClient),
-		MerchantDetailQueryClient:     pb.NewMerchantDetailQueryServiceClient(conns.MerchantDetailClient),
-		MerchantPolicyCommandClient:   pb.NewMerchantPolicyCommandServiceClient(conns.MerchantPolicyClient),
-		MerchantPolicyQueryClient:     pb.NewMerchantPolicyQueryServiceClient(conns.MerchantPolicyClient),
-		MerchantSocialLinkClient:      pb.NewMerchantSocialLinkServiceClient(conns.MerchantSocialLinkClient),
-		OrderCommandClient:            pb.NewOrderCommandServiceClient(conns.OrderClient),
-		OrderQueryClient:              pb.NewOrderQueryServiceClient(conns.OrderClient),
-		OrderStatsClient:              pb.NewOrderStatsServiceClient(conns.OrderClient),
-		OrderItemCommandClient:        pb.NewOrderItemCommandServiceClient(conns.OrderItemClient),
-		OrderItemQueryClient:          pb.NewOrderItemQueryServiceClient(conns.OrderItemClient),
-		ProductCommandClient:          pb.NewProductCommandServiceClient(conns.ProductClient),
-		ProductQueryClient:            pb.NewProductQueryServiceClient(conns.ProductClient),
-		ReviewCommandClient:           pb.NewReviewCommandServiceClient(conns.ReviewClient),
-		ReviewQueryClient:             pb.NewReviewQueryServiceClient(conns.ReviewClient),
-		ReviewDetailCommandClient:     pb.NewReviewDetailCommandServiceClient(conns.ReviewDetailClient),
-		ReviewDetailQueryClient:       pb.NewReviewDetailQueryServiceClient(conns.ReviewDetailClient),
-		ShippingCommandClient:         pb.NewShippingCommandServiceClient(conns.ShippingClient),
-		ShippingQueryClient:           pb.NewShippingQueryServiceClient(conns.ShippingClient),
-		SliderCommandClient:           pb.NewSliderCommandServiceClient(conns.SliderClient),
-		SliderQueryClient:             pb.NewSliderQueryServiceClient(conns.SliderClient),
-		TransactionCommandClient:      pb.NewTransactionCommandServiceClient(conns.TransactionClient),
-		TransactionQueryClient:        pb.NewTransactionQueryServiceClient(conns.TransactionClient),
-		TransactionStatsClient:        pb.NewTransactionStatsServiceClient(conns.TransactionClient),
-		TransactionStatsByMerchantClient: pb.NewTransactionStatsByMerchantServiceClient(conns.TransactionClient),
+		AuthClient:                       authpb.NewAuthServiceClient(conns.AuthClient),
+		RoleCommandClient:                pbrole.NewRoleCommandServiceClient(conns.RoleClient),
+		RoleQueryClient:                  pbrole.NewRoleQueryServiceClient(conns.RoleClient),
+		UserCommandClient:                pbuser.NewUserCommandServiceClient(conns.UserClient),
+		UserQueryClient:                  pbuser.NewUserQueryServiceClient(conns.UserClient),
+		BannerCommandClient:              pbbanner.NewBannerCommandServiceClient(conns.BannerClient),
+		BannerQueryClient:                pbbanner.NewBannerQueryServiceClient(conns.BannerClient),
+		CartCommandClient:                pbcart.NewCartCommandServiceClient(conns.CartClient),
+		CartQueryClient:                  pbcart.NewCartQueryServiceClient(conns.CartClient),
+		CategoryCommandClient:            pbcategory.NewCategoryCommandServiceClient(conns.CategoryClient),
+		CategoryQueryClient:              pbcategory.NewCategoryQueryServiceClient(conns.CategoryClient),
+		CategoryStatsClient:              pbcategory.NewCategoryStatsServiceClient(conns.CategoryClient),
+		CategoryStatsByMerchantClient:    pbcategory.NewCategoryStatsByMerchantServiceClient(conns.CategoryClient),
+		CategoryStatsByIdClient:          pbcategory.NewCategoryStatsByIdServiceClient(conns.CategoryClient),
+		MerchantCommandClient:            pbmerchant.NewMerchantCommandServiceClient(conns.MerchantClient),
+		MerchantQueryClient:              pbmerchant.NewMerchantQueryServiceClient(conns.MerchantClient),
+		MerchantAwardCommandClient:       pbmerchantaward.NewMerchantAwardCommandServiceClient(conns.MerchantAwardClient),
+		MerchantAwardQueryClient:         pbmerchantaward.NewMerchantAwardQueryServiceClient(conns.MerchantAwardClient),
+		MerchantBusinessCommandClient:    pbmerchantbusiness.NewMerchantBusinessCommandServiceClient(conns.MerchantBusinessClient),
+		MerchantBusinessQueryClient:      pbmerchantbusiness.NewMerchantBusinessQueryServiceClient(conns.MerchantBusinessClient),
+		MerchantDetailCommandClient:      pbmerchantdetail.NewMerchantDetailCommandServiceClient(conns.MerchantDetailClient),
+		MerchantDetailQueryClient:        pbmerchantdetail.NewMerchantDetailQueryServiceClient(conns.MerchantDetailClient),
+		MerchantPolicyCommandClient:      pbmerchantpolicy.NewMerchantPolicyCommandServiceClient(conns.MerchantPolicyClient),
+		MerchantPolicyQueryClient:        pbmerchantpolicy.NewMerchantPolicyQueryServiceClient(conns.MerchantPolicyClient),
+		MerchantSocialLinkClient:         pbmsl.NewMerchantSocialCommandServiceClient(conns.MerchantSocialLinkClient),
+		OrderCommandClient:               pborder.NewOrderCommandServiceClient(conns.OrderClient),
+		OrderQueryClient:                 pborder.NewOrderQueryServiceClient(conns.OrderClient),
+		OrderStatsClient:                 pborder.NewOrderStatsServiceClient(conns.OrderClient),
+		OrderItemCommandClient:           pborderitem.NewOrderItemCommandServiceClient(conns.OrderItemClient),
+		OrderItemQueryClient:             pborderitem.NewOrderItemQueryServiceClient(conns.OrderItemClient),
+		ProductCommandClient:             pbproduct.NewProductCommandServiceClient(conns.ProductClient),
+		ProductQueryClient:               pbproduct.NewProductQueryServiceClient(conns.ProductClient),
+		ReviewCommandClient:              pbreview.NewReviewCommandServiceClient(conns.ReviewClient),
+		ReviewQueryClient:                pbreview.NewReviewQueryServiceClient(conns.ReviewClient),
+		ReviewDetailCommandClient:        pbreviewdetail.NewReviewDetailCommandServiceClient(conns.ReviewDetailClient),
+		ReviewDetailQueryClient:          pbreviewdetail.NewReviewDetailQueryServiceClient(conns.ReviewDetailClient),
+		ShippingCommandClient:            pbshipping.NewShippingCommandServiceClient(conns.ShippingClient),
+		ShippingQueryClient:              pbshipping.NewShippingQueryServiceClient(conns.ShippingClient),
+		SliderCommandClient:              pbslider.NewSliderCommandServiceClient(conns.SliderClient),
+		SliderQueryClient:                pbslider.NewSliderQueryServiceClient(conns.SliderClient),
+		TransactionCommandClient:         pbtransaction.NewTransactionCommandServiceClient(conns.TransactionClient),
+		TransactionQueryClient:           pbtransaction.NewTransactionQueryServiceClient(conns.TransactionClient),
+		TransactionStatsClient:           pbtransaction.NewTransactionStatsServiceClient(conns.TransactionClient),
+		TransactionStatsByMerchantClient: pbtransaction.NewTransactionStatsByMerchantServiceClient(conns.TransactionClient),
 	}
 
 	resolver := graph.NewResolver(&graph.Deps{

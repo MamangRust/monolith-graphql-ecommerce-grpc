@@ -1,8 +1,10 @@
 package repository
 
 import (
-	db "github.com/MamangRust/monolith-ecommerce-pkg/database/schema"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
+
+	pbrole "github.com/MamangRust/monolith-graphql-ecommerce-pb/role"
+	pbuser "github.com/MamangRust/monolith-graphql-ecommerce-pb/user"
 )
 
 type Repositories struct {
@@ -14,10 +16,10 @@ type Repositories struct {
 }
 
 func NewRepositories(DB *db.Queries,
-	userQuery pb.UserQueryServiceClient,
-	userCommand pb.UserCommandServiceClient,
-	roleQuery pb.RoleQueryServiceClient,
-	roleCommand pb.RoleCommandServiceClient,
+	userQuery pbuser.UserQueryServiceClient,
+	userCommand pbuser.UserCommandServiceClient,
+	roleQuery pbrole.RoleQueryServiceClient,
+	roleCommand pbrole.RoleCommandServiceClient,
 ) *Repositories {
 	return &Repositories{
 		User:         NewUserRepository(userQuery, userCommand),

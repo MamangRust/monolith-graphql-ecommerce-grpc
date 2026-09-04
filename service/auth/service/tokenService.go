@@ -4,12 +4,12 @@ import (
 	"context"
 	"time"
 
-	"github.com/MamangRust/monolith-ecommerce-auth/repository"
-	"github.com/MamangRust/monolith-ecommerce-pkg/auth"
-	"github.com/MamangRust/monolith-ecommerce-pkg/logger"
-	traceunic "github.com/MamangRust/monolith-ecommerce-pkg/trace_unic"
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/requests"
-	"github.com/MamangRust/monolith-ecommerce-shared/observability"
+	"github.com/MamangRust/monolith-graphql-ecommerce-auth/repository"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/auth"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/logger"
+	traceunic "github.com/MamangRust/monolith-graphql-ecommerce-pkg/trace_unic"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/requests"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/observability"
 	"go.opentelemetry.io/otel/attribute"
 	"go.uber.org/zap"
 )

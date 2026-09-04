@@ -3,9 +3,9 @@ package repository
 import (
 	"context"
 
-	db "github.com/MamangRust/monolith-ecommerce-pkg/database/schema"
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/requests"
-	"github.com/MamangRust/monolith-ecommerce-shared/errors/slider_errors"
+	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/requests"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/errors/slider_errors"
 )
 
 type sliderCommandRepository struct {
@@ -27,7 +27,7 @@ func (r *sliderCommandRepository) Create(ctx context.Context, request *requests.
 	slider, err := r.db.CreateSlider(ctx, req)
 
 	if err != nil {
-		return nil, slider_errors.ErrCreateSlider
+		return nil, slider_errors.ErrCreateSlider.WithInternal(err)
 	}
 
 	return slider, nil
@@ -43,7 +43,7 @@ func (r *sliderCommandRepository) Update(ctx context.Context, request *requests.
 	res, err := r.db.UpdateSlider(ctx, req)
 
 	if err != nil {
-		return nil, slider_errors.ErrUpdateSlider
+		return nil, slider_errors.ErrUpdateSlider.WithInternal(err)
 	}
 
 	return res, nil
@@ -53,7 +53,7 @@ func (r *sliderCommandRepository) Trash(ctx context.Context, slider_id int) (*db
 	res, err := r.db.TrashSlider(ctx, int32(slider_id))
 
 	if err != nil {
-		return nil, slider_errors.ErrTrashSlider
+		return nil, slider_errors.ErrTrashSlider.WithInternal(err)
 	}
 
 	return res, nil
@@ -63,7 +63,7 @@ func (r *sliderCommandRepository) Restore(ctx context.Context, slider_id int) (*
 	res, err := r.db.RestoreSlider(ctx, int32(slider_id))
 
 	if err != nil {
-		return nil, slider_errors.ErrRestoreSlider
+		return nil, slider_errors.ErrRestoreSlider.WithInternal(err)
 	}
 
 	return res, nil
@@ -73,7 +73,7 @@ func (r *sliderCommandRepository) DeletePermanent(ctx context.Context, slider_id
 	err := r.db.DeleteSliderPermanently(ctx, int32(slider_id))
 
 	if err != nil {
-		return false, slider_errors.ErrDeletePermanentSlider
+		return false, slider_errors.ErrDeletePermanentSlider.WithInternal(err)
 	}
 
 	return true, nil
@@ -83,7 +83,7 @@ func (r *sliderCommandRepository) RestoreAll(ctx context.Context) (bool, error) 
 	err := r.db.RestoreAllSliders(ctx)
 
 	if err != nil {
-		return false, slider_errors.ErrRestoreAllSlider
+		return false, slider_errors.ErrRestoreAllSlider.WithInternal(err)
 	}
 	return true, nil
 }
@@ -92,7 +92,7 @@ func (r *sliderCommandRepository) DeleteAll(ctx context.Context) (bool, error) {
 	err := r.db.DeleteAllPermanentSliders(ctx)
 
 	if err != nil {
-		return false, slider_errors.ErrDeleteAllPermanentSlider
+		return false, slider_errors.ErrDeleteAllPermanentSlider.WithInternal(err)
 	}
 	return true, nil
 }

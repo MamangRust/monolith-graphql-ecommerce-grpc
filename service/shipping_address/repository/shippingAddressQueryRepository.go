@@ -3,9 +3,12 @@ package repository
 import (
 	"context"
 
-	db "github.com/MamangRust/monolith-ecommerce-pkg/database/schema"
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/requests"
-	shippingaddress_errors "github.com/MamangRust/monolith-ecommerce-shared/errors/shipping_address_errors"
+	"database/sql"
+	errorsstd "errors"
+
+	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/requests"
+	shippingaddress_errors "github.com/MamangRust/monolith-graphql-ecommerce-shared/errors/shipping_address_errors"
 )
 
 type shippingAddressQueryRepository struct {
@@ -76,7 +79,10 @@ func (r *shippingAddressQueryRepository) FindByID(ctx context.Context, shipping_
 	res, err := r.db.GetShippingByID(ctx, int32(shipping_id))
 
 	if err != nil {
-		return nil, shippingaddress_errors.ErrFindShippingAddressByID
+		if errorsstd.Is(err, sql.ErrNoRows) {
+			return nil, shippingaddress_errors.ErrShippingAddressNotFound.WithInternal(err)
+		}
+		return nil, shippingaddress_errors.ErrFindShippingAddressByID.WithInternal(err)
 	}
 
 	return res, nil

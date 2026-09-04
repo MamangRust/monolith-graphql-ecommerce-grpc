@@ -1,10 +1,10 @@
 syntax = "proto3";
 
-package pb;
+package pb.order;
 
 import "order/order_common.proto";
 
-option go_package = "github.com/MamangRust/monolith-graphql-ecommerce-pb";
+option go_package = "github.com/MamangRust/monolith-graphql-ecommerce-pb/order";
 
 message FindAllOrderRequest {
     int32 page = 1;

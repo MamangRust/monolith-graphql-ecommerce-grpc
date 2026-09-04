@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/MamangRust/monolith-ecommerce-shared/cache"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/cache"
 )
 
 type sliderCommandCache struct {
@@ -12,7 +12,7 @@ type sliderCommandCache struct {
 }
 
 func NewSliderCommandCache(store *cache.CacheStore) *sliderCommandCache {
-	return &sliderCommandCache{}
+	return &sliderCommandCache{store: store}
 }
 
 func (s *sliderCommandCache) DeleteSliderCache(ctx context.Context, slider_id int) {

@@ -3,17 +3,19 @@ package apps
 import (
 	"fmt"
 
-	"github.com/MamangRust/monolith-ecommerce-pkg/hash"
-	"github.com/MamangRust/monolith-ecommerce-pkg/server"
-	"github.com/MamangRust/monolith-ecommerce-shared/observability"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
 	"github.com/MamangRust/monolith-graphql-ecommerce-user/cache"
 	"github.com/MamangRust/monolith-graphql-ecommerce-user/handler"
 	"github.com/MamangRust/monolith-graphql-ecommerce-user/repository"
 	"github.com/MamangRust/monolith-graphql-ecommerce-user/service"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/hash"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/server"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/observability"
 	"github.com/spf13/viper"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
+
+	pbrole "github.com/MamangRust/monolith-graphql-ecommerce-pb/role"
+	pbuser "github.com/MamangRust/monolith-graphql-ecommerce-pb/user"
 )
 
 func NewServer(cfg *server.Config) (*server.GRPCServer, error) {
@@ -23,7 +25,7 @@ func NewServer(cfg *server.Config) (*server.GRPCServer, error) {
 	}
 
 	roleAddr := viper.GetString("GRPC_ROLE_ADDR")
-
+	
 	roleConn, err := grpc.NewClient(
 		roleAddr,
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
@@ -32,7 +34,7 @@ func NewServer(cfg *server.Config) (*server.GRPCServer, error) {
 		return nil, fmt.Errorf("failed to connect to role service: %w", err)
 	}
 
-	roleClient := pb.NewRoleQueryServiceClient(roleConn)
+	roleClient := pbrole.NewRoleQueryServiceClient(roleConn)
 
 	repos := repository.NewRepositories(srv.DB, roleClient)
 	hashing := hash.NewHashingPassword()
@@ -53,8 +55,8 @@ func NewServer(cfg *server.Config) (*server.GRPCServer, error) {
 	})
 
 	srv.RegisterServices = func(gs *grpc.Server) {
-		pb.RegisterUserQueryServiceServer(gs, h.UserQuery)
-		pb.RegisterUserCommandServiceServer(gs, h.UserCommand)
+		pbuser.RegisterUserQueryServiceServer(gs, h.UserQuery)
+		pbuser.RegisterUserCommandServiceServer(gs, h.UserCommand)
 	}
 
 	return srv, nil

@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/response"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/response"
 
-	"github.com/MamangRust/monolith-ecommerce-pkg/logger"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/logger"
 
 	"github.com/labstack/echo/v4"
 	"go.uber.org/zap"

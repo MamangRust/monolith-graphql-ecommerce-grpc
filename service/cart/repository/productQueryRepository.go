@@ -3,29 +3,30 @@ package repository
 import (
 	"context"
 
-	db "github.com/MamangRust/monolith-ecommerce-pkg/database/schema"
-	"github.com/MamangRust/monolith-ecommerce-shared/errors/product_errors"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/errors/product_errors"
+
+	pbproduct "github.com/MamangRust/monolith-graphql-ecommerce-pb/product"
 )
 
 type productQueryRepository struct {
-	client pb.ProductQueryServiceClient
+	client pbproduct.ProductQueryServiceClient
 }
 
-func NewProductQueryRepository(client pb.ProductQueryServiceClient) ProductQueryRepository {
+func NewProductQueryRepository(client pbproduct.ProductQueryServiceClient) ProductQueryRepository {
 	return &productQueryRepository{
 		client: client,
 	}
 }
 
 func (r *productQueryRepository) FindById(ctx context.Context, id int) (*db.GetProductByIDRow, error) {
-	res, err := r.client.FindById(ctx, &pb.FindByIdProductRequest{Id: int32(id)})
+	res, err := r.client.FindById(ctx, &pbproduct.FindByIdProductRequest{Id: int32(id)})
 	if err != nil {
 		return nil, product_errors.ErrProductNotFound.WithInternal(err)
 	}
 
 	rating := float64(res.Data.Rating)
-
+	
 	return &db.GetProductByIDRow{
 		ProductID:    res.Data.Id,
 		MerchantID:   res.Data.MerchantId,

@@ -1,13 +1,14 @@
 package handler
 
 import (
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+
+	pbuser "github.com/MamangRust/monolith-graphql-ecommerce-pb/user"
 )
 
 type UserQueryHandler interface {
-	pb.UserQueryServiceServer
+	pbuser.UserQueryServiceServer
 }
 
 type UserCommandHandler interface {
-	pb.UserCommandServiceServer
+	pbuser.UserCommandServiceServer
 }

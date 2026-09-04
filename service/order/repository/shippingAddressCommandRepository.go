@@ -3,25 +3,26 @@ package repository
 import (
 	"context"
 
-	db "github.com/MamangRust/monolith-ecommerce-pkg/database/schema"
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/requests"
-	shippingaddress_errors "github.com/MamangRust/monolith-ecommerce-shared/errors/shipping_address_errors"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/requests"
+	shippingaddress_errors "github.com/MamangRust/monolith-graphql-ecommerce-shared/errors/shipping_address_errors"
 	"google.golang.org/protobuf/types/known/emptypb"
+
+	pbshipping_address "github.com/MamangRust/monolith-graphql-ecommerce-pb/shipping_address"
 )
 
 type shippingAddressCommandRepository struct {
-	client pb.ShippingCommandServiceClient
+	client pbshipping_address.ShippingCommandServiceClient
 }
 
-func NewShippingAddressCommandRepository(client pb.ShippingCommandServiceClient) *shippingAddressCommandRepository {
+func NewShippingAddressCommandRepository(client pbshipping_address.ShippingCommandServiceClient) *shippingAddressCommandRepository {
 	return &shippingAddressCommandRepository{
 		client: client,
 	}
 }
 
 func (r *shippingAddressCommandRepository) Create(ctx context.Context, request *requests.CreateShippingAddressRequest) (*db.CreateShippingAddressRow, error) {
-	res, err := r.client.CreateShipping(ctx, &pb.CreateShippingAddressRequest{
+	res, err := r.client.CreateShipping(ctx, &pbshipping_address.CreateShippingAddressRequest{
 		OrderId:        int32(*request.OrderID),
 		Alamat:         request.Alamat,
 		Provinsi:       request.Provinsi,
@@ -53,7 +54,7 @@ func (r *shippingAddressCommandRepository) Update(ctx context.Context, request *
 		shippingID = int32(*request.ShippingID)
 	}
 
-	res, err := r.client.UpdateShipping(ctx, &pb.UpdateShippingAddressRequest{
+	res, err := r.client.UpdateShipping(ctx, &pbshipping_address.UpdateShippingAddressRequest{
 		ShippingId:     shippingID,
 		Alamat:         request.Alamat,
 		Provinsi:       request.Provinsi,
@@ -80,7 +81,7 @@ func (r *shippingAddressCommandRepository) Update(ctx context.Context, request *
 }
 
 func (r *shippingAddressCommandRepository) DeleteByOrderIDPermanent(ctx context.Context, order_id int) (bool, error) {
-	_, err := r.client.DeleteShippingByOrderPermanent(ctx, &pb.FindByIdShippingRequest{
+	_, err := r.client.DeleteShippingByOrderPermanent(ctx, &pbshipping_address.FindByIdShippingRequest{
 		Id: int32(order_id),
 	})
 	if err != nil {

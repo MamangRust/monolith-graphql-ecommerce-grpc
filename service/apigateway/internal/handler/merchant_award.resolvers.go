@@ -7,11 +7,12 @@ package graph
 import (
 	"context"
 
-	"github.com/MamangRust/monolith-ecommerce-shared/domain/requests"
-	sharedErrors "github.com/MamangRust/monolith-ecommerce-shared/errors"
 	graphqlerror "github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/errors"
 	"github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/model"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	pbmerchant "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant"
+	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant_award"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/requests"
+	sharedErrors "github.com/MamangRust/monolith-graphql-ecommerce-shared/errors"
 	"google.golang.org/protobuf/types/known/emptypb"
 )
 
@@ -233,7 +234,7 @@ func (r *queryResolver) FindAllMerchantAwards(ctx context.Context, input model.F
 			return data, nil
 		}
 
-		req := &pb.FindAllMerchantRequest{
+		req := &pbmerchant.FindAllMerchantRequest{
 			Page:     page,
 			PageSize: pageSize,
 			Search:   search,
@@ -308,7 +309,7 @@ func (r *queryResolver) FindActiveMerchantAwards(ctx context.Context, input mode
 			return data, nil
 		}
 
-		req := &pb.FindAllMerchantRequest{
+		req := &pbmerchant.FindAllMerchantRequest{
 			Page:     page,
 			PageSize: pageSize,
 			Search:   search,
@@ -355,7 +356,7 @@ func (r *queryResolver) FindTrashedMerchantAwards(ctx context.Context, input mod
 			return data, nil
 		}
 
-		req := &pb.FindAllMerchantRequest{
+		req := &pbmerchant.FindAllMerchantRequest{
 			Page:     page,
 			PageSize: pageSize,
 			Search:   search,

@@ -3,16 +3,18 @@ package apps
 import (
 	"fmt"
 
-	"github.com/MamangRust/monolith-ecommerce-pkg/server"
-	"github.com/MamangRust/monolith-ecommerce-shared/observability"
 	"github.com/MamangRust/monolith-graphql-ecommerce-merchant_policy/cache"
 	"github.com/MamangRust/monolith-graphql-ecommerce-merchant_policy/handler"
 	"github.com/MamangRust/monolith-graphql-ecommerce-merchant_policy/repository"
 	"github.com/MamangRust/monolith-graphql-ecommerce-merchant_policy/service"
-	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/server"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/observability"
 	"github.com/spf13/viper"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
+
+	pbmerchant "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant"
+	pbmerchant_policy "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant_policy"
 )
 
 func NewServer(cfg *server.Config) (*server.GRPCServer, error) {
@@ -31,7 +33,7 @@ func NewServer(cfg *server.Config) (*server.GRPCServer, error) {
 		return nil, fmt.Errorf("failed to connect to merchant service: %w", err)
 	}
 
-	merchantQueryClient := pb.NewMerchantQueryServiceClient(merchantConn)
+	merchantQueryClient := pbmerchant.NewMerchantQueryServiceClient(merchantConn)
 
 	repos := repository.NewRepositories(srv.DB, merchantQueryClient)
 	obs, _ := observability.NewObservability("merchant_policy-server", srv.Logger)
@@ -48,8 +50,8 @@ func NewServer(cfg *server.Config) (*server.GRPCServer, error) {
 	h := handler.NewHandler(&handler.Deps{Service: svc, Logger: srv.Logger})
 
 	srv.RegisterServices = func(gs *grpc.Server) {
-		pb.RegisterMerchantPolicyQueryServiceServer(gs, h.MerchantPolicyQuery)
-		pb.RegisterMerchantPolicyCommandServiceServer(gs, h.MerchantPolicyCommand)
+		pbmerchant_policy.RegisterMerchantPolicyQueryServiceServer(gs, h.MerchantPolicyQuery)
+		pbmerchant_policy.RegisterMerchantPolicyCommandServiceServer(gs, h.MerchantPolicyCommand)
 	}
 
 	return srv, nil
