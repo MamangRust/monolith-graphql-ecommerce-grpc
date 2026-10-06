@@ -36,7 +36,7 @@ func (s *TransactionStatsServiceTestSuite) SetupSuite() {
 
 	queries := db.New(s.DBPool())
 	repos := repository.NewRepositories(&repository.Deps{
-		DB: queries,
+		Db: queries,
 	})
 	cacheStore := s.GetCacheStore()
 	mencache := transaction_cache.NewMencache(cacheStore)

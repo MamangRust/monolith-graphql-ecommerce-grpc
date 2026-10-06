@@ -3,6 +3,7 @@ package graph
 import (
 	errorstd "errors"
 	"fmt"
+	"time"
 
 	graphql "github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/mapper"
 	auth_cache "github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/redis/api/auth"
@@ -25,6 +26,7 @@ import (
 	transaction_cache "github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/redis/api/transaction"
 	user_cache "github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/redis/api/user"
 	authpb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
+	rolepermission "github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/permission/role"
 	pbbanner "github.com/MamangRust/monolith-graphql-ecommerce-pb/banner"
 	pbcart "github.com/MamangRust/monolith-graphql-ecommerce-pb/cart"
 	pbcategory "github.com/MamangRust/monolith-graphql-ecommerce-pb/category"
@@ -46,6 +48,8 @@ import (
 	pbuser "github.com/MamangRust/monolith-graphql-ecommerce-pb/user"
 	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/logger"
 	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/upload_image"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/kafka"
+	mencache "github.com/MamangRust/monolith-graphql-ecommerce-apigateway/internal/redis"
 	"github.com/MamangRust/monolith-graphql-ecommerce-shared/cache"
 	"github.com/MamangRust/monolith-graphql-ecommerce-shared/errors"
 	"github.com/MamangRust/monolith-graphql-ecommerce-shared/observability"
@@ -133,6 +137,7 @@ type GRPCClients struct {
 	OrderCommandClient               pborder.OrderCommandServiceClient
 	OrderQueryClient                 pborder.OrderQueryServiceClient
 	OrderStatsClient                 pborder.OrderStatsServiceClient
+	OrderStatsByMerchantClient       pborder.OrderStatsByMerchantServiceClient
 	OrderItemCommandClient           pborderitem.OrderItemCommandServiceClient
 	OrderItemQueryClient             pborderitem.OrderItemQueryServiceClient
 	ProductCommandClient             pbproduct.ProductCommandServiceClient
@@ -157,6 +162,8 @@ type Deps struct {
 	Mapping     *graphql.GraphqlMapper
 	Cache       *cache.CacheStore
 	ImageUpload upload_image.ImageUploads
+	Kafka    *kafka.Kafka
+	Mencache mencache.CacheApiGateway
 }
 
 func NewResolver(deps *Deps) *Resolver {
@@ -180,6 +187,7 @@ func NewResolver(deps *Deps) *Resolver {
 			Mapping:           deps.Mapping.RoleGraphqlMapper,
 			Logger:            deps.Logger,
 			Cache:             role_cache.NewRoleMencache(deps.Cache),
+			Permission:        rolepermission.NewRolePermission(deps.Kafka, "request-role", "response-role", 5*time.Second, deps.Logger, deps.Mencache),
 		},
 		UserGraphql: &UserHandleGraphql{
 			UserCommandClient: deps.Clients.UserCommandClient,
@@ -255,12 +263,13 @@ func NewResolver(deps *Deps) *Resolver {
 			Logger:                   deps.Logger,
 		},
 		OrderGraphql: &OrderHandleGraphql{
-			OrderCommandClient: deps.Clients.OrderCommandClient,
-			OrderQueryClient:   deps.Clients.OrderQueryClient,
-			OrderStatsClient:   deps.Clients.OrderStatsClient,
-			Mapping:            deps.Mapping.OrderGraphqlMapper,
-			Logger:             deps.Logger,
-			Cache:              order_cache.OrderNewMencache(deps.Cache),
+			OrderCommandClient:         deps.Clients.OrderCommandClient,
+			OrderQueryClient:           deps.Clients.OrderQueryClient,
+			OrderStatsClient:           deps.Clients.OrderStatsClient,
+			OrderStatsByMerchantClient: deps.Clients.OrderStatsByMerchantClient,
+			Mapping:                    deps.Mapping.OrderGraphqlMapper,
+			Logger:                     deps.Logger,
+			Cache:                      order_cache.OrderNewMencache(deps.Cache),
 		},
 		OrderItemGraphql: &OrderItemHandleGraphql{
 			OrderItemCommandClient: deps.Clients.OrderItemCommandClient,
@@ -332,6 +341,7 @@ type RoleHandleGraphql struct {
 	Mapping           graphql.RoleGraphqlMapper
 	Logger            logger.LoggerInterface
 	Cache             role_cache.RoleMencache
+	Permission        rolepermission.RolePermission
 }
 
 type UserHandleGraphql struct {
@@ -418,12 +428,13 @@ type MerchantSocialLinkHandleGraphql struct {
 }
 
 type OrderHandleGraphql struct {
-	OrderCommandClient pborder.OrderCommandServiceClient
-	OrderQueryClient   pborder.OrderQueryServiceClient
-	OrderStatsClient   pborder.OrderStatsServiceClient
-	Mapping            graphql.OrderGraphqlMapper
-	Logger             logger.LoggerInterface
-	Cache              order_cache.OrderMencache
+	OrderCommandClient         pborder.OrderCommandServiceClient
+	OrderQueryClient           pborder.OrderQueryServiceClient
+	OrderStatsClient           pborder.OrderStatsServiceClient
+	OrderStatsByMerchantClient pborder.OrderStatsByMerchantServiceClient
+	Mapping                    graphql.OrderGraphqlMapper
+	Logger                     logger.LoggerInterface
+	Cache                      order_cache.OrderMencache
 }
 
 type OrderItemHandleGraphql struct {

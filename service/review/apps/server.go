@@ -2,12 +2,15 @@ package apps
 
 import (
 	"fmt"
+	"time"
 
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/adapter"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/resilience"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/server"
 	"github.com/MamangRust/monolith-graphql-ecommerce-review/cache"
 	"github.com/MamangRust/monolith-graphql-ecommerce-review/handler"
 	"github.com/MamangRust/monolith-graphql-ecommerce-review/repository"
 	"github.com/MamangRust/monolith-graphql-ecommerce-review/service"
-	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/server"
 	"github.com/MamangRust/monolith-graphql-ecommerce-shared/observability"
 	"github.com/spf13/viper"
 	"google.golang.org/grpc"
@@ -25,7 +28,7 @@ func NewServer(cfg *server.Config) (*server.GRPCServer, error) {
 	}
 
 	userAddr := viper.GetString("GRPC_USER_ADDR")
-	
+
 	userConn, err := grpc.NewClient(userAddr, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		return nil, fmt.Errorf("failed to connect to user service: %w", err)
@@ -33,15 +36,26 @@ func NewServer(cfg *server.Config) (*server.GRPCServer, error) {
 	userQueryClient := pbuser.NewUserQueryServiceClient(userConn)
 
 	productAddr := viper.GetString("GRPC_PRODUCT_ADDR")
-	
+
 	productConn, err := grpc.NewClient(productAddr, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		return nil, fmt.Errorf("failed to connect to product service: %w", err)
 	}
 	productQueryClient := pbproduct.NewProductQueryServiceClient(productConn)
 
-	repos := repository.NewRepositories(srv.DB, userQueryClient, productQueryClient)
-	
+	repos := repository.NewRepositories(srv.DB,
+		userQueryClient,
+		productQueryClient,
+		repository.GuardOptions{
+			User: []adapter.GuardOption{
+				adapter.WithDependencyGuard(resilience.NewDependencyGuard("user", 5, 30, 100, 3*time.Second, srv.Logger)),
+			},
+			Product: []adapter.GuardOption{
+				adapter.WithDependencyGuard(resilience.NewDependencyGuard("product", 5, 30, 100, 3*time.Second, srv.Logger)),
+			},
+		},
+	)
+
 	obs, _ := observability.NewObservability("review-server", srv.Logger)
 	cache := cache.NewMencache(srv.CacheStore)
 

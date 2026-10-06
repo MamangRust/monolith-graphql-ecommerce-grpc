@@ -149,422 +149,6 @@ func (x *FindAllOrderMerchantRequest) GetMerchantId() int32 {
 	return 0
 }
 
-type FindYearOrder struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Year          int32                  `protobuf:"varint,1,opt,name=year,proto3" json:"year,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *FindYearOrder) Reset() {
-	*x = FindYearOrder{}
-	mi := &file_order_order_query_proto_msgTypes[2]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *FindYearOrder) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*FindYearOrder) ProtoMessage() {}
-
-func (x *FindYearOrder) ProtoReflect() protoreflect.Message {
-	mi := &file_order_order_query_proto_msgTypes[2]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use FindYearOrder.ProtoReflect.Descriptor instead.
-func (*FindYearOrder) Descriptor() ([]byte, []int) {
-	return file_order_order_query_proto_rawDescGZIP(), []int{2}
-}
-
-func (x *FindYearOrder) GetYear() int32 {
-	if x != nil {
-		return x.Year
-	}
-	return 0
-}
-
-type FindYearOrderByMerchant struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	MerchantId    int32                  `protobuf:"varint,1,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`
-	Year          int32                  `protobuf:"varint,2,opt,name=year,proto3" json:"year,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *FindYearOrderByMerchant) Reset() {
-	*x = FindYearOrderByMerchant{}
-	mi := &file_order_order_query_proto_msgTypes[3]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *FindYearOrderByMerchant) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*FindYearOrderByMerchant) ProtoMessage() {}
-
-func (x *FindYearOrderByMerchant) ProtoReflect() protoreflect.Message {
-	mi := &file_order_order_query_proto_msgTypes[3]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use FindYearOrderByMerchant.ProtoReflect.Descriptor instead.
-func (*FindYearOrderByMerchant) Descriptor() ([]byte, []int) {
-	return file_order_order_query_proto_rawDescGZIP(), []int{3}
-}
-
-func (x *FindYearOrderByMerchant) GetMerchantId() int32 {
-	if x != nil {
-		return x.MerchantId
-	}
-	return 0
-}
-
-func (x *FindYearOrderByMerchant) GetYear() int32 {
-	if x != nil {
-		return x.Year
-	}
-	return 0
-}
-
-type FindYearMonthTotalRevenue struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Year          int32                  `protobuf:"varint,1,opt,name=year,proto3" json:"year,omitempty"`
-	Month         int32                  `protobuf:"varint,2,opt,name=month,proto3" json:"month,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *FindYearMonthTotalRevenue) Reset() {
-	*x = FindYearMonthTotalRevenue{}
-	mi := &file_order_order_query_proto_msgTypes[4]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *FindYearMonthTotalRevenue) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*FindYearMonthTotalRevenue) ProtoMessage() {}
-
-func (x *FindYearMonthTotalRevenue) ProtoReflect() protoreflect.Message {
-	mi := &file_order_order_query_proto_msgTypes[4]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use FindYearMonthTotalRevenue.ProtoReflect.Descriptor instead.
-func (*FindYearMonthTotalRevenue) Descriptor() ([]byte, []int) {
-	return file_order_order_query_proto_rawDescGZIP(), []int{4}
-}
-
-func (x *FindYearMonthTotalRevenue) GetYear() int32 {
-	if x != nil {
-		return x.Year
-	}
-	return 0
-}
-
-func (x *FindYearMonthTotalRevenue) GetMonth() int32 {
-	if x != nil {
-		return x.Month
-	}
-	return 0
-}
-
-type FindYearTotalRevenue struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Year          int32                  `protobuf:"varint,1,opt,name=year,proto3" json:"year,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *FindYearTotalRevenue) Reset() {
-	*x = FindYearTotalRevenue{}
-	mi := &file_order_order_query_proto_msgTypes[5]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *FindYearTotalRevenue) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*FindYearTotalRevenue) ProtoMessage() {}
-
-func (x *FindYearTotalRevenue) ProtoReflect() protoreflect.Message {
-	mi := &file_order_order_query_proto_msgTypes[5]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use FindYearTotalRevenue.ProtoReflect.Descriptor instead.
-func (*FindYearTotalRevenue) Descriptor() ([]byte, []int) {
-	return file_order_order_query_proto_rawDescGZIP(), []int{5}
-}
-
-func (x *FindYearTotalRevenue) GetYear() int32 {
-	if x != nil {
-		return x.Year
-	}
-	return 0
-}
-
-type FindYearMonthTotalRevenueById struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Year          int32                  `protobuf:"varint,1,opt,name=year,proto3" json:"year,omitempty"`
-	Month         int32                  `protobuf:"varint,2,opt,name=month,proto3" json:"month,omitempty"`
-	OrderId       int32                  `protobuf:"varint,3,opt,name=order_id,json=orderId,proto3" json:"order_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *FindYearMonthTotalRevenueById) Reset() {
-	*x = FindYearMonthTotalRevenueById{}
-	mi := &file_order_order_query_proto_msgTypes[6]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *FindYearMonthTotalRevenueById) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*FindYearMonthTotalRevenueById) ProtoMessage() {}
-
-func (x *FindYearMonthTotalRevenueById) ProtoReflect() protoreflect.Message {
-	mi := &file_order_order_query_proto_msgTypes[6]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use FindYearMonthTotalRevenueById.ProtoReflect.Descriptor instead.
-func (*FindYearMonthTotalRevenueById) Descriptor() ([]byte, []int) {
-	return file_order_order_query_proto_rawDescGZIP(), []int{6}
-}
-
-func (x *FindYearMonthTotalRevenueById) GetYear() int32 {
-	if x != nil {
-		return x.Year
-	}
-	return 0
-}
-
-func (x *FindYearMonthTotalRevenueById) GetMonth() int32 {
-	if x != nil {
-		return x.Month
-	}
-	return 0
-}
-
-func (x *FindYearMonthTotalRevenueById) GetOrderId() int32 {
-	if x != nil {
-		return x.OrderId
-	}
-	return 0
-}
-
-type FindYearTotalRevenueById struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Year          int32                  `protobuf:"varint,1,opt,name=year,proto3" json:"year,omitempty"`
-	OrderId       int32                  `protobuf:"varint,2,opt,name=order_id,json=orderId,proto3" json:"order_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *FindYearTotalRevenueById) Reset() {
-	*x = FindYearTotalRevenueById{}
-	mi := &file_order_order_query_proto_msgTypes[7]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *FindYearTotalRevenueById) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*FindYearTotalRevenueById) ProtoMessage() {}
-
-func (x *FindYearTotalRevenueById) ProtoReflect() protoreflect.Message {
-	mi := &file_order_order_query_proto_msgTypes[7]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use FindYearTotalRevenueById.ProtoReflect.Descriptor instead.
-func (*FindYearTotalRevenueById) Descriptor() ([]byte, []int) {
-	return file_order_order_query_proto_rawDescGZIP(), []int{7}
-}
-
-func (x *FindYearTotalRevenueById) GetYear() int32 {
-	if x != nil {
-		return x.Year
-	}
-	return 0
-}
-
-func (x *FindYearTotalRevenueById) GetOrderId() int32 {
-	if x != nil {
-		return x.OrderId
-	}
-	return 0
-}
-
-type FindYearMonthTotalRevenueByMerchant struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Year          int32                  `protobuf:"varint,1,opt,name=year,proto3" json:"year,omitempty"`
-	Month         int32                  `protobuf:"varint,2,opt,name=month,proto3" json:"month,omitempty"`
-	MerchantId    int32                  `protobuf:"varint,3,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *FindYearMonthTotalRevenueByMerchant) Reset() {
-	*x = FindYearMonthTotalRevenueByMerchant{}
-	mi := &file_order_order_query_proto_msgTypes[8]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *FindYearMonthTotalRevenueByMerchant) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*FindYearMonthTotalRevenueByMerchant) ProtoMessage() {}
-
-func (x *FindYearMonthTotalRevenueByMerchant) ProtoReflect() protoreflect.Message {
-	mi := &file_order_order_query_proto_msgTypes[8]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use FindYearMonthTotalRevenueByMerchant.ProtoReflect.Descriptor instead.
-func (*FindYearMonthTotalRevenueByMerchant) Descriptor() ([]byte, []int) {
-	return file_order_order_query_proto_rawDescGZIP(), []int{8}
-}
-
-func (x *FindYearMonthTotalRevenueByMerchant) GetYear() int32 {
-	if x != nil {
-		return x.Year
-	}
-	return 0
-}
-
-func (x *FindYearMonthTotalRevenueByMerchant) GetMonth() int32 {
-	if x != nil {
-		return x.Month
-	}
-	return 0
-}
-
-func (x *FindYearMonthTotalRevenueByMerchant) GetMerchantId() int32 {
-	if x != nil {
-		return x.MerchantId
-	}
-	return 0
-}
-
-type FindYearTotalRevenueByMerchant struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Year          int32                  `protobuf:"varint,1,opt,name=year,proto3" json:"year,omitempty"`
-	MerchantId    int32                  `protobuf:"varint,2,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *FindYearTotalRevenueByMerchant) Reset() {
-	*x = FindYearTotalRevenueByMerchant{}
-	mi := &file_order_order_query_proto_msgTypes[9]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *FindYearTotalRevenueByMerchant) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*FindYearTotalRevenueByMerchant) ProtoMessage() {}
-
-func (x *FindYearTotalRevenueByMerchant) ProtoReflect() protoreflect.Message {
-	mi := &file_order_order_query_proto_msgTypes[9]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use FindYearTotalRevenueByMerchant.ProtoReflect.Descriptor instead.
-func (*FindYearTotalRevenueByMerchant) Descriptor() ([]byte, []int) {
-	return file_order_order_query_proto_rawDescGZIP(), []int{9}
-}
-
-func (x *FindYearTotalRevenueByMerchant) GetYear() int32 {
-	if x != nil {
-		return x.Year
-	}
-	return 0
-}
-
-func (x *FindYearTotalRevenueByMerchant) GetMerchantId() int32 {
-	if x != nil {
-		return x.MerchantId
-	}
-	return 0
-}
-
 var File_order_order_query_proto protoreflect.FileDescriptor
 
 const file_order_order_query_proto_rawDesc = "" +
@@ -579,48 +163,12 @@ const file_order_order_query_proto_rawDesc = "" +
 	"\tpage_size\x18\x02 \x01(\x05R\bpageSize\x12\x16\n" +
 	"\x06search\x18\x03 \x01(\tR\x06search\x12\x1f\n" +
 	"\vmerchant_id\x18\x04 \x01(\x05R\n" +
-	"merchantId\"#\n" +
-	"\rFindYearOrder\x12\x12\n" +
-	"\x04year\x18\x01 \x01(\x05R\x04year\"N\n" +
-	"\x17FindYearOrderByMerchant\x12\x1f\n" +
-	"\vmerchant_id\x18\x01 \x01(\x05R\n" +
-	"merchantId\x12\x12\n" +
-	"\x04year\x18\x02 \x01(\x05R\x04year\"E\n" +
-	"\x19FindYearMonthTotalRevenue\x12\x12\n" +
-	"\x04year\x18\x01 \x01(\x05R\x04year\x12\x14\n" +
-	"\x05month\x18\x02 \x01(\x05R\x05month\"*\n" +
-	"\x14FindYearTotalRevenue\x12\x12\n" +
-	"\x04year\x18\x01 \x01(\x05R\x04year\"d\n" +
-	"\x1dFindYearMonthTotalRevenueById\x12\x12\n" +
-	"\x04year\x18\x01 \x01(\x05R\x04year\x12\x14\n" +
-	"\x05month\x18\x02 \x01(\x05R\x05month\x12\x19\n" +
-	"\border_id\x18\x03 \x01(\x05R\aorderId\"I\n" +
-	"\x18FindYearTotalRevenueById\x12\x12\n" +
-	"\x04year\x18\x01 \x01(\x05R\x04year\x12\x19\n" +
-	"\border_id\x18\x02 \x01(\x05R\aorderId\"p\n" +
-	"#FindYearMonthTotalRevenueByMerchant\x12\x12\n" +
-	"\x04year\x18\x01 \x01(\x05R\x04year\x12\x14\n" +
-	"\x05month\x18\x02 \x01(\x05R\x05month\x12\x1f\n" +
-	"\vmerchant_id\x18\x03 \x01(\x05R\n" +
-	"merchantId\"U\n" +
-	"\x1eFindYearTotalRevenueByMerchant\x12\x12\n" +
-	"\x04year\x18\x01 \x01(\x05R\x04year\x12\x1f\n" +
-	"\vmerchant_id\x18\x02 \x01(\x05R\n" +
 	"merchantId2\xe6\x02\n" +
 	"\x11OrderQueryService\x12N\n" +
 	"\aFindAll\x12\x1d.pb.order.FindAllOrderRequest\x1a$.pb.order.ApiResponsePaginationOrder\x12F\n" +
 	"\bFindById\x12\x1e.pb.order.FindByIdOrderRequest\x1a\x1a.pb.order.ApiResponseOrder\x12[\n" +
 	"\fFindByActive\x12\x1d.pb.order.FindAllOrderRequest\x1a,.pb.order.ApiResponsePaginationOrderDeleteAt\x12\\\n" +
-	"\rFindByTrashed\x12\x1d.pb.order.FindAllOrderRequest\x1a,.pb.order.ApiResponsePaginationOrderDeleteAt2\xd6\x06\n" +
-	"\x11OrderStatsService\x12m\n" +
-	"\x17FindMonthlyTotalRevenue\x12#.pb.order.FindYearMonthTotalRevenue\x1a-.pb.order.ApiResponseOrderMonthlyTotalRevenue\x12f\n" +
-	"\x16FindYearlyTotalRevenue\x12\x1e.pb.order.FindYearTotalRevenue\x1a,.pb.order.ApiResponseOrderYearlyTotalRevenue\x12\x81\x01\n" +
-	"!FindMonthlyTotalRevenueByMerchant\x12-.pb.order.FindYearMonthTotalRevenueByMerchant\x1a-.pb.order.ApiResponseOrderMonthlyTotalRevenue\x12z\n" +
-	" FindYearlyTotalRevenueByMerchant\x12(.pb.order.FindYearTotalRevenueByMerchant\x1a,.pb.order.ApiResponseOrderYearlyTotalRevenue\x12P\n" +
-	"\x12FindMonthlyRevenue\x12\x17.pb.order.FindYearOrder\x1a!.pb.order.ApiResponseOrderMonthly\x12N\n" +
-	"\x11FindYearlyRevenue\x12\x17.pb.order.FindYearOrder\x1a .pb.order.ApiResponseOrderYearly\x12d\n" +
-	"\x1cFindMonthlyRevenueByMerchant\x12!.pb.order.FindYearOrderByMerchant\x1a!.pb.order.ApiResponseOrderMonthly\x12b\n" +
-	"\x1bFindYearlyRevenueByMerchant\x12!.pb.order.FindYearOrderByMerchant\x1a .pb.order.ApiResponseOrderYearlyB;Z9github.com/MamangRust/monolith-graphql-ecommerce-pb/orderb\x06proto3"
+	"\rFindByTrashed\x12\x1d.pb.order.FindAllOrderRequest\x1a,.pb.order.ApiResponsePaginationOrderDeleteAtB;Z9github.com/MamangRust/monolith-graphql-ecommerce-pb/orderb\x06proto3"
 
 var (
 	file_order_order_query_proto_rawDescOnce sync.Once
@@ -634,57 +182,29 @@ func file_order_order_query_proto_rawDescGZIP() []byte {
 	return file_order_order_query_proto_rawDescData
 }
 
-var file_order_order_query_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_order_order_query_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_order_order_query_proto_goTypes = []any{
-	(*FindAllOrderRequest)(nil),                 // 0: pb.order.FindAllOrderRequest
-	(*FindAllOrderMerchantRequest)(nil),         // 1: pb.order.FindAllOrderMerchantRequest
-	(*FindYearOrder)(nil),                       // 2: pb.order.FindYearOrder
-	(*FindYearOrderByMerchant)(nil),             // 3: pb.order.FindYearOrderByMerchant
-	(*FindYearMonthTotalRevenue)(nil),           // 4: pb.order.FindYearMonthTotalRevenue
-	(*FindYearTotalRevenue)(nil),                // 5: pb.order.FindYearTotalRevenue
-	(*FindYearMonthTotalRevenueById)(nil),       // 6: pb.order.FindYearMonthTotalRevenueById
-	(*FindYearTotalRevenueById)(nil),            // 7: pb.order.FindYearTotalRevenueById
-	(*FindYearMonthTotalRevenueByMerchant)(nil), // 8: pb.order.FindYearMonthTotalRevenueByMerchant
-	(*FindYearTotalRevenueByMerchant)(nil),      // 9: pb.order.FindYearTotalRevenueByMerchant
-	(*FindByIdOrderRequest)(nil),                // 10: pb.order.FindByIdOrderRequest
-	(*ApiResponsePaginationOrder)(nil),          // 11: pb.order.ApiResponsePaginationOrder
-	(*ApiResponseOrder)(nil),                    // 12: pb.order.ApiResponseOrder
-	(*ApiResponsePaginationOrderDeleteAt)(nil),  // 13: pb.order.ApiResponsePaginationOrderDeleteAt
-	(*ApiResponseOrderMonthlyTotalRevenue)(nil), // 14: pb.order.ApiResponseOrderMonthlyTotalRevenue
-	(*ApiResponseOrderYearlyTotalRevenue)(nil),  // 15: pb.order.ApiResponseOrderYearlyTotalRevenue
-	(*ApiResponseOrderMonthly)(nil),             // 16: pb.order.ApiResponseOrderMonthly
-	(*ApiResponseOrderYearly)(nil),              // 17: pb.order.ApiResponseOrderYearly
+	(*FindAllOrderRequest)(nil),                // 0: pb.order.FindAllOrderRequest
+	(*FindAllOrderMerchantRequest)(nil),        // 1: pb.order.FindAllOrderMerchantRequest
+	(*FindByIdOrderRequest)(nil),               // 2: pb.order.FindByIdOrderRequest
+	(*ApiResponsePaginationOrder)(nil),         // 3: pb.order.ApiResponsePaginationOrder
+	(*ApiResponseOrder)(nil),                   // 4: pb.order.ApiResponseOrder
+	(*ApiResponsePaginationOrderDeleteAt)(nil), // 5: pb.order.ApiResponsePaginationOrderDeleteAt
 }
 var file_order_order_query_proto_depIdxs = []int32{
-	0,  // 0: pb.order.OrderQueryService.FindAll:input_type -> pb.order.FindAllOrderRequest
-	10, // 1: pb.order.OrderQueryService.FindById:input_type -> pb.order.FindByIdOrderRequest
-	0,  // 2: pb.order.OrderQueryService.FindByActive:input_type -> pb.order.FindAllOrderRequest
-	0,  // 3: pb.order.OrderQueryService.FindByTrashed:input_type -> pb.order.FindAllOrderRequest
-	4,  // 4: pb.order.OrderStatsService.FindMonthlyTotalRevenue:input_type -> pb.order.FindYearMonthTotalRevenue
-	5,  // 5: pb.order.OrderStatsService.FindYearlyTotalRevenue:input_type -> pb.order.FindYearTotalRevenue
-	8,  // 6: pb.order.OrderStatsService.FindMonthlyTotalRevenueByMerchant:input_type -> pb.order.FindYearMonthTotalRevenueByMerchant
-	9,  // 7: pb.order.OrderStatsService.FindYearlyTotalRevenueByMerchant:input_type -> pb.order.FindYearTotalRevenueByMerchant
-	2,  // 8: pb.order.OrderStatsService.FindMonthlyRevenue:input_type -> pb.order.FindYearOrder
-	2,  // 9: pb.order.OrderStatsService.FindYearlyRevenue:input_type -> pb.order.FindYearOrder
-	3,  // 10: pb.order.OrderStatsService.FindMonthlyRevenueByMerchant:input_type -> pb.order.FindYearOrderByMerchant
-	3,  // 11: pb.order.OrderStatsService.FindYearlyRevenueByMerchant:input_type -> pb.order.FindYearOrderByMerchant
-	11, // 12: pb.order.OrderQueryService.FindAll:output_type -> pb.order.ApiResponsePaginationOrder
-	12, // 13: pb.order.OrderQueryService.FindById:output_type -> pb.order.ApiResponseOrder
-	13, // 14: pb.order.OrderQueryService.FindByActive:output_type -> pb.order.ApiResponsePaginationOrderDeleteAt
-	13, // 15: pb.order.OrderQueryService.FindByTrashed:output_type -> pb.order.ApiResponsePaginationOrderDeleteAt
-	14, // 16: pb.order.OrderStatsService.FindMonthlyTotalRevenue:output_type -> pb.order.ApiResponseOrderMonthlyTotalRevenue
-	15, // 17: pb.order.OrderStatsService.FindYearlyTotalRevenue:output_type -> pb.order.ApiResponseOrderYearlyTotalRevenue
-	14, // 18: pb.order.OrderStatsService.FindMonthlyTotalRevenueByMerchant:output_type -> pb.order.ApiResponseOrderMonthlyTotalRevenue
-	15, // 19: pb.order.OrderStatsService.FindYearlyTotalRevenueByMerchant:output_type -> pb.order.ApiResponseOrderYearlyTotalRevenue
-	16, // 20: pb.order.OrderStatsService.FindMonthlyRevenue:output_type -> pb.order.ApiResponseOrderMonthly
-	17, // 21: pb.order.OrderStatsService.FindYearlyRevenue:output_type -> pb.order.ApiResponseOrderYearly
-	16, // 22: pb.order.OrderStatsService.FindMonthlyRevenueByMerchant:output_type -> pb.order.ApiResponseOrderMonthly
-	17, // 23: pb.order.OrderStatsService.FindYearlyRevenueByMerchant:output_type -> pb.order.ApiResponseOrderYearly
-	12, // [12:24] is the sub-list for method output_type
-	0,  // [0:12] is the sub-list for method input_type
-	0,  // [0:0] is the sub-list for extension type_name
-	0,  // [0:0] is the sub-list for extension extendee
-	0,  // [0:0] is the sub-list for field type_name
+	0, // 0: pb.order.OrderQueryService.FindAll:input_type -> pb.order.FindAllOrderRequest
+	2, // 1: pb.order.OrderQueryService.FindById:input_type -> pb.order.FindByIdOrderRequest
+	0, // 2: pb.order.OrderQueryService.FindByActive:input_type -> pb.order.FindAllOrderRequest
+	0, // 3: pb.order.OrderQueryService.FindByTrashed:input_type -> pb.order.FindAllOrderRequest
+	3, // 4: pb.order.OrderQueryService.FindAll:output_type -> pb.order.ApiResponsePaginationOrder
+	4, // 5: pb.order.OrderQueryService.FindById:output_type -> pb.order.ApiResponseOrder
+	5, // 6: pb.order.OrderQueryService.FindByActive:output_type -> pb.order.ApiResponsePaginationOrderDeleteAt
+	5, // 7: pb.order.OrderQueryService.FindByTrashed:output_type -> pb.order.ApiResponsePaginationOrderDeleteAt
+	4, // [4:8] is the sub-list for method output_type
+	0, // [0:4] is the sub-list for method input_type
+	0, // [0:0] is the sub-list for extension type_name
+	0, // [0:0] is the sub-list for extension extendee
+	0, // [0:0] is the sub-list for field type_name
 }
 
 func init() { file_order_order_query_proto_init() }
@@ -699,9 +219,9 @@ func file_order_order_query_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_order_order_query_proto_rawDesc), len(file_order_order_query_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   10,
+			NumMessages:   2,
 			NumExtensions: 0,
-			NumServices:   2,
+			NumServices:   1,
 		},
 		GoTypes:           file_order_order_query_proto_goTypes,
 		DependencyIndexes: file_order_order_query_proto_depIdxs,

@@ -13,8 +13,6 @@ import (
 	"github.com/MamangRust/monolith-graphql-ecommerce-shared/observability"
 	"go.opentelemetry.io/otel/attribute"
 	"go.uber.org/zap"
-
-	pbshipping_address "github.com/MamangRust/monolith-graphql-ecommerce-pb/shipping_address"
 )
 
 type orderCommandService struct {
@@ -30,7 +28,7 @@ type orderCommandService struct {
 	merchantQueryRepository   repository.MerchantQueryRepository
 	shippingAddressRepository repository.ShippingAddressCommandRepository
 	transactionCommandRepos   repository.TransactionCommandRepository
-	shippingQueryRepository   pbshipping_address.ShippingQueryServiceClient
+	shippingQueryRepository   repository.ShippingQueryRepository
 	logger                    logger.LoggerInterface
 }
 
@@ -47,7 +45,7 @@ type OrderCommandServiceDeps struct {
 	MerchantQueryRepository   repository.MerchantQueryRepository
 	ShippingAddressRepository repository.ShippingAddressCommandRepository
 	TransactionCommandRepository repository.TransactionCommandRepository
-	ShippingQueryRepository   pbshipping_address.ShippingQueryServiceClient
+	ShippingQueryRepository   repository.ShippingQueryRepository
 	Logger                    logger.LoggerInterface
 }
 
@@ -241,11 +239,9 @@ func (s *orderCommandService) Update(ctx context.Context, req *requests.UpdateOr
 
 	shippingID := req.ShippingAddress.ShippingID
 	if shippingID == nil {
-		shippingRes, err := s.shippingQueryRepository.FindByOrder(ctx, &pbshipping_address.FindByIdShippingRequest{
-			Id: int32(*req.OrderID),
-		})
-		if err == nil && shippingRes != nil && shippingRes.Data != nil {
-			id := int(shippingRes.Data.Id)
+		shippingRes, err := s.shippingQueryRepository.FindByOrder(ctx, *req.OrderID)
+		if err == nil && shippingRes != nil {
+			id := int(shippingRes.ShippingAddressID)
 			shippingID = &id
 		}
 	}

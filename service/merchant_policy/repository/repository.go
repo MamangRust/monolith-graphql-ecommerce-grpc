@@ -1,10 +1,17 @@
 package repository
 
 import (
-	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
-
 	pbmerchant "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/adapter"
+	merchantadapter "github.com/MamangRust/monolith-graphql-ecommerce-pkg/adapter/merchant"
+	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
 )
+
+// GuardOptions carries the resilience guard options for each outbound
+// dependency.
+type GuardOptions struct {
+	Merchant []adapter.GuardOption
+}
 
 type Repositories struct {
 	MerchantPoliciesQuery   MerchantPoliciesQueryRepository
@@ -12,10 +19,15 @@ type Repositories struct {
 	MerchantQuery           MerchantQueryRepository
 }
 
-func NewRepositories(DB *db.Queries, merchantQuery pbmerchant.MerchantQueryServiceClient) *Repositories {
+func NewRepositories(db *db.Queries, merchantQueryClient pbmerchant.MerchantQueryServiceClient, guards ...GuardOptions) *Repositories {
+	var g GuardOptions
+	if len(guards) > 0 {
+		g = guards[0]
+	}
+
 	return &Repositories{
-		MerchantPoliciesQuery:   NewMerchantPolicyQueryRepository(DB),
-		MerchantPoliciesCommand: NewMerchantPolicyCommandRepository(DB),
-		MerchantQuery:           NewMerchantQueryRepository(merchantQuery),
+		MerchantPoliciesQuery:   NewMerchantPolicyQueryRepository(db),
+		MerchantPoliciesCommand: NewMerchantPolicyCommandRepository(db),
+		MerchantQuery:           merchantadapter.New(merchantQueryClient, g.Merchant...),
 	}
 }

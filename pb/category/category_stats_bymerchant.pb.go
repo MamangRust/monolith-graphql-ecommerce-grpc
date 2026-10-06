@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.11
 // 	protoc        v3.21.12
-// source: category/category_stats_bymerchant.proto
+// source: category/stats/category_stats_bymerchant.proto
 
 package category
 
@@ -20,18 +20,18 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-var File_category_category_stats_bymerchant_proto protoreflect.FileDescriptor
+var File_category_stats_category_stats_bymerchant_proto protoreflect.FileDescriptor
 
-const file_category_category_stats_bymerchant_proto_rawDesc = "" +
+const file_category_stats_category_stats_bymerchant_proto_rawDesc = "" +
 	"\n" +
-	"(category/category_stats_bymerchant.proto\x12\vpb.category\x1a\x1ecategory/category_common.proto2\x88\x04\n" +
+	".category/stats/category_stats_bymerchant.proto\x12\x11pb.category.stats\x1a\x1ecategory/category_common.proto2\x88\x04\n" +
 	"\x1eCategoryStatsByMerchantService\x12\x85\x01\n" +
 	" FindMonthlyTotalPricesByMerchant\x12..pb.category.FindYearMonthTotalPriceByMerchant\x1a1.pb.category.ApiResponseCategoryMonthlyTotalPrice\x12~\n" +
 	"\x1fFindYearlyTotalPricesByMerchant\x12).pb.category.FindYearTotalPriceByMerchant\x1a0.pb.category.ApiResponseCategoryYearlyTotalPrice\x12o\n" +
 	"\x18FindMonthPriceByMerchant\x12'.pb.category.FindYearCategoryByMerchant\x1a*.pb.category.ApiResponseCategoryMonthPrice\x12m\n" +
 	"\x17FindYearPriceByMerchant\x12'.pb.category.FindYearCategoryByMerchant\x1a).pb.category.ApiResponseCategoryYearPriceB>Z<github.com/MamangRust/monolith-graphql-ecommerce-pb/categoryb\x06proto3"
 
-var file_category_category_stats_bymerchant_proto_goTypes = []any{
+var file_category_stats_category_stats_bymerchant_proto_goTypes = []any{
 	(*FindYearMonthTotalPriceByMerchant)(nil),    // 0: pb.category.FindYearMonthTotalPriceByMerchant
 	(*FindYearTotalPriceByMerchant)(nil),         // 1: pb.category.FindYearTotalPriceByMerchant
 	(*FindYearCategoryByMerchant)(nil),           // 2: pb.category.FindYearCategoryByMerchant
@@ -40,15 +40,15 @@ var file_category_category_stats_bymerchant_proto_goTypes = []any{
 	(*ApiResponseCategoryMonthPrice)(nil),        // 5: pb.category.ApiResponseCategoryMonthPrice
 	(*ApiResponseCategoryYearPrice)(nil),         // 6: pb.category.ApiResponseCategoryYearPrice
 }
-var file_category_category_stats_bymerchant_proto_depIdxs = []int32{
-	0, // 0: pb.category.CategoryStatsByMerchantService.FindMonthlyTotalPricesByMerchant:input_type -> pb.category.FindYearMonthTotalPriceByMerchant
-	1, // 1: pb.category.CategoryStatsByMerchantService.FindYearlyTotalPricesByMerchant:input_type -> pb.category.FindYearTotalPriceByMerchant
-	2, // 2: pb.category.CategoryStatsByMerchantService.FindMonthPriceByMerchant:input_type -> pb.category.FindYearCategoryByMerchant
-	2, // 3: pb.category.CategoryStatsByMerchantService.FindYearPriceByMerchant:input_type -> pb.category.FindYearCategoryByMerchant
-	3, // 4: pb.category.CategoryStatsByMerchantService.FindMonthlyTotalPricesByMerchant:output_type -> pb.category.ApiResponseCategoryMonthlyTotalPrice
-	4, // 5: pb.category.CategoryStatsByMerchantService.FindYearlyTotalPricesByMerchant:output_type -> pb.category.ApiResponseCategoryYearlyTotalPrice
-	5, // 6: pb.category.CategoryStatsByMerchantService.FindMonthPriceByMerchant:output_type -> pb.category.ApiResponseCategoryMonthPrice
-	6, // 7: pb.category.CategoryStatsByMerchantService.FindYearPriceByMerchant:output_type -> pb.category.ApiResponseCategoryYearPrice
+var file_category_stats_category_stats_bymerchant_proto_depIdxs = []int32{
+	0, // 0: pb.category.stats.CategoryStatsByMerchantService.FindMonthlyTotalPricesByMerchant:input_type -> pb.category.FindYearMonthTotalPriceByMerchant
+	1, // 1: pb.category.stats.CategoryStatsByMerchantService.FindYearlyTotalPricesByMerchant:input_type -> pb.category.FindYearTotalPriceByMerchant
+	2, // 2: pb.category.stats.CategoryStatsByMerchantService.FindMonthPriceByMerchant:input_type -> pb.category.FindYearCategoryByMerchant
+	2, // 3: pb.category.stats.CategoryStatsByMerchantService.FindYearPriceByMerchant:input_type -> pb.category.FindYearCategoryByMerchant
+	3, // 4: pb.category.stats.CategoryStatsByMerchantService.FindMonthlyTotalPricesByMerchant:output_type -> pb.category.ApiResponseCategoryMonthlyTotalPrice
+	4, // 5: pb.category.stats.CategoryStatsByMerchantService.FindYearlyTotalPricesByMerchant:output_type -> pb.category.ApiResponseCategoryYearlyTotalPrice
+	5, // 6: pb.category.stats.CategoryStatsByMerchantService.FindMonthPriceByMerchant:output_type -> pb.category.ApiResponseCategoryMonthPrice
+	6, // 7: pb.category.stats.CategoryStatsByMerchantService.FindYearPriceByMerchant:output_type -> pb.category.ApiResponseCategoryYearPrice
 	4, // [4:8] is the sub-list for method output_type
 	0, // [0:4] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
@@ -56,9 +56,9 @@ var file_category_category_stats_bymerchant_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for field type_name
 }
 
-func init() { file_category_category_stats_bymerchant_proto_init() }
-func file_category_category_stats_bymerchant_proto_init() {
-	if File_category_category_stats_bymerchant_proto != nil {
+func init() { file_category_stats_category_stats_bymerchant_proto_init() }
+func file_category_stats_category_stats_bymerchant_proto_init() {
+	if File_category_stats_category_stats_bymerchant_proto != nil {
 		return
 	}
 	file_category_category_common_proto_init()
@@ -66,16 +66,16 @@ func file_category_category_stats_bymerchant_proto_init() {
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_category_category_stats_bymerchant_proto_rawDesc), len(file_category_category_stats_bymerchant_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_category_stats_category_stats_bymerchant_proto_rawDesc), len(file_category_stats_category_stats_bymerchant_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   0,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_category_category_stats_bymerchant_proto_goTypes,
-		DependencyIndexes: file_category_category_stats_bymerchant_proto_depIdxs,
+		GoTypes:           file_category_stats_category_stats_bymerchant_proto_goTypes,
+		DependencyIndexes: file_category_stats_category_stats_bymerchant_proto_depIdxs,
 	}.Build()
-	File_category_category_stats_bymerchant_proto = out.File
-	file_category_category_stats_bymerchant_proto_goTypes = nil
-	file_category_category_stats_bymerchant_proto_depIdxs = nil
+	File_category_stats_category_stats_bymerchant_proto = out.File
+	file_category_stats_category_stats_bymerchant_proto_goTypes = nil
+	file_category_stats_category_stats_bymerchant_proto_depIdxs = nil
 }

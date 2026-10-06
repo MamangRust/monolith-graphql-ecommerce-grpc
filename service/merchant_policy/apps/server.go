@@ -2,11 +2,14 @@ package apps
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/MamangRust/monolith-graphql-ecommerce-merchant_policy/cache"
 	"github.com/MamangRust/monolith-graphql-ecommerce-merchant_policy/handler"
 	"github.com/MamangRust/monolith-graphql-ecommerce-merchant_policy/repository"
 	"github.com/MamangRust/monolith-graphql-ecommerce-merchant_policy/service"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/adapter"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/resilience"
 	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/server"
 	"github.com/MamangRust/monolith-graphql-ecommerce-shared/observability"
 	"github.com/spf13/viper"
@@ -35,7 +38,13 @@ func NewServer(cfg *server.Config) (*server.GRPCServer, error) {
 
 	merchantQueryClient := pbmerchant.NewMerchantQueryServiceClient(merchantConn)
 
-	repos := repository.NewRepositories(srv.DB, merchantQueryClient)
+	repos := repository.NewRepositories(srv.DB, merchantQueryClient,
+		repository.GuardOptions{
+			Merchant: []adapter.GuardOption{
+				adapter.WithDependencyGuard(resilience.NewDependencyGuard("merchant", 5, 30, 100, 3*time.Second, srv.Logger)),
+			},
+		},
+	)
 	obs, _ := observability.NewObservability("merchant_policy-server", srv.Logger)
 
 	cache := cache.NewMencache(srv.CacheStore)

@@ -11,6 +11,7 @@ import (
 	"github.com/stretchr/testify/suite"
 
 	pbrole "github.com/MamangRust/monolith-graphql-ecommerce-pb/role"
+	pbuserrole "github.com/MamangRust/monolith-graphql-ecommerce-pb/user_role"
 )
 
 type UserRepositoryTestSuite struct {
@@ -25,7 +26,7 @@ func (s *UserRepositoryTestSuite) SetupSuite() {
 	queries := db.New(s.DBPool())
 	s.SetupRoleService()
 	roleClient := pbrole.NewRoleQueryServiceClient(s.Conns["role"])
-	s.repo = repository.NewRepositories(queries, roleClient)
+	s.repo = repository.NewRepositories(&repository.Deps{Db: queries, RoleQueryClient: roleClient, UserRoleClient: pbuserrole.NewUserRoleServiceClient(s.Conns["role"])})
 }
 
 func (s *UserRepositoryTestSuite) TearDownSuite() {

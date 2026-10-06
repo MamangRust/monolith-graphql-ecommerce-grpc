@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.6.2
 // - protoc             v3.21.12
-// source: category/category_stats_byid.proto
+// source: category/stats/category_stats_byid.proto
 
 package category
 
@@ -19,10 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	CategoryStatsByIdService_FindMonthlyTotalPricesById_FullMethodName = "/pb.category.CategoryStatsByIdService/FindMonthlyTotalPricesById"
-	CategoryStatsByIdService_FindYearlyTotalPricesById_FullMethodName  = "/pb.category.CategoryStatsByIdService/FindYearlyTotalPricesById"
-	CategoryStatsByIdService_FindMonthPriceById_FullMethodName         = "/pb.category.CategoryStatsByIdService/FindMonthPriceById"
-	CategoryStatsByIdService_FindYearPriceById_FullMethodName          = "/pb.category.CategoryStatsByIdService/FindYearPriceById"
+	CategoryStatsByIdService_FindMonthlyTotalPricesById_FullMethodName = "/pb.category.stats.CategoryStatsByIdService/FindMonthlyTotalPricesById"
+	CategoryStatsByIdService_FindYearlyTotalPricesById_FullMethodName  = "/pb.category.stats.CategoryStatsByIdService/FindYearlyTotalPricesById"
+	CategoryStatsByIdService_FindMonthPriceById_FullMethodName         = "/pb.category.stats.CategoryStatsByIdService/FindMonthPriceById"
+	CategoryStatsByIdService_FindYearPriceById_FullMethodName          = "/pb.category.stats.CategoryStatsByIdService/FindYearPriceById"
 )
 
 // CategoryStatsByIdServiceClient is the client API for CategoryStatsByIdService service.
@@ -211,7 +211,7 @@ func _CategoryStatsByIdService_FindYearPriceById_Handler(srv interface{}, ctx co
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var CategoryStatsByIdService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "pb.category.CategoryStatsByIdService",
+	ServiceName: "pb.category.stats.CategoryStatsByIdService",
 	HandlerType: (*CategoryStatsByIdServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -232,5 +232,5 @@ var CategoryStatsByIdService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "category/category_stats_byid.proto",
+	Metadata: "category/stats/category_stats_byid.proto",
 }

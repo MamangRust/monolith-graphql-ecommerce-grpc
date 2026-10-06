@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.11
 // 	protoc        v3.21.12
-// source: transaction/transaction_stats.proto
+// source: transaction/stats/transaction_stats.proto
 
 package transaction
 
@@ -31,7 +31,7 @@ type MonthAmountTransactionRequest struct {
 
 func (x *MonthAmountTransactionRequest) Reset() {
 	*x = MonthAmountTransactionRequest{}
-	mi := &file_transaction_transaction_stats_proto_msgTypes[0]
+	mi := &file_transaction_stats_transaction_stats_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -43,7 +43,7 @@ func (x *MonthAmountTransactionRequest) String() string {
 func (*MonthAmountTransactionRequest) ProtoMessage() {}
 
 func (x *MonthAmountTransactionRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_transaction_transaction_stats_proto_msgTypes[0]
+	mi := &file_transaction_stats_transaction_stats_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -56,7 +56,7 @@ func (x *MonthAmountTransactionRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MonthAmountTransactionRequest.ProtoReflect.Descriptor instead.
 func (*MonthAmountTransactionRequest) Descriptor() ([]byte, []int) {
-	return file_transaction_transaction_stats_proto_rawDescGZIP(), []int{0}
+	return file_transaction_stats_transaction_stats_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *MonthAmountTransactionRequest) GetYear() int32 {
@@ -82,7 +82,7 @@ type YearAmountTransactionRequest struct {
 
 func (x *YearAmountTransactionRequest) Reset() {
 	*x = YearAmountTransactionRequest{}
-	mi := &file_transaction_transaction_stats_proto_msgTypes[1]
+	mi := &file_transaction_stats_transaction_stats_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -94,7 +94,7 @@ func (x *YearAmountTransactionRequest) String() string {
 func (*YearAmountTransactionRequest) ProtoMessage() {}
 
 func (x *YearAmountTransactionRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_transaction_transaction_stats_proto_msgTypes[1]
+	mi := &file_transaction_stats_transaction_stats_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -107,7 +107,7 @@ func (x *YearAmountTransactionRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use YearAmountTransactionRequest.ProtoReflect.Descriptor instead.
 func (*YearAmountTransactionRequest) Descriptor() ([]byte, []int) {
-	return file_transaction_transaction_stats_proto_rawDescGZIP(), []int{1}
+	return file_transaction_stats_transaction_stats_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *YearAmountTransactionRequest) GetYear() int32 {
@@ -127,7 +127,7 @@ type MonthMethodTransactionRequest struct {
 
 func (x *MonthMethodTransactionRequest) Reset() {
 	*x = MonthMethodTransactionRequest{}
-	mi := &file_transaction_transaction_stats_proto_msgTypes[2]
+	mi := &file_transaction_stats_transaction_stats_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -139,7 +139,7 @@ func (x *MonthMethodTransactionRequest) String() string {
 func (*MonthMethodTransactionRequest) ProtoMessage() {}
 
 func (x *MonthMethodTransactionRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_transaction_transaction_stats_proto_msgTypes[2]
+	mi := &file_transaction_stats_transaction_stats_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -152,7 +152,7 @@ func (x *MonthMethodTransactionRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MonthMethodTransactionRequest.ProtoReflect.Descriptor instead.
 func (*MonthMethodTransactionRequest) Descriptor() ([]byte, []int) {
-	return file_transaction_transaction_stats_proto_rawDescGZIP(), []int{2}
+	return file_transaction_stats_transaction_stats_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *MonthMethodTransactionRequest) GetYear() int32 {
@@ -178,7 +178,7 @@ type YearMethodTransactionRequest struct {
 
 func (x *YearMethodTransactionRequest) Reset() {
 	*x = YearMethodTransactionRequest{}
-	mi := &file_transaction_transaction_stats_proto_msgTypes[3]
+	mi := &file_transaction_stats_transaction_stats_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -190,7 +190,7 @@ func (x *YearMethodTransactionRequest) String() string {
 func (*YearMethodTransactionRequest) ProtoMessage() {}
 
 func (x *YearMethodTransactionRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_transaction_transaction_stats_proto_msgTypes[3]
+	mi := &file_transaction_stats_transaction_stats_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -203,7 +203,7 @@ func (x *YearMethodTransactionRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use YearMethodTransactionRequest.ProtoReflect.Descriptor instead.
 func (*YearMethodTransactionRequest) Descriptor() ([]byte, []int) {
-	return file_transaction_transaction_stats_proto_rawDescGZIP(), []int{3}
+	return file_transaction_stats_transaction_stats_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *YearMethodTransactionRequest) GetYear() int32 {
@@ -213,11 +213,11 @@ func (x *YearMethodTransactionRequest) GetYear() int32 {
 	return 0
 }
 
-var File_transaction_transaction_stats_proto protoreflect.FileDescriptor
+var File_transaction_stats_transaction_stats_proto protoreflect.FileDescriptor
 
-const file_transaction_transaction_stats_proto_rawDesc = "" +
+const file_transaction_stats_transaction_stats_proto_rawDesc = "" +
 	"\n" +
-	"#transaction/transaction_stats.proto\x12\x0epb.transaction\x1a$transaction/transaction_common.proto\"I\n" +
+	")transaction/stats/transaction_stats.proto\x12\x14pb.transaction.stats\x1a$transaction/transaction_common.proto\"I\n" +
 	"\x1dMonthAmountTransactionRequest\x12\x12\n" +
 	"\x04year\x18\x01 \x01(\x05R\x04year\x12\x14\n" +
 	"\x05month\x18\x02 \x01(\x05R\x05month\"2\n" +
@@ -227,35 +227,35 @@ const file_transaction_transaction_stats_proto_rawDesc = "" +
 	"\x04year\x18\x01 \x01(\x05R\x04year\x12\x14\n" +
 	"\x05month\x18\x02 \x01(\x05R\x05month\"2\n" +
 	"\x1cYearMethodTransactionRequest\x12\x12\n" +
-	"\x04year\x18\x01 \x01(\x05R\x04year2\xd9\b\n" +
-	"\x17TransactionStatsService\x12\x82\x01\n" +
-	"\x17GetMonthlyAmountSuccess\x12-.pb.transaction.MonthAmountTransactionRequest\x1a8.pb.transaction.ApiResponseTransactionMonthAmountSuccess\x12\x7f\n" +
-	"\x16GetYearlyAmountSuccess\x12,.pb.transaction.YearAmountTransactionRequest\x1a7.pb.transaction.ApiResponseTransactionYearAmountSuccess\x12\x80\x01\n" +
-	"\x16GetMonthlyAmountFailed\x12-.pb.transaction.MonthAmountTransactionRequest\x1a7.pb.transaction.ApiResponseTransactionMonthAmountFailed\x12}\n" +
-	"\x15GetYearlyAmountFailed\x12,.pb.transaction.YearAmountTransactionRequest\x1a6.pb.transaction.ApiResponseTransactionYearAmountFailed\x12\x8d\x01\n" +
-	"\"GetMonthlyTransactionMethodSuccess\x12-.pb.transaction.MonthMethodTransactionRequest\x1a8.pb.transaction.ApiResponseTransactionMonthPaymentMethod\x12\x8a\x01\n" +
-	"!GetYearlyTransactionMethodSuccess\x12,.pb.transaction.YearMethodTransactionRequest\x1a7.pb.transaction.ApiResponseTransactionYearPaymentmethod\x12\x8c\x01\n" +
-	"!GetMonthlyTransactionMethodFailed\x12-.pb.transaction.MonthMethodTransactionRequest\x1a8.pb.transaction.ApiResponseTransactionMonthPaymentMethod\x12\x89\x01\n" +
-	" GetYearlyTransactionMethodFailed\x12,.pb.transaction.YearMethodTransactionRequest\x1a7.pb.transaction.ApiResponseTransactionYearPaymentmethodBAZ?github.com/MamangRust/monolith-graphql-ecommerce-pb/transactionb\x06proto3"
+	"\x04year\x18\x01 \x01(\x05R\x04year2\x8b\t\n" +
+	"\x17TransactionStatsService\x12\x88\x01\n" +
+	"\x17GetMonthlyAmountSuccess\x123.pb.transaction.stats.MonthAmountTransactionRequest\x1a8.pb.transaction.ApiResponseTransactionMonthAmountSuccess\x12\x85\x01\n" +
+	"\x16GetYearlyAmountSuccess\x122.pb.transaction.stats.YearAmountTransactionRequest\x1a7.pb.transaction.ApiResponseTransactionYearAmountSuccess\x12\x86\x01\n" +
+	"\x16GetMonthlyAmountFailed\x123.pb.transaction.stats.MonthAmountTransactionRequest\x1a7.pb.transaction.ApiResponseTransactionMonthAmountFailed\x12\x83\x01\n" +
+	"\x15GetYearlyAmountFailed\x122.pb.transaction.stats.YearAmountTransactionRequest\x1a6.pb.transaction.ApiResponseTransactionYearAmountFailed\x12\x93\x01\n" +
+	"\"GetMonthlyTransactionMethodSuccess\x123.pb.transaction.stats.MonthMethodTransactionRequest\x1a8.pb.transaction.ApiResponseTransactionMonthPaymentMethod\x12\x90\x01\n" +
+	"!GetYearlyTransactionMethodSuccess\x122.pb.transaction.stats.YearMethodTransactionRequest\x1a7.pb.transaction.ApiResponseTransactionYearPaymentmethod\x12\x92\x01\n" +
+	"!GetMonthlyTransactionMethodFailed\x123.pb.transaction.stats.MonthMethodTransactionRequest\x1a8.pb.transaction.ApiResponseTransactionMonthPaymentMethod\x12\x8f\x01\n" +
+	" GetYearlyTransactionMethodFailed\x122.pb.transaction.stats.YearMethodTransactionRequest\x1a7.pb.transaction.ApiResponseTransactionYearPaymentmethodBAZ?github.com/MamangRust/monolith-graphql-ecommerce-pb/transactionb\x06proto3"
 
 var (
-	file_transaction_transaction_stats_proto_rawDescOnce sync.Once
-	file_transaction_transaction_stats_proto_rawDescData []byte
+	file_transaction_stats_transaction_stats_proto_rawDescOnce sync.Once
+	file_transaction_stats_transaction_stats_proto_rawDescData []byte
 )
 
-func file_transaction_transaction_stats_proto_rawDescGZIP() []byte {
-	file_transaction_transaction_stats_proto_rawDescOnce.Do(func() {
-		file_transaction_transaction_stats_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_transaction_transaction_stats_proto_rawDesc), len(file_transaction_transaction_stats_proto_rawDesc)))
+func file_transaction_stats_transaction_stats_proto_rawDescGZIP() []byte {
+	file_transaction_stats_transaction_stats_proto_rawDescOnce.Do(func() {
+		file_transaction_stats_transaction_stats_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_transaction_stats_transaction_stats_proto_rawDesc), len(file_transaction_stats_transaction_stats_proto_rawDesc)))
 	})
-	return file_transaction_transaction_stats_proto_rawDescData
+	return file_transaction_stats_transaction_stats_proto_rawDescData
 }
 
-var file_transaction_transaction_stats_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
-var file_transaction_transaction_stats_proto_goTypes = []any{
-	(*MonthAmountTransactionRequest)(nil),            // 0: pb.transaction.MonthAmountTransactionRequest
-	(*YearAmountTransactionRequest)(nil),             // 1: pb.transaction.YearAmountTransactionRequest
-	(*MonthMethodTransactionRequest)(nil),            // 2: pb.transaction.MonthMethodTransactionRequest
-	(*YearMethodTransactionRequest)(nil),             // 3: pb.transaction.YearMethodTransactionRequest
+var file_transaction_stats_transaction_stats_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_transaction_stats_transaction_stats_proto_goTypes = []any{
+	(*MonthAmountTransactionRequest)(nil),            // 0: pb.transaction.stats.MonthAmountTransactionRequest
+	(*YearAmountTransactionRequest)(nil),             // 1: pb.transaction.stats.YearAmountTransactionRequest
+	(*MonthMethodTransactionRequest)(nil),            // 2: pb.transaction.stats.MonthMethodTransactionRequest
+	(*YearMethodTransactionRequest)(nil),             // 3: pb.transaction.stats.YearMethodTransactionRequest
 	(*ApiResponseTransactionMonthAmountSuccess)(nil), // 4: pb.transaction.ApiResponseTransactionMonthAmountSuccess
 	(*ApiResponseTransactionYearAmountSuccess)(nil),  // 5: pb.transaction.ApiResponseTransactionYearAmountSuccess
 	(*ApiResponseTransactionMonthAmountFailed)(nil),  // 6: pb.transaction.ApiResponseTransactionMonthAmountFailed
@@ -263,23 +263,23 @@ var file_transaction_transaction_stats_proto_goTypes = []any{
 	(*ApiResponseTransactionMonthPaymentMethod)(nil), // 8: pb.transaction.ApiResponseTransactionMonthPaymentMethod
 	(*ApiResponseTransactionYearPaymentmethod)(nil),  // 9: pb.transaction.ApiResponseTransactionYearPaymentmethod
 }
-var file_transaction_transaction_stats_proto_depIdxs = []int32{
-	0, // 0: pb.transaction.TransactionStatsService.GetMonthlyAmountSuccess:input_type -> pb.transaction.MonthAmountTransactionRequest
-	1, // 1: pb.transaction.TransactionStatsService.GetYearlyAmountSuccess:input_type -> pb.transaction.YearAmountTransactionRequest
-	0, // 2: pb.transaction.TransactionStatsService.GetMonthlyAmountFailed:input_type -> pb.transaction.MonthAmountTransactionRequest
-	1, // 3: pb.transaction.TransactionStatsService.GetYearlyAmountFailed:input_type -> pb.transaction.YearAmountTransactionRequest
-	2, // 4: pb.transaction.TransactionStatsService.GetMonthlyTransactionMethodSuccess:input_type -> pb.transaction.MonthMethodTransactionRequest
-	3, // 5: pb.transaction.TransactionStatsService.GetYearlyTransactionMethodSuccess:input_type -> pb.transaction.YearMethodTransactionRequest
-	2, // 6: pb.transaction.TransactionStatsService.GetMonthlyTransactionMethodFailed:input_type -> pb.transaction.MonthMethodTransactionRequest
-	3, // 7: pb.transaction.TransactionStatsService.GetYearlyTransactionMethodFailed:input_type -> pb.transaction.YearMethodTransactionRequest
-	4, // 8: pb.transaction.TransactionStatsService.GetMonthlyAmountSuccess:output_type -> pb.transaction.ApiResponseTransactionMonthAmountSuccess
-	5, // 9: pb.transaction.TransactionStatsService.GetYearlyAmountSuccess:output_type -> pb.transaction.ApiResponseTransactionYearAmountSuccess
-	6, // 10: pb.transaction.TransactionStatsService.GetMonthlyAmountFailed:output_type -> pb.transaction.ApiResponseTransactionMonthAmountFailed
-	7, // 11: pb.transaction.TransactionStatsService.GetYearlyAmountFailed:output_type -> pb.transaction.ApiResponseTransactionYearAmountFailed
-	8, // 12: pb.transaction.TransactionStatsService.GetMonthlyTransactionMethodSuccess:output_type -> pb.transaction.ApiResponseTransactionMonthPaymentMethod
-	9, // 13: pb.transaction.TransactionStatsService.GetYearlyTransactionMethodSuccess:output_type -> pb.transaction.ApiResponseTransactionYearPaymentmethod
-	8, // 14: pb.transaction.TransactionStatsService.GetMonthlyTransactionMethodFailed:output_type -> pb.transaction.ApiResponseTransactionMonthPaymentMethod
-	9, // 15: pb.transaction.TransactionStatsService.GetYearlyTransactionMethodFailed:output_type -> pb.transaction.ApiResponseTransactionYearPaymentmethod
+var file_transaction_stats_transaction_stats_proto_depIdxs = []int32{
+	0, // 0: pb.transaction.stats.TransactionStatsService.GetMonthlyAmountSuccess:input_type -> pb.transaction.stats.MonthAmountTransactionRequest
+	1, // 1: pb.transaction.stats.TransactionStatsService.GetYearlyAmountSuccess:input_type -> pb.transaction.stats.YearAmountTransactionRequest
+	0, // 2: pb.transaction.stats.TransactionStatsService.GetMonthlyAmountFailed:input_type -> pb.transaction.stats.MonthAmountTransactionRequest
+	1, // 3: pb.transaction.stats.TransactionStatsService.GetYearlyAmountFailed:input_type -> pb.transaction.stats.YearAmountTransactionRequest
+	2, // 4: pb.transaction.stats.TransactionStatsService.GetMonthlyTransactionMethodSuccess:input_type -> pb.transaction.stats.MonthMethodTransactionRequest
+	3, // 5: pb.transaction.stats.TransactionStatsService.GetYearlyTransactionMethodSuccess:input_type -> pb.transaction.stats.YearMethodTransactionRequest
+	2, // 6: pb.transaction.stats.TransactionStatsService.GetMonthlyTransactionMethodFailed:input_type -> pb.transaction.stats.MonthMethodTransactionRequest
+	3, // 7: pb.transaction.stats.TransactionStatsService.GetYearlyTransactionMethodFailed:input_type -> pb.transaction.stats.YearMethodTransactionRequest
+	4, // 8: pb.transaction.stats.TransactionStatsService.GetMonthlyAmountSuccess:output_type -> pb.transaction.ApiResponseTransactionMonthAmountSuccess
+	5, // 9: pb.transaction.stats.TransactionStatsService.GetYearlyAmountSuccess:output_type -> pb.transaction.ApiResponseTransactionYearAmountSuccess
+	6, // 10: pb.transaction.stats.TransactionStatsService.GetMonthlyAmountFailed:output_type -> pb.transaction.ApiResponseTransactionMonthAmountFailed
+	7, // 11: pb.transaction.stats.TransactionStatsService.GetYearlyAmountFailed:output_type -> pb.transaction.ApiResponseTransactionYearAmountFailed
+	8, // 12: pb.transaction.stats.TransactionStatsService.GetMonthlyTransactionMethodSuccess:output_type -> pb.transaction.ApiResponseTransactionMonthPaymentMethod
+	9, // 13: pb.transaction.stats.TransactionStatsService.GetYearlyTransactionMethodSuccess:output_type -> pb.transaction.ApiResponseTransactionYearPaymentmethod
+	8, // 14: pb.transaction.stats.TransactionStatsService.GetMonthlyTransactionMethodFailed:output_type -> pb.transaction.ApiResponseTransactionMonthPaymentMethod
+	9, // 15: pb.transaction.stats.TransactionStatsService.GetYearlyTransactionMethodFailed:output_type -> pb.transaction.ApiResponseTransactionYearPaymentmethod
 	8, // [8:16] is the sub-list for method output_type
 	0, // [0:8] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
@@ -287,9 +287,9 @@ var file_transaction_transaction_stats_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for field type_name
 }
 
-func init() { file_transaction_transaction_stats_proto_init() }
-func file_transaction_transaction_stats_proto_init() {
-	if File_transaction_transaction_stats_proto != nil {
+func init() { file_transaction_stats_transaction_stats_proto_init() }
+func file_transaction_stats_transaction_stats_proto_init() {
+	if File_transaction_stats_transaction_stats_proto != nil {
 		return
 	}
 	file_transaction_transaction_common_proto_init()
@@ -297,17 +297,17 @@ func file_transaction_transaction_stats_proto_init() {
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_transaction_transaction_stats_proto_rawDesc), len(file_transaction_transaction_stats_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_transaction_stats_transaction_stats_proto_rawDesc), len(file_transaction_stats_transaction_stats_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_transaction_transaction_stats_proto_goTypes,
-		DependencyIndexes: file_transaction_transaction_stats_proto_depIdxs,
-		MessageInfos:      file_transaction_transaction_stats_proto_msgTypes,
+		GoTypes:           file_transaction_stats_transaction_stats_proto_goTypes,
+		DependencyIndexes: file_transaction_stats_transaction_stats_proto_depIdxs,
+		MessageInfos:      file_transaction_stats_transaction_stats_proto_msgTypes,
 	}.Build()
-	File_transaction_transaction_stats_proto = out.File
-	file_transaction_transaction_stats_proto_goTypes = nil
-	file_transaction_transaction_stats_proto_depIdxs = nil
+	File_transaction_stats_transaction_stats_proto = out.File
+	file_transaction_stats_transaction_stats_proto_goTypes = nil
+	file_transaction_stats_transaction_stats_proto_depIdxs = nil
 }

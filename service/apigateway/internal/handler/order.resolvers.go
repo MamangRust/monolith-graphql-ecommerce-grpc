@@ -458,7 +458,7 @@ func (r *queryResolver) FindMonthlyRevenueByMerchant(ctx context.Context, input 
 			return data, nil
 		}
 
-		res, err := r.OrderGraphql.OrderStatsClient.FindMonthlyRevenueByMerchant(ctx, &pb.FindYearOrderByMerchant{
+		res, err := r.OrderGraphql.OrderStatsByMerchantClient.FindMonthlyRevenueByMerchant(ctx, &pb.FindYearOrderByMerchant{
 			Year:       int32(year),
 			MerchantId: int32(merchantId),
 		})
@@ -491,7 +491,7 @@ func (r *queryResolver) FindYearlyRevenueByMerchant(ctx context.Context, input m
 			return data, nil
 		}
 
-		res, err := r.OrderGraphql.OrderStatsClient.FindYearlyRevenueByMerchant(ctx, &pb.FindYearOrderByMerchant{
+		res, err := r.OrderGraphql.OrderStatsByMerchantClient.FindYearlyRevenueByMerchant(ctx, &pb.FindYearOrderByMerchant{
 			Year:       int32(year),
 			MerchantId: int32(merchantId),
 		})
@@ -597,7 +597,7 @@ func (r *queryResolver) FindMonthlyTotalRevenueByMerchant(ctx context.Context, i
 			MerchantId: int32(merchantID),
 		}
 
-		monthRevenue, err := r.OrderGraphql.OrderStatsClient.FindMonthlyTotalRevenueByMerchant(ctx, req)
+		monthRevenue, err := r.OrderGraphql.OrderStatsByMerchantClient.FindMonthlyTotalRevenueByMerchant(ctx, req)
 		if err != nil {
 			return nil, r.handleGraphQLError(err, "FindMonthlyTotalRevenueByMerchant")
 		}
@@ -632,7 +632,7 @@ func (r *queryResolver) FindYearlyTotalRevenueByMerchant(ctx context.Context, in
 			MerchantId: int32(merchantID),
 		}
 
-		yearRevenue, err := r.OrderGraphql.OrderStatsClient.FindYearlyTotalRevenueByMerchant(ctx, req)
+		yearRevenue, err := r.OrderGraphql.OrderStatsByMerchantClient.FindYearlyTotalRevenueByMerchant(ctx, req)
 		if err != nil {
 			return nil, r.handleGraphQLError(err, "FindYearlyTotalRevenueByMerchant")
 		}

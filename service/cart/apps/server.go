@@ -2,11 +2,14 @@ package apps
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/MamangRust/monolith-graphql-ecommerce-cart/cache"
 	"github.com/MamangRust/monolith-graphql-ecommerce-cart/handler"
 	"github.com/MamangRust/monolith-graphql-ecommerce-cart/repository"
 	"github.com/MamangRust/monolith-graphql-ecommerce-cart/service"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/adapter"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/resilience"
 	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/server"
 	"github.com/MamangRust/monolith-graphql-ecommerce-shared/observability"
 	"github.com/spf13/viper"
@@ -47,7 +50,18 @@ func NewServer(cfg *server.Config) (*server.GRPCServer, error) {
 	userQueryClient := pbuser.NewUserQueryServiceClient(userConn)
 	productQueryClient := pbproduct.NewProductQueryServiceClient(productConn)
 
-	repos := repository.NewRepositories(srv.DB, userQueryClient, productQueryClient)
+	repos := repository.NewRepositories(srv.DB,
+		userQueryClient,
+		productQueryClient,
+		repository.GuardOptions{
+			User: []adapter.GuardOption{
+				adapter.WithDependencyGuard(resilience.NewDependencyGuard("user", 5, 30, 100, 3*time.Second, srv.Logger)),
+			},
+			Product: []adapter.GuardOption{
+				adapter.WithDependencyGuard(resilience.NewDependencyGuard("product", 5, 30, 100, 3*time.Second, srv.Logger)),
+			},
+		},
+	)
 
 	obs, _ := observability.NewObservability("cart-service", srv.Logger)
 	cache := cache.NewMencache(srv.CacheStore)

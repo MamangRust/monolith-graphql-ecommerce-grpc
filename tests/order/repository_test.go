@@ -37,15 +37,15 @@ func (s *OrderRepositoryTestSuite) SetupSuite() {
 
 	queries := db.New(s.DBPool())
 	s.repo = repository.NewRepositories(&repository.Deps{
-		DB:               queries,
-		MerchantQuery:    pbmerchant.NewMerchantQueryServiceClient(s.Conns["merchant"]),
-		ProductQuery:     pbproduct.NewProductQueryServiceClient(s.Conns["product"]),
-		ProductCommand:   pbproduct.NewProductCommandServiceClient(s.Conns["product"]),
-		OrderItemQuery:   pborder_item.NewOrderItemQueryServiceClient(s.Conns["order-item"]),
-		OrderItemCommand: pborder_item.NewOrderItemCommandServiceClient(s.Conns["order-item"]),
-		UserQuery:        pbuser.NewUserQueryServiceClient(s.Conns["user"]),
-		ShippingCommand:  pbshipping_address.NewShippingCommandServiceClient(s.Conns["shipping-address"]),
-		TransactionCommand: pbtransaction.NewTransactionCommandServiceClient(s.Conns["transaction"]),
+		Db:               queries,
+		MerchantQueryClient:    pbmerchant.NewMerchantQueryServiceClient(s.Conns["merchant"]),
+		ProductQueryClient:     pbproduct.NewProductQueryServiceClient(s.Conns["product"]),
+		ProductCommandClient:   pbproduct.NewProductCommandServiceClient(s.Conns["product"]),
+		OrderItemQueryClient:   pborder_item.NewOrderItemQueryServiceClient(s.Conns["order-item"]),
+		OrderItemCommandClient: pborder_item.NewOrderItemCommandServiceClient(s.Conns["order-item"]),
+		UserQueryClient:        pbuser.NewUserQueryServiceClient(s.Conns["user"]),
+		ShippingCommandClient:  pbshipping_address.NewShippingCommandServiceClient(s.Conns["shipping-address"]),
+		TransactionCommandClient: pbtransaction.NewTransactionCommandServiceClient(s.Conns["transaction"]),
 	})
 }
 

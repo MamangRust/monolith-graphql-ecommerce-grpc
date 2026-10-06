@@ -10,6 +10,7 @@ import (
 	"google.golang.org/grpc"
 
 	pbrole "github.com/MamangRust/monolith-graphql-ecommerce-pb/role"
+	pbuserrole "github.com/MamangRust/monolith-graphql-ecommerce-pb/user_role"
 )
 
 func NewServer(cfg *server.Config) (*server.GRPCServer, error) {
@@ -37,6 +38,7 @@ func NewServer(cfg *server.Config) (*server.GRPCServer, error) {
 	srv.RegisterServices = func(gs *grpc.Server) {
 		pbrole.RegisterRoleQueryServiceServer(gs, h.RoleQuery)
 		pbrole.RegisterRoleCommandServiceServer(gs, h.RoleCommand)
+		pbuserrole.RegisterUserRoleServiceServer(gs, h.UserRole)
 	}
 
 	return srv, nil

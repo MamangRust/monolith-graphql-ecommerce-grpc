@@ -3,9 +3,14 @@ package repository
 import (
 	"context"
 
+	shippingaddressadapter "github.com/MamangRust/monolith-graphql-ecommerce-pkg/adapter/shipping_address"
 	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
 	"github.com/MamangRust/monolith-graphql-ecommerce-shared/domain/requests"
 )
+
+// ShippingQueryRepository is the read contract for shipping addresses. It is
+// satisfied by the shared shipping_address gRPC adapter.
+type ShippingQueryRepository = shippingaddressadapter.QueryRepository
 
 type UserQueryRepository interface {
 	FindByID(ctx context.Context, user_id int) (*db.GetUserByIDRow, error)

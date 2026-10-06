@@ -2,12 +2,15 @@ package apps
 
 import (
 	"fmt"
+	"time"
 
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/adapter"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/resilience"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/server"
 	"github.com/MamangRust/monolith-graphql-ecommerce-product/cache"
 	"github.com/MamangRust/monolith-graphql-ecommerce-product/handler"
 	"github.com/MamangRust/monolith-graphql-ecommerce-product/repository"
 	"github.com/MamangRust/monolith-graphql-ecommerce-product/service"
-	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/server"
 	"github.com/MamangRust/monolith-graphql-ecommerce-shared/observability"
 	"github.com/spf13/viper"
 	"google.golang.org/grpc"
@@ -40,7 +43,21 @@ func NewServer(cfg *server.Config) (*server.GRPCServer, error) {
 	}
 	merchantQueryClient := pbmerchant.NewMerchantQueryServiceClient(merchantConn)
 
-	repos := repository.NewRepositories(srv.DB, categoryQueryClient, merchantQueryClient)
+	guardCategory := resilience.NewDependencyGuard("category", 5, 30, 100, 3*time.Second, srv.Logger)
+	guardMerchant := resilience.NewDependencyGuard("merchant", 5, 30, 100, 3*time.Second, srv.Logger)
+
+	repos := repository.NewRepositories(srv.DB,
+		categoryQueryClient,
+		merchantQueryClient,
+		repository.GuardOptions{
+			Category: []adapter.GuardOption{
+				adapter.WithDependencyGuard(guardCategory),
+			},
+			Merchant: []adapter.GuardOption{
+				adapter.WithDependencyGuard(guardMerchant),
+			},
+		},
+	)
 	obs, _ := observability.NewObservability("product-server", srv.Logger)
 	cache := cache.NewMencache(srv.CacheStore)
 

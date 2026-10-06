@@ -17,6 +17,7 @@ import (
 	sdklog "go.opentelemetry.io/otel/sdk/log"
 
 	pbrole "github.com/MamangRust/monolith-graphql-ecommerce-pb/role"
+	pbuserrole "github.com/MamangRust/monolith-graphql-ecommerce-pb/user_role"
 )
 
 type UserServiceTestSuite struct {
@@ -34,7 +35,7 @@ func (s *UserServiceTestSuite) SetupSuite() {
 	s.SetupRoleService()
 	roleClient := pbrole.NewRoleQueryServiceClient(s.Conns["role"])
 
-	repos := repository.NewRepositories(queries, roleClient)
+	repos := repository.NewRepositories(&repository.Deps{Db: queries, RoleQueryClient: roleClient, UserRoleClient: pbuserrole.NewUserRoleServiceClient(s.Conns["role"])})
 
 	logger.ResetInstance()
 	lp := sdklog.NewLoggerProvider()

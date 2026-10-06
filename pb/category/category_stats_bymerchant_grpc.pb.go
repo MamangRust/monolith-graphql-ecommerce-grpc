@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.6.2
 // - protoc             v3.21.12
-// source: category/category_stats_bymerchant.proto
+// source: category/stats/category_stats_bymerchant.proto
 
 package category
 
@@ -19,10 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	CategoryStatsByMerchantService_FindMonthlyTotalPricesByMerchant_FullMethodName = "/pb.category.CategoryStatsByMerchantService/FindMonthlyTotalPricesByMerchant"
-	CategoryStatsByMerchantService_FindYearlyTotalPricesByMerchant_FullMethodName  = "/pb.category.CategoryStatsByMerchantService/FindYearlyTotalPricesByMerchant"
-	CategoryStatsByMerchantService_FindMonthPriceByMerchant_FullMethodName         = "/pb.category.CategoryStatsByMerchantService/FindMonthPriceByMerchant"
-	CategoryStatsByMerchantService_FindYearPriceByMerchant_FullMethodName          = "/pb.category.CategoryStatsByMerchantService/FindYearPriceByMerchant"
+	CategoryStatsByMerchantService_FindMonthlyTotalPricesByMerchant_FullMethodName = "/pb.category.stats.CategoryStatsByMerchantService/FindMonthlyTotalPricesByMerchant"
+	CategoryStatsByMerchantService_FindYearlyTotalPricesByMerchant_FullMethodName  = "/pb.category.stats.CategoryStatsByMerchantService/FindYearlyTotalPricesByMerchant"
+	CategoryStatsByMerchantService_FindMonthPriceByMerchant_FullMethodName         = "/pb.category.stats.CategoryStatsByMerchantService/FindMonthPriceByMerchant"
+	CategoryStatsByMerchantService_FindYearPriceByMerchant_FullMethodName          = "/pb.category.stats.CategoryStatsByMerchantService/FindYearPriceByMerchant"
 )
 
 // CategoryStatsByMerchantServiceClient is the client API for CategoryStatsByMerchantService service.
@@ -211,7 +211,7 @@ func _CategoryStatsByMerchantService_FindYearPriceByMerchant_Handler(srv interfa
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var CategoryStatsByMerchantService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "pb.category.CategoryStatsByMerchantService",
+	ServiceName: "pb.category.stats.CategoryStatsByMerchantService",
 	HandlerType: (*CategoryStatsByMerchantServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -232,5 +232,5 @@ var CategoryStatsByMerchantService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "category/category_stats_bymerchant.proto",
+	Metadata: "category/stats/category_stats_bymerchant.proto",
 }

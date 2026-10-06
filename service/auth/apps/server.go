@@ -2,14 +2,17 @@ package apps
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/MamangRust/monolith-graphql-ecommerce-auth/cache"
 	"github.com/MamangRust/monolith-graphql-ecommerce-auth/handler"
 	"github.com/MamangRust/monolith-graphql-ecommerce-auth/repository"
 	"github.com/MamangRust/monolith-graphql-ecommerce-auth/service"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/adapter"
 	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/auth"
 	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/hash"
 	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/kafka"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/resilience"
 	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/server"
 	"github.com/MamangRust/monolith-graphql-ecommerce-shared/observability"
 	"github.com/spf13/viper"
@@ -19,6 +22,7 @@ import (
 	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
 	pbrole "github.com/MamangRust/monolith-graphql-ecommerce-pb/role"
 	pbuser "github.com/MamangRust/monolith-graphql-ecommerce-pb/user"
+	pbuserrole "github.com/MamangRust/monolith-graphql-ecommerce-pb/user_role"
 )
 
 func NewServer(cfg *server.Config) (*server.GRPCServer, error) {
@@ -27,14 +31,12 @@ func NewServer(cfg *server.Config) (*server.GRPCServer, error) {
 		return nil, err
 	}
 
-
 	tokenManager, err := auth.NewManager(viper.GetString("SECRET_KEY"))
 	if err != nil {
 		return nil, fmt.Errorf("failed to create token manager: %w", err)
 	}
 
 	roleAddr := viper.GetString("GRPC_ROLE_ADDR")
-
 
 	userAddr := viper.GetString("GRPC_USER_ADDR")
 
@@ -58,9 +60,33 @@ func NewServer(cfg *server.Config) (*server.GRPCServer, error) {
 	roleCommandClient := pbrole.NewRoleCommandServiceClient(roleConn)
 	userQueryClient := pbuser.NewUserQueryServiceClient(userConn)
 	userCommandClient := pbuser.NewUserCommandServiceClient(userConn)
+	userRoleClient := pbuserrole.NewUserRoleServiceClient(roleConn)
+
+	guardUser := resilience.NewDependencyGuard("user", 5, 30, 100, 3*time.Second, srv.Logger)
+	guardRole := resilience.NewDependencyGuard("role", 5, 30, 100, 3*time.Second, srv.Logger)
+	guardUserRole := resilience.NewDependencyGuard("user_role", 5, 30, 100, 3*time.Second, srv.Logger)
 
 	hasher := hash.NewHashingPassword()
-	repositories := repository.NewRepositories(srv.DB, userQueryClient, userCommandClient, roleQueryClient, roleCommandClient)
+
+	repositories := repository.NewRepositories(&repository.Deps{
+		Db:                srv.DB,
+		UserQueryClient:   userQueryClient,
+		UserCommandClient: userCommandClient,
+		RoleQueryClient:   roleQueryClient,
+		RoleCommandClient: roleCommandClient,
+		UserRoleClient:    userRoleClient,
+		Guard: repository.GuardOptions{
+			User: []adapter.GuardOption{
+				adapter.WithDependencyGuard(guardUser),
+			},
+			Role: []adapter.GuardOption{
+				adapter.WithDependencyGuard(guardRole),
+			},
+			UserRole: []adapter.GuardOption{
+				adapter.WithDependencyGuard(guardUserRole),
+			},
+		},
+	})
 	myKafka := kafka.NewKafka(srv.Logger, []string{viper.GetString("KAFKA_BROKERS")})
 
 	observability, _ := observability.NewObservability("auth-server", srv.Logger)

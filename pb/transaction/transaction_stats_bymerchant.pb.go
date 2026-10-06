@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.11
 // 	protoc        v3.21.12
-// source: transaction/transaction_stats_bymerchant.proto
+// source: transaction/stats/transaction_stats_bymerchant.proto
 
 package transaction
 
@@ -32,7 +32,7 @@ type MonthAmountTransactionMerchantRequest struct {
 
 func (x *MonthAmountTransactionMerchantRequest) Reset() {
 	*x = MonthAmountTransactionMerchantRequest{}
-	mi := &file_transaction_transaction_stats_bymerchant_proto_msgTypes[0]
+	mi := &file_transaction_stats_transaction_stats_bymerchant_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -44,7 +44,7 @@ func (x *MonthAmountTransactionMerchantRequest) String() string {
 func (*MonthAmountTransactionMerchantRequest) ProtoMessage() {}
 
 func (x *MonthAmountTransactionMerchantRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_transaction_transaction_stats_bymerchant_proto_msgTypes[0]
+	mi := &file_transaction_stats_transaction_stats_bymerchant_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -57,7 +57,7 @@ func (x *MonthAmountTransactionMerchantRequest) ProtoReflect() protoreflect.Mess
 
 // Deprecated: Use MonthAmountTransactionMerchantRequest.ProtoReflect.Descriptor instead.
 func (*MonthAmountTransactionMerchantRequest) Descriptor() ([]byte, []int) {
-	return file_transaction_transaction_stats_bymerchant_proto_rawDescGZIP(), []int{0}
+	return file_transaction_stats_transaction_stats_bymerchant_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *MonthAmountTransactionMerchantRequest) GetMerchantId() int32 {
@@ -91,7 +91,7 @@ type YearAmountTransactionMerchantRequest struct {
 
 func (x *YearAmountTransactionMerchantRequest) Reset() {
 	*x = YearAmountTransactionMerchantRequest{}
-	mi := &file_transaction_transaction_stats_bymerchant_proto_msgTypes[1]
+	mi := &file_transaction_stats_transaction_stats_bymerchant_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -103,7 +103,7 @@ func (x *YearAmountTransactionMerchantRequest) String() string {
 func (*YearAmountTransactionMerchantRequest) ProtoMessage() {}
 
 func (x *YearAmountTransactionMerchantRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_transaction_transaction_stats_bymerchant_proto_msgTypes[1]
+	mi := &file_transaction_stats_transaction_stats_bymerchant_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -116,7 +116,7 @@ func (x *YearAmountTransactionMerchantRequest) ProtoReflect() protoreflect.Messa
 
 // Deprecated: Use YearAmountTransactionMerchantRequest.ProtoReflect.Descriptor instead.
 func (*YearAmountTransactionMerchantRequest) Descriptor() ([]byte, []int) {
-	return file_transaction_transaction_stats_bymerchant_proto_rawDescGZIP(), []int{1}
+	return file_transaction_stats_transaction_stats_bymerchant_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *YearAmountTransactionMerchantRequest) GetMerchantId() int32 {
@@ -144,7 +144,7 @@ type MonthMethodTransactionMerchantRequest struct {
 
 func (x *MonthMethodTransactionMerchantRequest) Reset() {
 	*x = MonthMethodTransactionMerchantRequest{}
-	mi := &file_transaction_transaction_stats_bymerchant_proto_msgTypes[2]
+	mi := &file_transaction_stats_transaction_stats_bymerchant_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -156,7 +156,7 @@ func (x *MonthMethodTransactionMerchantRequest) String() string {
 func (*MonthMethodTransactionMerchantRequest) ProtoMessage() {}
 
 func (x *MonthMethodTransactionMerchantRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_transaction_transaction_stats_bymerchant_proto_msgTypes[2]
+	mi := &file_transaction_stats_transaction_stats_bymerchant_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -169,7 +169,7 @@ func (x *MonthMethodTransactionMerchantRequest) ProtoReflect() protoreflect.Mess
 
 // Deprecated: Use MonthMethodTransactionMerchantRequest.ProtoReflect.Descriptor instead.
 func (*MonthMethodTransactionMerchantRequest) Descriptor() ([]byte, []int) {
-	return file_transaction_transaction_stats_bymerchant_proto_rawDescGZIP(), []int{2}
+	return file_transaction_stats_transaction_stats_bymerchant_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *MonthMethodTransactionMerchantRequest) GetMerchantId() int32 {
@@ -203,7 +203,7 @@ type YearMethodTransactionMerchantRequest struct {
 
 func (x *YearMethodTransactionMerchantRequest) Reset() {
 	*x = YearMethodTransactionMerchantRequest{}
-	mi := &file_transaction_transaction_stats_bymerchant_proto_msgTypes[3]
+	mi := &file_transaction_stats_transaction_stats_bymerchant_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -215,7 +215,7 @@ func (x *YearMethodTransactionMerchantRequest) String() string {
 func (*YearMethodTransactionMerchantRequest) ProtoMessage() {}
 
 func (x *YearMethodTransactionMerchantRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_transaction_transaction_stats_bymerchant_proto_msgTypes[3]
+	mi := &file_transaction_stats_transaction_stats_bymerchant_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -228,7 +228,7 @@ func (x *YearMethodTransactionMerchantRequest) ProtoReflect() protoreflect.Messa
 
 // Deprecated: Use YearMethodTransactionMerchantRequest.ProtoReflect.Descriptor instead.
 func (*YearMethodTransactionMerchantRequest) Descriptor() ([]byte, []int) {
-	return file_transaction_transaction_stats_bymerchant_proto_rawDescGZIP(), []int{3}
+	return file_transaction_stats_transaction_stats_bymerchant_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *YearMethodTransactionMerchantRequest) GetMerchantId() int32 {
@@ -245,11 +245,11 @@ func (x *YearMethodTransactionMerchantRequest) GetYear() int32 {
 	return 0
 }
 
-var File_transaction_transaction_stats_bymerchant_proto protoreflect.FileDescriptor
+var File_transaction_stats_transaction_stats_bymerchant_proto protoreflect.FileDescriptor
 
-const file_transaction_transaction_stats_bymerchant_proto_rawDesc = "" +
+const file_transaction_stats_transaction_stats_bymerchant_proto_rawDesc = "" +
 	"\n" +
-	".transaction/transaction_stats_bymerchant.proto\x12\x0epb.transaction\x1a$transaction/transaction_common.proto\"r\n" +
+	"4transaction/stats/transaction_stats_bymerchant.proto\x12\x14pb.transaction.stats\x1a$transaction/transaction_common.proto\"r\n" +
 	"%MonthAmountTransactionMerchantRequest\x12\x1f\n" +
 	"\vmerchant_id\x18\x01 \x01(\x05R\n" +
 	"merchantId\x12\x12\n" +
@@ -267,35 +267,36 @@ const file_transaction_transaction_stats_bymerchant_proto_rawDesc = "" +
 	"$YearMethodTransactionMerchantRequest\x12\x1f\n" +
 	"\vmerchant_id\x18\x01 \x01(\x05R\n" +
 	"merchantId\x12\x12\n" +
-	"\x04year\x18\x02 \x01(\x05R\x04year2\xf5\t\n" +
-	"!TransactionStatsByMerchantService\x12\x94\x01\n" +
-	"!GetMonthlyAmountSuccessByMerchant\x125.pb.transaction.MonthAmountTransactionMerchantRequest\x1a8.pb.transaction.ApiResponseTransactionMonthAmountSuccess\x12\x91\x01\n" +
-	" GetYearlyAmountSuccessByMerchant\x124.pb.transaction.YearAmountTransactionMerchantRequest\x1a7.pb.transaction.ApiResponseTransactionYearAmountSuccess\x12\x92\x01\n" +
-	" GetMonthlyAmountFailedByMerchant\x125.pb.transaction.MonthAmountTransactionMerchantRequest\x1a7.pb.transaction.ApiResponseTransactionMonthAmountFailed\x12\x8f\x01\n" +
-	"\x1fGetYearlyAmountFailedByMerchant\x124.pb.transaction.YearAmountTransactionMerchantRequest\x1a6.pb.transaction.ApiResponseTransactionYearAmountFailed\x12\x9f\x01\n" +
-	",GetMonthlyTransactionMethodByMerchantSuccess\x125.pb.transaction.MonthMethodTransactionMerchantRequest\x1a8.pb.transaction.ApiResponseTransactionMonthPaymentMethod\x12\x9c\x01\n" +
-	"+GetYearlyTransactionMethodByMerchantSuccess\x124.pb.transaction.YearMethodTransactionMerchantRequest\x1a7.pb.transaction.ApiResponseTransactionYearPaymentmethod\x12\x9e\x01\n" +
-	"+GetMonthlyTransactionMethodByMerchantFailed\x125.pb.transaction.MonthMethodTransactionMerchantRequest\x1a8.pb.transaction.ApiResponseTransactionMonthPaymentMethod\x12\x9b\x01\n" +
-	"*GetYearlyTransactionMethodByMerchantFailed\x124.pb.transaction.YearMethodTransactionMerchantRequest\x1a7.pb.transaction.ApiResponseTransactionYearPaymentmethodBAZ?github.com/MamangRust/monolith-graphql-ecommerce-pb/transactionb\x06proto3"
+	"\x04year\x18\x02 \x01(\x05R\x04year2\xa5\n" +
+	"\n" +
+	"!TransactionStatsByMerchantService\x12\x9a\x01\n" +
+	"!GetMonthlyAmountSuccessByMerchant\x12;.pb.transaction.stats.MonthAmountTransactionMerchantRequest\x1a8.pb.transaction.ApiResponseTransactionMonthAmountSuccess\x12\x97\x01\n" +
+	" GetYearlyAmountSuccessByMerchant\x12:.pb.transaction.stats.YearAmountTransactionMerchantRequest\x1a7.pb.transaction.ApiResponseTransactionYearAmountSuccess\x12\x98\x01\n" +
+	" GetMonthlyAmountFailedByMerchant\x12;.pb.transaction.stats.MonthAmountTransactionMerchantRequest\x1a7.pb.transaction.ApiResponseTransactionMonthAmountFailed\x12\x95\x01\n" +
+	"\x1fGetYearlyAmountFailedByMerchant\x12:.pb.transaction.stats.YearAmountTransactionMerchantRequest\x1a6.pb.transaction.ApiResponseTransactionYearAmountFailed\x12\xa5\x01\n" +
+	",GetMonthlyTransactionMethodByMerchantSuccess\x12;.pb.transaction.stats.MonthMethodTransactionMerchantRequest\x1a8.pb.transaction.ApiResponseTransactionMonthPaymentMethod\x12\xa2\x01\n" +
+	"+GetYearlyTransactionMethodByMerchantSuccess\x12:.pb.transaction.stats.YearMethodTransactionMerchantRequest\x1a7.pb.transaction.ApiResponseTransactionYearPaymentmethod\x12\xa4\x01\n" +
+	"+GetMonthlyTransactionMethodByMerchantFailed\x12;.pb.transaction.stats.MonthMethodTransactionMerchantRequest\x1a8.pb.transaction.ApiResponseTransactionMonthPaymentMethod\x12\xa1\x01\n" +
+	"*GetYearlyTransactionMethodByMerchantFailed\x12:.pb.transaction.stats.YearMethodTransactionMerchantRequest\x1a7.pb.transaction.ApiResponseTransactionYearPaymentmethodBAZ?github.com/MamangRust/monolith-graphql-ecommerce-pb/transactionb\x06proto3"
 
 var (
-	file_transaction_transaction_stats_bymerchant_proto_rawDescOnce sync.Once
-	file_transaction_transaction_stats_bymerchant_proto_rawDescData []byte
+	file_transaction_stats_transaction_stats_bymerchant_proto_rawDescOnce sync.Once
+	file_transaction_stats_transaction_stats_bymerchant_proto_rawDescData []byte
 )
 
-func file_transaction_transaction_stats_bymerchant_proto_rawDescGZIP() []byte {
-	file_transaction_transaction_stats_bymerchant_proto_rawDescOnce.Do(func() {
-		file_transaction_transaction_stats_bymerchant_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_transaction_transaction_stats_bymerchant_proto_rawDesc), len(file_transaction_transaction_stats_bymerchant_proto_rawDesc)))
+func file_transaction_stats_transaction_stats_bymerchant_proto_rawDescGZIP() []byte {
+	file_transaction_stats_transaction_stats_bymerchant_proto_rawDescOnce.Do(func() {
+		file_transaction_stats_transaction_stats_bymerchant_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_transaction_stats_transaction_stats_bymerchant_proto_rawDesc), len(file_transaction_stats_transaction_stats_bymerchant_proto_rawDesc)))
 	})
-	return file_transaction_transaction_stats_bymerchant_proto_rawDescData
+	return file_transaction_stats_transaction_stats_bymerchant_proto_rawDescData
 }
 
-var file_transaction_transaction_stats_bymerchant_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
-var file_transaction_transaction_stats_bymerchant_proto_goTypes = []any{
-	(*MonthAmountTransactionMerchantRequest)(nil),    // 0: pb.transaction.MonthAmountTransactionMerchantRequest
-	(*YearAmountTransactionMerchantRequest)(nil),     // 1: pb.transaction.YearAmountTransactionMerchantRequest
-	(*MonthMethodTransactionMerchantRequest)(nil),    // 2: pb.transaction.MonthMethodTransactionMerchantRequest
-	(*YearMethodTransactionMerchantRequest)(nil),     // 3: pb.transaction.YearMethodTransactionMerchantRequest
+var file_transaction_stats_transaction_stats_bymerchant_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_transaction_stats_transaction_stats_bymerchant_proto_goTypes = []any{
+	(*MonthAmountTransactionMerchantRequest)(nil),    // 0: pb.transaction.stats.MonthAmountTransactionMerchantRequest
+	(*YearAmountTransactionMerchantRequest)(nil),     // 1: pb.transaction.stats.YearAmountTransactionMerchantRequest
+	(*MonthMethodTransactionMerchantRequest)(nil),    // 2: pb.transaction.stats.MonthMethodTransactionMerchantRequest
+	(*YearMethodTransactionMerchantRequest)(nil),     // 3: pb.transaction.stats.YearMethodTransactionMerchantRequest
 	(*ApiResponseTransactionMonthAmountSuccess)(nil), // 4: pb.transaction.ApiResponseTransactionMonthAmountSuccess
 	(*ApiResponseTransactionYearAmountSuccess)(nil),  // 5: pb.transaction.ApiResponseTransactionYearAmountSuccess
 	(*ApiResponseTransactionMonthAmountFailed)(nil),  // 6: pb.transaction.ApiResponseTransactionMonthAmountFailed
@@ -303,23 +304,23 @@ var file_transaction_transaction_stats_bymerchant_proto_goTypes = []any{
 	(*ApiResponseTransactionMonthPaymentMethod)(nil), // 8: pb.transaction.ApiResponseTransactionMonthPaymentMethod
 	(*ApiResponseTransactionYearPaymentmethod)(nil),  // 9: pb.transaction.ApiResponseTransactionYearPaymentmethod
 }
-var file_transaction_transaction_stats_bymerchant_proto_depIdxs = []int32{
-	0, // 0: pb.transaction.TransactionStatsByMerchantService.GetMonthlyAmountSuccessByMerchant:input_type -> pb.transaction.MonthAmountTransactionMerchantRequest
-	1, // 1: pb.transaction.TransactionStatsByMerchantService.GetYearlyAmountSuccessByMerchant:input_type -> pb.transaction.YearAmountTransactionMerchantRequest
-	0, // 2: pb.transaction.TransactionStatsByMerchantService.GetMonthlyAmountFailedByMerchant:input_type -> pb.transaction.MonthAmountTransactionMerchantRequest
-	1, // 3: pb.transaction.TransactionStatsByMerchantService.GetYearlyAmountFailedByMerchant:input_type -> pb.transaction.YearAmountTransactionMerchantRequest
-	2, // 4: pb.transaction.TransactionStatsByMerchantService.GetMonthlyTransactionMethodByMerchantSuccess:input_type -> pb.transaction.MonthMethodTransactionMerchantRequest
-	3, // 5: pb.transaction.TransactionStatsByMerchantService.GetYearlyTransactionMethodByMerchantSuccess:input_type -> pb.transaction.YearMethodTransactionMerchantRequest
-	2, // 6: pb.transaction.TransactionStatsByMerchantService.GetMonthlyTransactionMethodByMerchantFailed:input_type -> pb.transaction.MonthMethodTransactionMerchantRequest
-	3, // 7: pb.transaction.TransactionStatsByMerchantService.GetYearlyTransactionMethodByMerchantFailed:input_type -> pb.transaction.YearMethodTransactionMerchantRequest
-	4, // 8: pb.transaction.TransactionStatsByMerchantService.GetMonthlyAmountSuccessByMerchant:output_type -> pb.transaction.ApiResponseTransactionMonthAmountSuccess
-	5, // 9: pb.transaction.TransactionStatsByMerchantService.GetYearlyAmountSuccessByMerchant:output_type -> pb.transaction.ApiResponseTransactionYearAmountSuccess
-	6, // 10: pb.transaction.TransactionStatsByMerchantService.GetMonthlyAmountFailedByMerchant:output_type -> pb.transaction.ApiResponseTransactionMonthAmountFailed
-	7, // 11: pb.transaction.TransactionStatsByMerchantService.GetYearlyAmountFailedByMerchant:output_type -> pb.transaction.ApiResponseTransactionYearAmountFailed
-	8, // 12: pb.transaction.TransactionStatsByMerchantService.GetMonthlyTransactionMethodByMerchantSuccess:output_type -> pb.transaction.ApiResponseTransactionMonthPaymentMethod
-	9, // 13: pb.transaction.TransactionStatsByMerchantService.GetYearlyTransactionMethodByMerchantSuccess:output_type -> pb.transaction.ApiResponseTransactionYearPaymentmethod
-	8, // 14: pb.transaction.TransactionStatsByMerchantService.GetMonthlyTransactionMethodByMerchantFailed:output_type -> pb.transaction.ApiResponseTransactionMonthPaymentMethod
-	9, // 15: pb.transaction.TransactionStatsByMerchantService.GetYearlyTransactionMethodByMerchantFailed:output_type -> pb.transaction.ApiResponseTransactionYearPaymentmethod
+var file_transaction_stats_transaction_stats_bymerchant_proto_depIdxs = []int32{
+	0, // 0: pb.transaction.stats.TransactionStatsByMerchantService.GetMonthlyAmountSuccessByMerchant:input_type -> pb.transaction.stats.MonthAmountTransactionMerchantRequest
+	1, // 1: pb.transaction.stats.TransactionStatsByMerchantService.GetYearlyAmountSuccessByMerchant:input_type -> pb.transaction.stats.YearAmountTransactionMerchantRequest
+	0, // 2: pb.transaction.stats.TransactionStatsByMerchantService.GetMonthlyAmountFailedByMerchant:input_type -> pb.transaction.stats.MonthAmountTransactionMerchantRequest
+	1, // 3: pb.transaction.stats.TransactionStatsByMerchantService.GetYearlyAmountFailedByMerchant:input_type -> pb.transaction.stats.YearAmountTransactionMerchantRequest
+	2, // 4: pb.transaction.stats.TransactionStatsByMerchantService.GetMonthlyTransactionMethodByMerchantSuccess:input_type -> pb.transaction.stats.MonthMethodTransactionMerchantRequest
+	3, // 5: pb.transaction.stats.TransactionStatsByMerchantService.GetYearlyTransactionMethodByMerchantSuccess:input_type -> pb.transaction.stats.YearMethodTransactionMerchantRequest
+	2, // 6: pb.transaction.stats.TransactionStatsByMerchantService.GetMonthlyTransactionMethodByMerchantFailed:input_type -> pb.transaction.stats.MonthMethodTransactionMerchantRequest
+	3, // 7: pb.transaction.stats.TransactionStatsByMerchantService.GetYearlyTransactionMethodByMerchantFailed:input_type -> pb.transaction.stats.YearMethodTransactionMerchantRequest
+	4, // 8: pb.transaction.stats.TransactionStatsByMerchantService.GetMonthlyAmountSuccessByMerchant:output_type -> pb.transaction.ApiResponseTransactionMonthAmountSuccess
+	5, // 9: pb.transaction.stats.TransactionStatsByMerchantService.GetYearlyAmountSuccessByMerchant:output_type -> pb.transaction.ApiResponseTransactionYearAmountSuccess
+	6, // 10: pb.transaction.stats.TransactionStatsByMerchantService.GetMonthlyAmountFailedByMerchant:output_type -> pb.transaction.ApiResponseTransactionMonthAmountFailed
+	7, // 11: pb.transaction.stats.TransactionStatsByMerchantService.GetYearlyAmountFailedByMerchant:output_type -> pb.transaction.ApiResponseTransactionYearAmountFailed
+	8, // 12: pb.transaction.stats.TransactionStatsByMerchantService.GetMonthlyTransactionMethodByMerchantSuccess:output_type -> pb.transaction.ApiResponseTransactionMonthPaymentMethod
+	9, // 13: pb.transaction.stats.TransactionStatsByMerchantService.GetYearlyTransactionMethodByMerchantSuccess:output_type -> pb.transaction.ApiResponseTransactionYearPaymentmethod
+	8, // 14: pb.transaction.stats.TransactionStatsByMerchantService.GetMonthlyTransactionMethodByMerchantFailed:output_type -> pb.transaction.ApiResponseTransactionMonthPaymentMethod
+	9, // 15: pb.transaction.stats.TransactionStatsByMerchantService.GetYearlyTransactionMethodByMerchantFailed:output_type -> pb.transaction.ApiResponseTransactionYearPaymentmethod
 	8, // [8:16] is the sub-list for method output_type
 	0, // [0:8] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
@@ -327,9 +328,9 @@ var file_transaction_transaction_stats_bymerchant_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for field type_name
 }
 
-func init() { file_transaction_transaction_stats_bymerchant_proto_init() }
-func file_transaction_transaction_stats_bymerchant_proto_init() {
-	if File_transaction_transaction_stats_bymerchant_proto != nil {
+func init() { file_transaction_stats_transaction_stats_bymerchant_proto_init() }
+func file_transaction_stats_transaction_stats_bymerchant_proto_init() {
+	if File_transaction_stats_transaction_stats_bymerchant_proto != nil {
 		return
 	}
 	file_transaction_transaction_common_proto_init()
@@ -337,17 +338,17 @@ func file_transaction_transaction_stats_bymerchant_proto_init() {
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_transaction_transaction_stats_bymerchant_proto_rawDesc), len(file_transaction_transaction_stats_bymerchant_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_transaction_stats_transaction_stats_bymerchant_proto_rawDesc), len(file_transaction_stats_transaction_stats_bymerchant_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_transaction_transaction_stats_bymerchant_proto_goTypes,
-		DependencyIndexes: file_transaction_transaction_stats_bymerchant_proto_depIdxs,
-		MessageInfos:      file_transaction_transaction_stats_bymerchant_proto_msgTypes,
+		GoTypes:           file_transaction_stats_transaction_stats_bymerchant_proto_goTypes,
+		DependencyIndexes: file_transaction_stats_transaction_stats_bymerchant_proto_depIdxs,
+		MessageInfos:      file_transaction_stats_transaction_stats_bymerchant_proto_msgTypes,
 	}.Build()
-	File_transaction_transaction_stats_bymerchant_proto = out.File
-	file_transaction_transaction_stats_bymerchant_proto_goTypes = nil
-	file_transaction_transaction_stats_bymerchant_proto_depIdxs = nil
+	File_transaction_stats_transaction_stats_bymerchant_proto = out.File
+	file_transaction_stats_transaction_stats_bymerchant_proto_goTypes = nil
+	file_transaction_stats_transaction_stats_bymerchant_proto_depIdxs = nil
 }

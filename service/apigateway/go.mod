@@ -8,6 +8,7 @@ require (
 	github.com/MamangRust/monolith-graphql-ecommerce-pb v1.0.10
 	github.com/MamangRust/monolith-graphql-ecommerce-pkg v1.0.18
 	github.com/MamangRust/monolith-graphql-ecommerce-shared v1.0.20
+	github.com/go-chi/chi/v5 v5.3.2
 	github.com/go-playground/validator/v10 v10.30.1
 	github.com/google/uuid v1.6.0
 	github.com/prometheus/client_golang v1.23.2

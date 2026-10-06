@@ -45,15 +45,20 @@ func NewRolePermission(
 		logger:        logger,
 	}
 
-	handler := &roleResponseHandler{validator: p}
+	// Kafka is optional: when it is not configured (tests, or a deployment that
+	// does not run role validation), skip the consumer instead of dereferencing
+	// a nil client.
+	if k != nil {
+		handler := &roleResponseHandler{validator: p}
 
-	go func() {
-		err := k.StartConsumers([]string{responseTopic}, "role-permission-gateway", handler)
-		if err != nil {
-			p.logger.Fatal("Failed to start kafka consumer", zap.Error(err))
-			panic("failed to start kafka consumer: " + err.Error())
-		}
-	}()
+		go func() {
+			err := k.StartConsumers([]string{responseTopic}, "role-permission-gateway", handler)
+			if err != nil {
+				p.logger.Fatal("Failed to start kafka consumer", zap.Error(err))
+				panic("failed to start kafka consumer: " + err.Error())
+			}
+		}()
+	}
 
 	return p
 }
@@ -148,6 +153,10 @@ func (p *rolePermission) CheckRole(ctx context.Context, userID int, requiredRole
 }
 
 func (p *rolePermission) sendValidationRequest(userID int, correlationID string) error {
+	if p.kafka == nil {
+		return errors.New("role permission: kafka client is not configured")
+	}
+
 	payload := requests.RoleRequestPayload{
 		UserID:        userID,
 		CorrelationID: correlationID,

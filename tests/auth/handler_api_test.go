@@ -19,6 +19,7 @@ import (
 
 	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
 	pbrole "github.com/MamangRust/monolith-graphql-ecommerce-pb/role"
+	pbuserrole "github.com/MamangRust/monolith-graphql-ecommerce-pb/user_role"
 	pbuser "github.com/MamangRust/monolith-graphql-ecommerce-pb/user"
 )
 
@@ -44,13 +45,14 @@ func (s *AuthHandlerApiTestSuite) SetupSuite() {
 	s.Require().NoError(err)
 	s.tokenMgr = tokenManager
 
-	authRepos := repository.NewRepositories(
-		queries,
-		pbuser.NewUserQueryServiceClient(s.Conns["user"]),
-		pbuser.NewUserCommandServiceClient(s.Conns["user"]),
-		pbrole.NewRoleQueryServiceClient(s.Conns["role"]),
-		pbrole.NewRoleCommandServiceClient(s.Conns["role"]),
-	)
+	authRepos := repository.NewRepositories(&repository.Deps{
+		Db:                queries,
+		UserQueryClient:   pbuser.NewUserQueryServiceClient(s.Conns["user"]),
+		UserCommandClient: pbuser.NewUserCommandServiceClient(s.Conns["user"]),
+		RoleQueryClient:   pbrole.NewRoleQueryServiceClient(s.Conns["role"]),
+		RoleCommandClient: pbrole.NewRoleCommandServiceClient(s.Conns["role"]),
+		UserRoleClient:    pbuserrole.NewUserRoleServiceClient(s.Conns["role"]),
+	})
 	authSvc := service.NewService(&service.Deps{
 		Repositories:  authRepos,
 		Logger:        s.Log,

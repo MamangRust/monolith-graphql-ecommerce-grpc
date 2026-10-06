@@ -36,7 +36,7 @@ func (s *OrderStatsServiceTestSuite) SetupSuite() {
 
 	queries := db.New(s.DBPool())
 	repos := repository.NewRepositories(&repository.Deps{
-		DB: queries,
+		Db: queries,
 	})
 	cacheStore := s.GetCacheStore()
 	mencache := order_cache.NewMencache(cacheStore)

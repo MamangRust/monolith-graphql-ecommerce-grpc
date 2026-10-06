@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.6.2
 // - protoc             v3.21.12
-// source: transaction/transaction_stats_bymerchant.proto
+// source: transaction/stats/transaction_stats_bymerchant.proto
 
 package transaction
 
@@ -19,14 +19,14 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	TransactionStatsByMerchantService_GetMonthlyAmountSuccessByMerchant_FullMethodName            = "/pb.transaction.TransactionStatsByMerchantService/GetMonthlyAmountSuccessByMerchant"
-	TransactionStatsByMerchantService_GetYearlyAmountSuccessByMerchant_FullMethodName             = "/pb.transaction.TransactionStatsByMerchantService/GetYearlyAmountSuccessByMerchant"
-	TransactionStatsByMerchantService_GetMonthlyAmountFailedByMerchant_FullMethodName             = "/pb.transaction.TransactionStatsByMerchantService/GetMonthlyAmountFailedByMerchant"
-	TransactionStatsByMerchantService_GetYearlyAmountFailedByMerchant_FullMethodName              = "/pb.transaction.TransactionStatsByMerchantService/GetYearlyAmountFailedByMerchant"
-	TransactionStatsByMerchantService_GetMonthlyTransactionMethodByMerchantSuccess_FullMethodName = "/pb.transaction.TransactionStatsByMerchantService/GetMonthlyTransactionMethodByMerchantSuccess"
-	TransactionStatsByMerchantService_GetYearlyTransactionMethodByMerchantSuccess_FullMethodName  = "/pb.transaction.TransactionStatsByMerchantService/GetYearlyTransactionMethodByMerchantSuccess"
-	TransactionStatsByMerchantService_GetMonthlyTransactionMethodByMerchantFailed_FullMethodName  = "/pb.transaction.TransactionStatsByMerchantService/GetMonthlyTransactionMethodByMerchantFailed"
-	TransactionStatsByMerchantService_GetYearlyTransactionMethodByMerchantFailed_FullMethodName   = "/pb.transaction.TransactionStatsByMerchantService/GetYearlyTransactionMethodByMerchantFailed"
+	TransactionStatsByMerchantService_GetMonthlyAmountSuccessByMerchant_FullMethodName            = "/pb.transaction.stats.TransactionStatsByMerchantService/GetMonthlyAmountSuccessByMerchant"
+	TransactionStatsByMerchantService_GetYearlyAmountSuccessByMerchant_FullMethodName             = "/pb.transaction.stats.TransactionStatsByMerchantService/GetYearlyAmountSuccessByMerchant"
+	TransactionStatsByMerchantService_GetMonthlyAmountFailedByMerchant_FullMethodName             = "/pb.transaction.stats.TransactionStatsByMerchantService/GetMonthlyAmountFailedByMerchant"
+	TransactionStatsByMerchantService_GetYearlyAmountFailedByMerchant_FullMethodName              = "/pb.transaction.stats.TransactionStatsByMerchantService/GetYearlyAmountFailedByMerchant"
+	TransactionStatsByMerchantService_GetMonthlyTransactionMethodByMerchantSuccess_FullMethodName = "/pb.transaction.stats.TransactionStatsByMerchantService/GetMonthlyTransactionMethodByMerchantSuccess"
+	TransactionStatsByMerchantService_GetYearlyTransactionMethodByMerchantSuccess_FullMethodName  = "/pb.transaction.stats.TransactionStatsByMerchantService/GetYearlyTransactionMethodByMerchantSuccess"
+	TransactionStatsByMerchantService_GetMonthlyTransactionMethodByMerchantFailed_FullMethodName  = "/pb.transaction.stats.TransactionStatsByMerchantService/GetMonthlyTransactionMethodByMerchantFailed"
+	TransactionStatsByMerchantService_GetYearlyTransactionMethodByMerchantFailed_FullMethodName   = "/pb.transaction.stats.TransactionStatsByMerchantService/GetYearlyTransactionMethodByMerchantFailed"
 )
 
 // TransactionStatsByMerchantServiceClient is the client API for TransactionStatsByMerchantService service.
@@ -347,7 +347,7 @@ func _TransactionStatsByMerchantService_GetYearlyTransactionMethodByMerchantFail
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var TransactionStatsByMerchantService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "pb.transaction.TransactionStatsByMerchantService",
+	ServiceName: "pb.transaction.stats.TransactionStatsByMerchantService",
 	HandlerType: (*TransactionStatsByMerchantServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -384,5 +384,5 @@ var TransactionStatsByMerchantService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "transaction/transaction_stats_bymerchant.proto",
+	Metadata: "transaction/stats/transaction_stats_bymerchant.proto",
 }

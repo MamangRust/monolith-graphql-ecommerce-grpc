@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.6.2
 // - protoc             v3.21.12
-// source: category/category_stats.proto
+// source: category/stats/category_stats.proto
 
 package category
 
@@ -19,10 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	CategoryStatsService_FindMonthlyTotalPrices_FullMethodName = "/pb.category.CategoryStatsService/FindMonthlyTotalPrices"
-	CategoryStatsService_FindYearlyTotalPrices_FullMethodName  = "/pb.category.CategoryStatsService/FindYearlyTotalPrices"
-	CategoryStatsService_FindMonthPrice_FullMethodName         = "/pb.category.CategoryStatsService/FindMonthPrice"
-	CategoryStatsService_FindYearPrice_FullMethodName          = "/pb.category.CategoryStatsService/FindYearPrice"
+	CategoryStatsService_FindMonthlyTotalPrices_FullMethodName = "/pb.category.stats.CategoryStatsService/FindMonthlyTotalPrices"
+	CategoryStatsService_FindYearlyTotalPrices_FullMethodName  = "/pb.category.stats.CategoryStatsService/FindYearlyTotalPrices"
+	CategoryStatsService_FindMonthPrice_FullMethodName         = "/pb.category.stats.CategoryStatsService/FindMonthPrice"
+	CategoryStatsService_FindYearPrice_FullMethodName          = "/pb.category.stats.CategoryStatsService/FindYearPrice"
 )
 
 // CategoryStatsServiceClient is the client API for CategoryStatsService service.
@@ -210,7 +210,7 @@ func _CategoryStatsService_FindYearPrice_Handler(srv interface{}, ctx context.Co
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var CategoryStatsService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "pb.category.CategoryStatsService",
+	ServiceName: "pb.category.stats.CategoryStatsService",
 	HandlerType: (*CategoryStatsServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -231,5 +231,5 @@ var CategoryStatsService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "category/category_stats.proto",
+	Metadata: "category/stats/category_stats.proto",
 }

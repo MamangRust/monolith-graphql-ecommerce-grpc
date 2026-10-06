@@ -37,12 +37,12 @@ func (s *TransactionRepositoryTestSuite) SetupSuite() {
 
 	queries := db.New(s.DBPool())
 	s.repo = repository.NewRepositories(&repository.Deps{
-		DB:              queries,
-		UserQuery:       pbuser.NewUserQueryServiceClient(s.Conns["user"]),
-		MerchantQuery:   pbmerchant.NewMerchantQueryServiceClient(s.Conns["merchant"]),
-		OrderQuery:      pborder.NewOrderQueryServiceClient(s.Conns["order"]),
-		OrderItemQuery:  pborder_item.NewOrderItemQueryServiceClient(s.Conns["order-item"]),
-		ShippingQuery:   pbshipping_address.NewShippingQueryServiceClient(s.Conns["shipping-address"]),
+		Db:              queries,
+		UserQueryClient:       pbuser.NewUserQueryServiceClient(s.Conns["user"]),
+		MerchantQueryClient:   pbmerchant.NewMerchantQueryServiceClient(s.Conns["merchant"]),
+		OrderQueryClient:      pborder.NewOrderQueryServiceClient(s.Conns["order"]),
+		OrderItemQueryClient:  pborder_item.NewOrderItemQueryServiceClient(s.Conns["order-item"]),
+		ShippingQueryClient:   pbshipping_address.NewShippingQueryServiceClient(s.Conns["shipping-address"]),
 	})
 }
 

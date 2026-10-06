@@ -19,6 +19,7 @@ import (
 	"google.golang.org/protobuf/types/known/emptypb"
 
 	pbrole "github.com/MamangRust/monolith-graphql-ecommerce-pb/role"
+	pbuserrole "github.com/MamangRust/monolith-graphql-ecommerce-pb/user_role"
 	pbuser "github.com/MamangRust/monolith-graphql-ecommerce-pb/user"
 )
 
@@ -36,7 +37,7 @@ func (s *UserGapiTestSuite) SetupSuite() {
 	roleClient := pbrole.NewRoleQueryServiceClient(s.Conns["role"])
 
 	queries := db.New(s.DBPool())
-	repos := repository.NewRepositories(queries, roleClient)
+	repos := repository.NewRepositories(&repository.Deps{Db: queries, RoleQueryClient: roleClient, UserRoleClient: pbuserrole.NewUserRoleServiceClient(s.Conns["role"])})
 
 	logger.ResetInstance()
 	lp := sdklog.NewLoggerProvider()

@@ -20,7 +20,7 @@ type OrderStatsHandler interface {
 }
 
 type OrderStatsByMerchantHandler interface {
-	pborder.OrderStatsServiceServer
+	pborder.OrderStatsByMerchantServiceServer
 }
 
 type OrderHandleGrpc interface {

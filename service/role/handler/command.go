@@ -145,35 +145,3 @@ func (s *roleCommandHandler) DeleteAllRolePermanent(ctx context.Context, _ *empt
 		Status:  "success",
 		Message: "Successfully deleted all roles permanently",
 	}, nil
-}
-func (s *roleCommandHandler) AssignRoleToUser(ctx context.Context, request *pbrole.AssignRoleToUserRequest) (*pbrole.ApiResponseUserRole, error) {
-	req := &requests.CreateUserRoleRequest{
-		UserId: int(request.GetUserId()),
-		RoleId: int(request.GetRoleId()),
-	}
-
-	userRole, err := s.roleCommand.AssignRoleToUser(ctx, req)
-	if err != nil {
-		return nil, errors.ToGrpcError(err)
-	}
-
-	return &pbrole.ApiResponseUserRole{
-		Status:  "success",
-		Message: "Successfully assigned role to user",
-		Data:    mapToProtoUserRoleResponse(userRole),
-	}, nil
-}
-
-func (s *roleCommandHandler) RemoveRoleFromUser(ctx context.Context, request *pbrole.RemoveRoleFromUserRequest) (*emptypb.Empty, error) {
-	req := &requests.RemoveUserRoleRequest{
-		UserId: int(request.GetUserId()),
-		RoleId: int(request.GetRoleId()),
-	}
-
-	err := s.roleCommand.RemoveRoleFromUser(ctx, req)
-	if err != nil {
-		return nil, errors.ToGrpcError(err)
-	}
-
-	return &emptypb.Empty{}, nil
-}

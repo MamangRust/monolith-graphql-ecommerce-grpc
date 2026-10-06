@@ -1,13 +1,18 @@
 package repository
 
 import (
-	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
-
 	pbmerchant "github.com/MamangRust/monolith-graphql-ecommerce-pb/merchant"
-	pborder "github.com/MamangRust/monolith-graphql-ecommerce-pb/order"
 	pborder_item "github.com/MamangRust/monolith-graphql-ecommerce-pb/order_item"
+	pborder "github.com/MamangRust/monolith-graphql-ecommerce-pb/order"
 	pbshipping_address "github.com/MamangRust/monolith-graphql-ecommerce-pb/shipping_address"
 	pbuser "github.com/MamangRust/monolith-graphql-ecommerce-pb/user"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/adapter"
+	merchantadapter "github.com/MamangRust/monolith-graphql-ecommerce-pkg/adapter/merchant"
+	orderadapter "github.com/MamangRust/monolith-graphql-ecommerce-pkg/adapter/order"
+	orderitemadapter "github.com/MamangRust/monolith-graphql-ecommerce-pkg/adapter/order_item"
+	shippingaddressadapter "github.com/MamangRust/monolith-graphql-ecommerce-pkg/adapter/shipping_address"
+	useradapter "github.com/MamangRust/monolith-graphql-ecommerce-pkg/adapter/user"
+	db "github.com/MamangRust/monolith-graphql-ecommerce-pkg/database/schema"
 )
 
 type Repositories struct {
@@ -20,27 +25,44 @@ type Repositories struct {
 	TransactionStats   TransactionStatsRepository
 	StatsByMerchant    TransactionStatsByMerchantRepository
 	UserQuery          UserQueryRepository
+	Outbox             OutboxRepository
+}
+
+// GuardOptions carries the resilience guard options for each outbound
+// dependency.
+type GuardOptions struct {
+	User      []adapter.GuardOption
+	Merchant  []adapter.GuardOption
+	Order     []adapter.GuardOption
+	OrderItem []adapter.GuardOption
+	Shipping  []adapter.GuardOption
 }
 
 type Deps struct {
-	DB             *db.Queries
-	UserQuery      pbuser.UserQueryServiceClient
-	MerchantQuery  pbmerchant.MerchantQueryServiceClient
-	OrderQuery     pborder.OrderQueryServiceClient
-	OrderItemQuery pborder_item.OrderItemQueryServiceClient
-	ShippingQuery  pbshipping_address.ShippingQueryServiceClient
+	Db *db.Queries
+
+	UserQueryClient      pbuser.UserQueryServiceClient
+	MerchantQueryClient  pbmerchant.MerchantQueryServiceClient
+	OrderQueryClient     pborder.OrderQueryServiceClient
+	OrderItemQueryClient pborder_item.OrderItemQueryServiceClient
+	ShippingQueryClient  pbshipping_address.ShippingQueryServiceClient
+
+	Guards GuardOptions
 }
 
 func NewRepositories(deps *Deps) *Repositories {
+	g := deps.Guards
+
 	return &Repositories{
-		TransactionCommand: NewTransactionCommandRepository(deps.DB),
-		TransactionQuery:   NewTransactionQueryRepository(deps.DB),
-		OrderItem:          NewOrderItemRepository(deps.OrderItemQuery),
-		OrderQuery:         NewOrderQueryRepository(deps.OrderQuery),
-		MerchantQuery:      NewMerchantQueryRepository(deps.MerchantQuery),
-		ShippingAddress:    NewShippingAddressQueryRepository(deps.ShippingQuery),
-		TransactionStats:   NewTransactionStatsRepository(deps.DB),
-		StatsByMerchant:    NewTransactionStatsByMerchantRepository(deps.DB),
-		UserQuery:          NewUserQueryRepository(deps.UserQuery),
+		TransactionCommand: NewTransactionCommandRepository(deps.Db),
+		TransactionQuery:   NewTransactionQueryRepository(deps.Db),
+		OrderItem:          orderitemadapter.New(deps.OrderItemQueryClient, nil, g.OrderItem...),
+		OrderQuery:         orderadapter.New(deps.OrderQueryClient, g.Order...),
+		MerchantQuery:      merchantadapter.New(deps.MerchantQueryClient, g.Merchant...),
+		ShippingAddress:    shippingaddressadapter.New(deps.ShippingQueryClient, nil, g.Shipping...),
+		TransactionStats:   NewTransactionStatsRepository(deps.Db),
+		StatsByMerchant:    NewTransactionStatsByMerchantRepository(deps.Db),
+		UserQuery:          useradapter.New(deps.UserQueryClient, nil, g.User...),
+		Outbox:             NewOutboxRepository(deps.Db),
 	}
 }

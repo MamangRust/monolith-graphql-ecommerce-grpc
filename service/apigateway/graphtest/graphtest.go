@@ -137,6 +137,7 @@ func buildGRPCClients(conns map[string]*grpc.ClientConn) *graph.GRPCClients {
 		OrderCommandClient:               pborder.NewOrderCommandServiceClient(get("order")),
 		OrderQueryClient:                 pborder.NewOrderQueryServiceClient(get("order")),
 		OrderStatsClient:                 pborder.NewOrderStatsServiceClient(get("order")),
+		OrderStatsByMerchantClient:       pborder.NewOrderStatsByMerchantServiceClient(get("order")),
 		OrderItemCommandClient:           pborderitem.NewOrderItemCommandServiceClient(get("order-item")),
 		OrderItemQueryClient:             pborderitem.NewOrderItemQueryServiceClient(get("order-item")),
 		ProductCommandClient:             pbproduct.NewProductCommandServiceClient(get("product")),

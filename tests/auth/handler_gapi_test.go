@@ -36,6 +36,7 @@ import (
 
 	pb "github.com/MamangRust/monolith-graphql-ecommerce-pb"
 	pbrole "github.com/MamangRust/monolith-graphql-ecommerce-pb/role"
+	pbuserrole "github.com/MamangRust/monolith-graphql-ecommerce-pb/user_role"
 	pbuser "github.com/MamangRust/monolith-graphql-ecommerce-pb/user"
 )
 
@@ -91,6 +92,7 @@ func (s *AuthHandlerGapiTestSuite) SetupSuite() {
 	roleServer := grpc.NewServer()
 	pbrole.RegisterRoleQueryServiceServer(roleServer, roleGapi.RoleQuery)
 	pbrole.RegisterRoleCommandServiceServer(roleServer, roleGapi.RoleCommand)
+	pbuserrole.RegisterUserRoleServiceServer(roleServer, roleGapi.UserRole)
 	roleLis, _ := net.Listen("tcp", "localhost:0")
 	go roleServer.Serve(roleLis)
 	roleConn, _ := grpc.NewClient(roleLis.Addr().String(), grpc.WithTransportCredentials(insecure.NewCredentials()))
@@ -98,7 +100,7 @@ func (s *AuthHandlerGapiTestSuite) SetupSuite() {
 	// 2. Setup User Service & gRPC Server
 	userMencache := user_cache.NewMencache(cacheStore)
 	roleQueryClientForUser := pbrole.NewRoleQueryServiceClient(roleConn)
-	userRepos := user_repo.NewRepositories(queries, roleQueryClientForUser)
+	userRepos := user_repo.NewRepositories(&user_repo.Deps{Db: queries, RoleQueryClient: roleQueryClientForUser, UserRoleClient: pbuserrole.NewUserRoleServiceClient(roleConn)})
 	userSvc := user_service.NewService(&user_service.Deps{
 		Repositories:  userRepos,
 		Logger:        log,
@@ -123,7 +125,7 @@ func (s *AuthHandlerGapiTestSuite) SetupSuite() {
 	roleQueryClient := pbrole.NewRoleQueryServiceClient(roleConn)
 	roleCommandClient := pbrole.NewRoleCommandServiceClient(roleConn)
 
-	repos := repository.NewRepositories(queries, userQueryClient, userCommandClient, roleQueryClient, roleCommandClient)
+	repos := repository.NewRepositories(&repository.Deps{Db: queries, UserQueryClient: userQueryClient, UserCommandClient: userCommandClient, RoleQueryClient: roleQueryClient, RoleCommandClient: roleCommandClient, UserRoleClient: pbuserrole.NewUserRoleServiceClient(roleConn)})
 
 	tokenManager, _ := auth.NewManager("mysecret")
 	svc := service.NewService(&service.Deps{

@@ -2,12 +2,15 @@ package apps
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/MamangRust/monolith-graphql-ecommerce-merchant/cache"
 	"github.com/MamangRust/monolith-graphql-ecommerce-merchant/handler"
 	"github.com/MamangRust/monolith-graphql-ecommerce-merchant/repository"
 	"github.com/MamangRust/monolith-graphql-ecommerce-merchant/service"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/adapter"
 	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/kafka"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/resilience"
 	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/server"
 	"github.com/MamangRust/monolith-graphql-ecommerce-shared/observability"
 	"github.com/spf13/viper"
@@ -37,7 +40,16 @@ func NewServer(cfg *server.Config) (*server.GRPCServer, error) {
 
 	userQueryClient := pbuser.NewUserQueryServiceClient(userConn)
 
-	repos := repository.NewRepositories(srv.DB, userQueryClient)
+	guardUser := resilience.NewDependencyGuard("user", 5, 30, 100, 3*time.Second, srv.Logger)
+
+	repos := repository.NewRepositories(srv.DB, userQueryClient,
+		repository.GuardOptions{
+			User: []adapter.GuardOption{
+				adapter.WithDependencyGuard(guardUser),
+			},
+		},
+	)
+
 	myKafka := kafka.NewKafka(srv.Logger, []string{viper.GetString("KAFKA_BROKERS")})
 	mencache := cache.NewMencache(srv.CacheStore)
 	obs, _ := observability.NewObservability(viper.GetString("merchant-server"), srv.Logger)

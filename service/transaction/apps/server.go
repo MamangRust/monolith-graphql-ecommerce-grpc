@@ -2,14 +2,17 @@ package apps
 
 import (
 	"fmt"
+	"time"
 
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/adapter"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/kafka"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/resilience"
+	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/server"
+	"github.com/MamangRust/monolith-graphql-ecommerce-shared/observability"
 	"github.com/MamangRust/monolith-graphql-ecommerce-transaction/cache"
 	"github.com/MamangRust/monolith-graphql-ecommerce-transaction/handler"
 	"github.com/MamangRust/monolith-graphql-ecommerce-transaction/repository"
 	"github.com/MamangRust/monolith-graphql-ecommerce-transaction/service"
-	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/kafka"
-	"github.com/MamangRust/monolith-graphql-ecommerce-pkg/server"
-	"github.com/MamangRust/monolith-graphql-ecommerce-shared/observability"
 	"github.com/spf13/viper"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -73,13 +76,36 @@ func NewServer(cfg *server.Config) (*server.GRPCServer, error) {
 	}
 	shippingQueryClient := pbshipping_address.NewShippingQueryServiceClient(shippingConn)
 
+	guardUser := resilience.NewDependencyGuard("user", 5, 30, 100, 3*time.Second, srv.Logger)
+	guardMerchant := resilience.NewDependencyGuard("merchant", 5, 30, 100, 3*time.Second, srv.Logger)
+	guardOrder := resilience.NewDependencyGuard("order", 5, 30, 100, 3*time.Second, srv.Logger)
+	guardOrderItem := resilience.NewDependencyGuard("order_item", 5, 30, 100, 3*time.Second, srv.Logger)
+	guardShipping := resilience.NewDependencyGuard("shipping_address", 5, 30, 100, 3*time.Second, srv.Logger)
+
 	repos := repository.NewRepositories(&repository.Deps{
-		DB:             srv.DB,
-		UserQuery:      userQueryClient,
-		MerchantQuery:  merchantQueryClient,
-		OrderQuery:     orderQueryClient,
-		OrderItemQuery: orderItemQueryClient,
-		ShippingQuery:  shippingQueryClient,
+		Db:                   srv.DB,
+		UserQueryClient:      userQueryClient,
+		MerchantQueryClient:  merchantQueryClient,
+		OrderQueryClient:     orderQueryClient,
+		OrderItemQueryClient: orderItemQueryClient,
+		ShippingQueryClient:  shippingQueryClient,
+		Guards: repository.GuardOptions{
+			User: []adapter.GuardOption{
+				adapter.WithDependencyGuard(guardUser),
+			},
+			Merchant: []adapter.GuardOption{
+				adapter.WithDependencyGuard(guardMerchant),
+			},
+			Order: []adapter.GuardOption{
+				adapter.WithDependencyGuard(guardOrder),
+			},
+			OrderItem: []adapter.GuardOption{
+				adapter.WithDependencyGuard(guardOrderItem),
+			},
+			Shipping: []adapter.GuardOption{
+				adapter.WithDependencyGuard(guardShipping),
+			},
+		},
 	})
 	myKafka := kafka.NewKafka(srv.Logger, []string{viper.GetString("KAFKA_BROKERS")})
 	obs, _ := observability.NewObservability("transaction-server", srv.Logger)

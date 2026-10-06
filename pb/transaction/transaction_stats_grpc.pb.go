@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.6.2
 // - protoc             v3.21.12
-// source: transaction/transaction_stats.proto
+// source: transaction/stats/transaction_stats.proto
 
 package transaction
 
@@ -19,14 +19,14 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	TransactionStatsService_GetMonthlyAmountSuccess_FullMethodName            = "/pb.transaction.TransactionStatsService/GetMonthlyAmountSuccess"
-	TransactionStatsService_GetYearlyAmountSuccess_FullMethodName             = "/pb.transaction.TransactionStatsService/GetYearlyAmountSuccess"
-	TransactionStatsService_GetMonthlyAmountFailed_FullMethodName             = "/pb.transaction.TransactionStatsService/GetMonthlyAmountFailed"
-	TransactionStatsService_GetYearlyAmountFailed_FullMethodName              = "/pb.transaction.TransactionStatsService/GetYearlyAmountFailed"
-	TransactionStatsService_GetMonthlyTransactionMethodSuccess_FullMethodName = "/pb.transaction.TransactionStatsService/GetMonthlyTransactionMethodSuccess"
-	TransactionStatsService_GetYearlyTransactionMethodSuccess_FullMethodName  = "/pb.transaction.TransactionStatsService/GetYearlyTransactionMethodSuccess"
-	TransactionStatsService_GetMonthlyTransactionMethodFailed_FullMethodName  = "/pb.transaction.TransactionStatsService/GetMonthlyTransactionMethodFailed"
-	TransactionStatsService_GetYearlyTransactionMethodFailed_FullMethodName   = "/pb.transaction.TransactionStatsService/GetYearlyTransactionMethodFailed"
+	TransactionStatsService_GetMonthlyAmountSuccess_FullMethodName            = "/pb.transaction.stats.TransactionStatsService/GetMonthlyAmountSuccess"
+	TransactionStatsService_GetYearlyAmountSuccess_FullMethodName             = "/pb.transaction.stats.TransactionStatsService/GetYearlyAmountSuccess"
+	TransactionStatsService_GetMonthlyAmountFailed_FullMethodName             = "/pb.transaction.stats.TransactionStatsService/GetMonthlyAmountFailed"
+	TransactionStatsService_GetYearlyAmountFailed_FullMethodName              = "/pb.transaction.stats.TransactionStatsService/GetYearlyAmountFailed"
+	TransactionStatsService_GetMonthlyTransactionMethodSuccess_FullMethodName = "/pb.transaction.stats.TransactionStatsService/GetMonthlyTransactionMethodSuccess"
+	TransactionStatsService_GetYearlyTransactionMethodSuccess_FullMethodName  = "/pb.transaction.stats.TransactionStatsService/GetYearlyTransactionMethodSuccess"
+	TransactionStatsService_GetMonthlyTransactionMethodFailed_FullMethodName  = "/pb.transaction.stats.TransactionStatsService/GetMonthlyTransactionMethodFailed"
+	TransactionStatsService_GetYearlyTransactionMethodFailed_FullMethodName   = "/pb.transaction.stats.TransactionStatsService/GetYearlyTransactionMethodFailed"
 )
 
 // TransactionStatsServiceClient is the client API for TransactionStatsService service.
@@ -347,7 +347,7 @@ func _TransactionStatsService_GetYearlyTransactionMethodFailed_Handler(srv inter
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var TransactionStatsService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "pb.transaction.TransactionStatsService",
+	ServiceName: "pb.transaction.stats.TransactionStatsService",
 	HandlerType: (*TransactionStatsServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -384,5 +384,5 @@ var TransactionStatsService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "transaction/transaction_stats.proto",
+	Metadata: "transaction/stats/transaction_stats.proto",
 }
